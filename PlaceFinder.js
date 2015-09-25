@@ -2,48 +2,106 @@
 
 var React = require('react-native');
 var globalStyles = require('./globalStyles');
+var citiesList = require('./citiesList');
 
 var {
     StyleSheet,
     Text,
     TextInput,
     View,
-    Component
+    ListView,
+    Component,
+    TouchableHighlight,
+    Image
 } = React;
+
+// SearchBar
+// PlacesRow
 
 class PlaceFinder extends Component {
 
+    constructor(props) {
+        super(props);
+
+        var ds = new ListView.DataSource({
+            rowHasChanged: function(r1, r2){
+                console.log(`comparing ${r1} and ${r2}`);
+                return r1 !== r2;
+            }
+        });
+        this.state = {
+            filterText: "",
+            dataSource: ds.cloneWithRows(this._filterPlaceRows("")),
+        }
+    }
+
+    _filterPlaceRows(filterText: string): Array<string> {
+
+        // TODO remove stubbed places
+        var placesBlob = [];
+        for(var city of citiesList){
+            if(city.toLowerCase().startsWith(filterText.toLowerCase())){
+                placesBlob.push(city);
+            }
+        }
+        return placesBlob;
+
+    }
+    processUserInput(filterText: string) {
+        console.log(`received new filterText ${filterText}`, this._filterPlaceRows(filterText))
+        this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText)),
+            filterText: filterText
+        });
+    }
+
     render() {
+        console.log(this.state)
         return (
             <View>
             <Text style={globalStyles.navView}>
-            Name the Place You're in
+            Name the Place You're in {this.state.filterText}
             </Text>
             <Text>Name:</Text>
             <TextInput
             style={styles.placeFinderInput}
-            onChangeText={(text) => this.keyboardDidEnterText(text) /*this.setState({text})*/}
-            value={this.state && this.state.text}
+            onChangeText={ this.processUserInput.bind(this) }
+            value={this.state.filterText}
             defaultValue={""}
             keyboardType={'default'}
             />
+            <ListView
+            style={styles.listView}
+            dataSource={this.state.dataSource}
+            renderRow={this.renderPlace}
+            />
             </View>
         );
+           /* 
+            <PlacesTable dataSource={self.dataSource} /> */
     }
 
-    keyboardDidEnterText(text: string){
+        renderPlace(row) {
+            return (
+                <Text>{row}</Text>
+            )
+        }
+    keyboardDidEnterText(text: string) {
         console.log("Keyboard:"+text);
     }
 
-}
+};
 
 var styles = StyleSheet.create({
     placeFinderInput: {
-        margin:65,
         height:40,
         borderColor: 'gray',
         borderWidth: 1,
-    }
+    },
+    listView: {
+        height: 400,
+        backgroundColor: '#F5FCFF',
+    },
 });
 
 module.exports = PlaceFinder;
