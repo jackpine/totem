@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var globalStyles = require('./globalStyles');
-var citiesList = require('./citiesList');
 
 var {
     StyleSheet,
@@ -20,12 +19,12 @@ var {
 var PlacesTable = React.createClass({
 
     render: function() {
-        console.log(this.props.dataSource)
         return (
             <ListView
             style={styles.listView}
             dataSource={this.props.dataSource}
             renderRow={this.renderPlace}
+            automaticallyAdjustContentInsets={false}
             />
         )
     },
@@ -41,20 +40,21 @@ var PlaceFinder = React.createClass({
     getInitialState: function(){
         var ds = new ListView.DataSource({
             rowHasChanged: function(r1, r2){
-                console.log(`comparing ${r1} and ${r2}`);
                 return r1 !== r2;
             }
         });
         return {
             filterText: "",
-            dataSource: ds.cloneWithRows(this._filterPlaceRows("")),
+            dataSource: ds.cloneWithRows(this._filterPlaceRows("", [])),
         }
     },
-    _filterPlaceRows: function(filterText: string): Array<string> {
+    componentDidMount: function() {
+        this.processUserInput('');
+    },
+    _filterPlaceRows: function(filterText: string, responseData: Array<string>): Array<string> {
 
-        // TODO remove stubbed places
         var placesBlob = [];
-        citiesList.forEach(function(city){
+        responseData.forEach(function(city){
             if(city.toLowerCase().startsWith(filterText.toLowerCase())){
                 placesBlob.push(city);
             }
@@ -63,30 +63,35 @@ var PlaceFinder = React.createClass({
 
     },
     processUserInput: function(filterText: string) {
-        console.log(`received new filterText ${filterText}`, this._filterPlaceRows(filterText))
+
         this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText)),
             filterText: filterText
         });
+        fetch("http://www.blotzy.com/citiesList.json")
+        .then((response) => response.json())
+        .then((responseData) => {
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText, responseData)),
+            });
+        })
+        .done();
     },
     render: function() {
-        console.log(this.state)
         return (
-            <View>
-            <Text style={globalStyles.navView}>
-            Name the Place You're in {this.state.filterText}
+            <View style={globalStyles.navView}>
+            <Text>
+                Name the Place You're in {this.state.filterText}
             </Text>
             <Text>Name:</Text>
             <TextInput
-            style={styles.placeFinderInput}
-            onChangeText={ this.processUserInput.bind(this) }
-            value={this.state.filterText}
-            defaultValue={""}
-            keyboardType={'default'}
+                style={styles.placeFinderInput}
+                onChangeText={ this.processUserInput }
+                value={this.state.filterText}
+                defaultValue={""}
+                keyboardType={'default'}
             />
             <PlacesTable
-            dataSource={this.state.dataSource}
-            renderRow={this.renderPlace}
+                dataSource={this.state.dataSource}
             />
             </View>
         );
@@ -105,7 +110,15 @@ var styles = StyleSheet.create({
         borderWidth: 1,
     },
     listView: {
+        paddingTop: 0,
+        backgroundColor: '#F5FCFF',
         height: 400,
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
 });

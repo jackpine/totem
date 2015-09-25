@@ -8,7 +8,7 @@ var {
 
 var globalStyles = StyleSheet.create({
     navView: {
-        margin: 64,
+        margin: 20,
         marginTop: 80,
     },
 });
