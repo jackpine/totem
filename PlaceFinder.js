@@ -15,8 +15,27 @@ var {
     Image
 } = React;
 
+
 // SearchBar
-// PlacesRow
+var PlacesTable = React.createClass({
+
+    render: function() {
+        console.log(this.props.dataSource)
+        return (
+            <ListView
+            style={styles.listView}
+            dataSource={this.props.dataSource}
+            renderRow={this.renderPlace}
+            />
+        )
+    },
+    renderPlace(row) {
+        return (
+            <Text>{row}</Text>
+        )
+    }
+
+});
 
 class PlaceFinder extends Component {
 
@@ -39,11 +58,11 @@ class PlaceFinder extends Component {
 
         // TODO remove stubbed places
         var placesBlob = [];
-        for(var city of citiesList){
+        citiesList.forEach(function(city){
             if(city.toLowerCase().startsWith(filterText.toLowerCase())){
                 placesBlob.push(city);
             }
-        }
+        });
         return placesBlob;
 
     }
@@ -70,22 +89,14 @@ class PlaceFinder extends Component {
             defaultValue={""}
             keyboardType={'default'}
             />
-            <ListView
-            style={styles.listView}
+            <PlacesTable
             dataSource={this.state.dataSource}
             renderRow={this.renderPlace}
             />
             </View>
         );
-           /* 
-            <PlacesTable dataSource={self.dataSource} /> */
     }
 
-        renderPlace(row) {
-            return (
-                <Text>{row}</Text>
-            )
-        }
     keyboardDidEnterText(text: string) {
         console.log("Keyboard:"+text);
     }
