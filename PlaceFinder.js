@@ -37,24 +37,20 @@ var PlacesTable = React.createClass({
 
 });
 
-class PlaceFinder extends Component {
-
-    constructor(props) {
-        super(props);
-
+var PlaceFinder = React.createClass({
+    getInitialState: function(){
         var ds = new ListView.DataSource({
             rowHasChanged: function(r1, r2){
                 console.log(`comparing ${r1} and ${r2}`);
                 return r1 !== r2;
             }
         });
-        this.state = {
+        return {
             filterText: "",
             dataSource: ds.cloneWithRows(this._filterPlaceRows("")),
         }
-    }
-
-    _filterPlaceRows(filterText: string): Array<string> {
+    },
+    _filterPlaceRows: function(filterText: string): Array<string> {
 
         // TODO remove stubbed places
         var placesBlob = [];
@@ -65,16 +61,15 @@ class PlaceFinder extends Component {
         });
         return placesBlob;
 
-    }
-    processUserInput(filterText: string) {
+    },
+    processUserInput: function(filterText: string) {
         console.log(`received new filterText ${filterText}`, this._filterPlaceRows(filterText))
         this.setState({
             dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText)),
             filterText: filterText
         });
-    }
-
-    render() {
+    },
+    render: function() {
         console.log(this.state)
         return (
             <View>
@@ -95,13 +90,13 @@ class PlaceFinder extends Component {
             />
             </View>
         );
-    }
+    },
 
-    keyboardDidEnterText(text: string) {
+    keyboardDidEnterText: function(text: string) {
         console.log("Keyboard:"+text);
     }
 
-};
+});
 
 var styles = StyleSheet.create({
     placeFinderInput: {
