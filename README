@@ -1,12 +1,14 @@
 quickstart
 ==========
 
+0) install the cli react tool
+
+    $ npm install -g react-native-cli
+
 1) start the react packager:
 
-```
-$ npm install
-$ npm start
-```
+    $ npm install
+    $ npm start
 
 2) In Xcode, ⌘ + R to run the app
 
