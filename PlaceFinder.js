@@ -52,12 +52,12 @@ var PlaceFinder = React.createClass({
     componentDidMount: function() {
         this.processUserInput('');
     },
-    _filterPlaceRows: function(filterText: string, responseData: Array<string>): Array<string> {
+    _filterPlaceRows: function(filterText: string, responseData: Array<object>): Array<string> {
 
         var placesBlob = [];
         responseData.forEach(function(city){
-            if(city.toLowerCase().startsWith(filterText.toLowerCase())){
-                placesBlob.push(city);
+            if(city["name"].toLowerCase().startsWith(filterText.toLowerCase())){
+                placesBlob.push(city["name"]);
             }
         });
         return placesBlob;
@@ -68,11 +68,11 @@ var PlaceFinder = React.createClass({
         this.setState({
             filterText: filterText
         });
-        fetch("http://www.blotzy.com/citiesList.json")
+        fetch("http://localhost:3000/api/v1/placefinder")
         .then((response) => response.json())
         .then((responseData) => {
             this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText, responseData)),
+                dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText, responseData["places"])),
             });
         })
         .done();
