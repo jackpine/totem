@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react-native');
-var PlacesNearby = require('./PlacesNearby');
+var PlaceCreate = require('./components/PlaceCreate');
 
 var {
   AppRegistry,
@@ -21,7 +21,7 @@ var Totem = React.createClass({
         style={styles.container}
         initialRoute={{
             title: 'Place Finder',
-            component: PlacesNearby,
+            component: PlaceCreate,
         }}/>
     );
   }

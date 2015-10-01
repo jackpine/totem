@@ -1,8 +1,7 @@
-/* @Flow */
 'use strict';
 
 var React = require('react-native');
-var globalStyles = require('./globalStyles');
+var globalStyles = require('../globalStyles');
 
 var {
     StyleSheet,
@@ -17,7 +16,7 @@ var {
 
 
 // SearchBar
-var PlacesTable = React.createClass({
+var PlaceTable = React.createClass({
 
     render: function() {
         return (
@@ -37,7 +36,7 @@ var PlacesTable = React.createClass({
 
 });
 
-var PlacesNearby = React.createClass({
+var PlaceCreate = React.createClass({
     getInitialState: function(){
         var ds = new ListView.DataSource({
             rowHasChanged: function(r1, r2){
@@ -91,7 +90,7 @@ var PlacesNearby = React.createClass({
                 defaultValue={""}
                 keyboardType={'default'}
             />
-            <PlacesTable
+            <PlaceTable
                 dataSource={this.state.dataSource}
             />
             </View>
@@ -124,4 +123,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = PlacesNearby;
+module.exports = PlaceCreate;
