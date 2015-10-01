@@ -8,7 +8,7 @@ CMD ["/sbin/my_init"]
 RUN rm -f /etc/service/nginx/down
 RUN rm /etc/nginx/sites-enabled/default
 
-ADD config/containers/totem-nginx.conf /etc/nginx/sites-enabled/totem-api.conf
+ADD config/containers/totem-api-nginx.conf /etc/nginx/sites-enabled/totem-api-nginx.conf
 
 # Don't re-run bundle install unless Gemfile changes - otherwise if we do it
 # *after* we add the app, we'll run bundle install everytime any file in the
