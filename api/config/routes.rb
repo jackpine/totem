@@ -2,7 +2,9 @@ Rails.application.routes.draw do
 
   namespace 'api' do
     namespace 'v1' do
-      resources :placefinder, only: [:index], defaults: { format: :json }
+      namespace 'places' do
+        get 'nearby', to: :nearby
+      end
     end
   end
 
