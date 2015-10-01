@@ -37,7 +37,7 @@ var PlacesTable = React.createClass({
 
 });
 
-var PlaceFinder = React.createClass({
+var PlacesNearby = React.createClass({
     getInitialState: function(){
         var ds = new ListView.DataSource({
             rowHasChanged: function(r1, r2){
@@ -68,7 +68,7 @@ var PlaceFinder = React.createClass({
         this.setState({
             filterText: filterText
         });
-        fetch("http://localhost:3000/api/v1/placefinder")
+        fetch("http://localhost:3000/api/v1/places/nearby")
         .then((response) => response.json())
         .then((responseData) => {
             this.setState({
@@ -124,4 +124,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = PlaceFinder;
+module.exports = PlacesNearby;
