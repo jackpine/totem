@@ -1,6 +1,6 @@
-class Api::V1::PlacefinderController < Api::BaseController
+class Api::V1::PlacesController < Api::BaseController
 
-  def index
+  def nearby
 
     # stub out the cities list
     cities_list = JSON.parse(File.read(Rails.root.join('public', 'citiesList.json')))
