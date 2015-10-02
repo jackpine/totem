@@ -70,13 +70,8 @@ RCT_EXPORT_METHOD(listenForLocationUpdates:(NSDictionary *)args callback:(RCTRes
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
   CLLocation *myLocation = [locations lastObject];
   self.lastLocation = myLocation;
-  
-  if (!self.firstLocationUpdate) {
-    // If the first location update has not yet been recieved, then jump to that
-    // location.
-    NSLog(@"my location is: %f, %f", myLocation.coordinate.latitude, myLocation.coordinate.longitude);
-    self.firstLocationUpdate = YES;
-  }
+  NSLog(@"my location is: %f, %f", myLocation.coordinate.latitude, myLocation.coordinate.longitude);
+  self.firstLocationUpdate = YES;
 }
 
 
