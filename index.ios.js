@@ -21,14 +21,15 @@ class App{
         LocationManager.listenForLocationUpdates({}, function(err, response){
             console.log(`Received location updates response: ${err} ${response}`)
         })
-
+    
     }
 }
 
-var app = new App();
-app.startLocationUpdates();
-
 var Totem = React.createClass({
+  componentDidMount: function(){
+      var app = new App();
+      app.startLocationUpdates();
+  },
   render: function() {
     return (
         <React.NavigatorIOS
