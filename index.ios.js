@@ -6,6 +6,7 @@
 
 var React = require('react-native');
 var PlaceCreate = require('./components/PlaceCreate');
+var LocationManager = require('react-native').NativeModules.TMLocationManager;
 
 var {
   AppRegistry,
@@ -13,6 +14,19 @@ var {
   Text,
   View,
 } = React;
+
+class App{
+
+    startLocationUpdates(){
+        LocationManager.listenForLocationUpdates({}, function(err, response){
+            console.log(`Received location updates response: ${err} ${response}`)
+        })
+
+    }
+}
+
+var app = new App();
+app.startLocationUpdates();
 
 var Totem = React.createClass({
   render: function() {
