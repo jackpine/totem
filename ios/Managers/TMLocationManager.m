@@ -7,14 +7,17 @@
 //
 
 #import "TMLocationManager.h"
+#import "RCTEventDispatcher.h"
+#import "RCTBridge.h"
+
 
 @implementation TMLocationManager
 {
   NSMutableArray *_locationUpdateCallbacks;
-
   
 }
 
+@synthesize bridge = _bridge;
 RCT_EXPORT_MODULE();
 
 - (instancetype)init
@@ -31,11 +34,16 @@ RCT_EXPORT_MODULE();
   return self;
 }
 
-RCT_EXPORT_METHOD(listenForLocationUpdates:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback){
+RCT_EXPORT_METHOD(startLocationUpdates:(NSDictionary *)args callback:(RCTResponseSenderBlock)callback){
   [_locationUpdateCallbacks addObject:callback ?: ^(__unused id unused) {}];
   NSLog(@"recieved a callback for location updates");
-  callback(@[[NSNull null], @"Hello from objective c"]);
+  callback(@[[NSNull null], @"Starting location updates"]);
   
+}
+
+- (NSDictionary *)constantsToExport
+{
+  return @{ @"locationUpdatesEventChannel": @"location-update-events" };
 }
 
 #pragma mark - CLLocationManager Delegate methods
@@ -72,6 +80,10 @@ RCT_EXPORT_METHOD(listenForLocationUpdates:(NSDictionary *)args callback:(RCTRes
   self.lastLocation = myLocation;
   NSLog(@"my location is: %f, %f", myLocation.coordinate.latitude, myLocation.coordinate.longitude);
   self.firstLocationUpdate = YES;
+  [self.bridge.eventDispatcher sendAppEventWithName:[self constantsToExport][@"locationUpdatesEventChannel"]
+                                               body:@[@{@"lat":[NSNumber numberWithFloat:myLocation.coordinate.latitude],
+                                                        @"lng":[NSNumber numberWithFloat:myLocation.coordinate.longitude]}]];
+
 }
 
 

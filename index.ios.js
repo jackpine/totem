@@ -13,22 +13,27 @@ var {
   StyleSheet,
   Text,
   View,
+  NativeAppEventEmitter,
 } = React;
 
-class App{
+class TotemApp{
 
     startLocationUpdates(){
-        LocationManager.listenForLocationUpdates({}, function(err, response){
-            console.log(`Received location updates response: ${err} ${response}`)
+        LocationManager.startLocationUpdates({}, function(err, response){
+            console.log(`${response}`)
         })
-    
+        NativeAppEventEmitter.addListener(
+              LocationManager.locationUpdatesEventChannel,
+                (locationUpdate) => console.log(locationUpdate)
+        );
+
     }
 }
 
 var Totem = React.createClass({
   componentDidMount: function(){
-      var app = new App();
-      app.startLocationUpdates();
+      this.app = new TotemApp();
+      this.app.startLocationUpdates();
   },
   render: function() {
     return (
