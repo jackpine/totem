@@ -1,8 +1,8 @@
-/* @Flow */
 'use strict';
 
 var React = require('react-native');
-var globalStyles = require('./globalStyles');
+var globalStyles = require('../globalStyles');
+var LocationStore = require('../stores/LocationStore');
 
 var {
     StyleSheet,
@@ -17,7 +17,7 @@ var {
 
 
 // SearchBar
-var PlacesTable = React.createClass({
+var PlaceTable = React.createClass({
 
     render: function() {
         return (
@@ -37,7 +37,7 @@ var PlacesTable = React.createClass({
 
 });
 
-var PlacesNearby = React.createClass({
+var PlaceCreate = React.createClass({
     getInitialState: function(){
         var ds = new ListView.DataSource({
             rowHasChanged: function(r1, r2){
@@ -46,11 +46,13 @@ var PlacesNearby = React.createClass({
         });
         return {
             filterText: "",
+            location: LocationStore.getLatest(),
             dataSource: ds.cloneWithRows(this._filterPlaceRows("", [])),
         }
     },
     componentDidMount: function() {
         this.processUserInput('');
+        LocationStore.on('change:currentLocation', this._onLocationChange);
     },
     _filterPlaceRows: function(filterText: string, responseData: Array<object>): Array<string> {
 
@@ -78,10 +80,18 @@ var PlacesNearby = React.createClass({
         .done();
     },
     render: function() {
+        var locationInfo;
+        if(this.state.location){
+            var loc = this.state.location[0];
+            locationInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lng.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
+        }
         return (
             <View style={globalStyles.navView}>
+            <Text style={styles.debugInfo}>
+            {locationInfo}
+            </Text>
             <Text>
-                Name the Place You're in {this.state.filterText}
+            Name the Place You're in {this.state.filterText}
             </Text>
             <Text>Name:</Text>
             <TextInput
@@ -91,7 +101,7 @@ var PlacesNearby = React.createClass({
                 defaultValue={""}
                 keyboardType={'default'}
             />
-            <PlacesTable
+            <PlaceTable
                 dataSource={this.state.dataSource}
             />
             </View>
@@ -100,6 +110,11 @@ var PlacesNearby = React.createClass({
 
     keyboardDidEnterText: function(text: string) {
         console.log("Keyboard:"+text);
+    },
+
+    _onLocationChange: function(){
+        this.setState({location: LocationStore.getLatest()});
+
     }
 
 });
@@ -122,6 +137,11 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
+    debugInfo: {
+        fontSize: 8,
+        paddingBottom: 4,
+        fontFamily: "Courier"
+    }
 });
 
-module.exports = PlacesNearby;
+module.exports = PlaceCreate;
