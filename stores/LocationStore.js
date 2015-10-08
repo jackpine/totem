@@ -10,7 +10,7 @@ var currentLocation = null;
 var LocationStore = _.extend({}, Backbone.Events, {
 
     getLatest: function(){
-        return {location: currentLocation};
+        return currentLocation;
     }
 
 })

@@ -80,10 +80,15 @@ var PlaceCreate = React.createClass({
         .done();
     },
     render: function() {
+        var locationInfo;
+        if(this.state.location){
+            var loc = this.state.location[0];
+            locationInfo = <Text>{`Lat: ${loc.lat}\nLng: ${loc.lng}\nHrzAccurc: ${loc.horizontalAccuracy}`}</Text>
+        }
         return (
             <View style={globalStyles.navView}>
             <Text>
-            ~{this.state.location}~
+            {locationInfo}
             </Text>
             <Text>
             Name the Place You're in {this.state.filterText}
@@ -108,7 +113,7 @@ var PlaceCreate = React.createClass({
     },
 
     _onLocationChange: function(){
-        this.setState(LocationStore.getLatest());
+        this.setState({location: LocationStore.getLatest()});
 
     }
 
