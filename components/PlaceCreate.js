@@ -83,11 +83,11 @@ var PlaceCreate = React.createClass({
         var locationInfo;
         if(this.state.location){
             var loc = this.state.location[0];
-            locationInfo = <Text>{`Lat: ${loc.lat}\nLng: ${loc.lng}\nHrzAccurc: ${loc.horizontalAccuracy}`}</Text>
+            locationInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lng.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
         }
         return (
             <View style={globalStyles.navView}>
-            <Text>
+            <Text style={styles.debugInfo}>
             {locationInfo}
             </Text>
             <Text>
@@ -137,6 +137,11 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
     },
+    debugInfo: {
+        fontSize: 8,
+        paddingBottom: 4,
+        fontFamily: "Courier"
+    }
 });
 
 module.exports = PlaceCreate;
