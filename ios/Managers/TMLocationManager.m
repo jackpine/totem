@@ -76,13 +76,32 @@ RCT_EXPORT_METHOD(startLocationUpdates:(NSDictionary *)args callback:(RCTRespons
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-  CLLocation *myLocation = [locations lastObject];
-  self.lastLocation = myLocation;
-  NSLog(@"my location is: %f, %f", myLocation.coordinate.latitude, myLocation.coordinate.longitude);
+  CLLocation *myLoc = [locations lastObject];
+  self.lastLocation = myLoc;
+  NSLog(@"my location is: %f, %f", myLoc.coordinate.latitude, myLoc.coordinate.longitude);
   self.firstLocationUpdate = YES;
+
+  NSNumber *currFloor;
+  if(!myLoc.floor)
+    currFloor = [NSNumber numberWithLong:-1];
+  else
+    currFloor = [NSNumber numberWithLong:myLoc.floor.level];
+  
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  NSLocale *enUSPOSIXLocale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
+  [dateFormatter setLocale:enUSPOSIXLocale];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZZZ"];
+  NSString *iso8601String = [dateFormatter stringFromDate:myLoc.timestamp];
+
   [self.bridge.eventDispatcher sendAppEventWithName:[self constantsToExport][@"locationUpdatesEventChannel"]
-                                               body:@[@{@"lat":[NSNumber numberWithFloat:myLocation.coordinate.latitude],
-                                                        @"lng":[NSNumber numberWithFloat:myLocation.coordinate.longitude]}]];
+                                               body:@[@{@"lat":                [NSNumber numberWithDouble:myLoc.coordinate.latitude],
+                                                        @"lng":                [NSNumber numberWithDouble:myLoc.coordinate.longitude],
+                                                        @"horizontalAccuracy": [NSNumber numberWithDouble:myLoc.horizontalAccuracy],
+                                                        @"verticalAccuracy":   [NSNumber numberWithDouble:myLoc.verticalAccuracy],
+                                                        @"altitude":           [NSNumber numberWithDouble:myLoc.altitude],
+                                                        @"floor":              currFloor,
+                                                        @"timestamp":          iso8601String
+                                                      }]];
 
 }
 
