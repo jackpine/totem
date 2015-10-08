@@ -1,6 +1,10 @@
 var React = require('react-native');
 var LocationManager = React.NativeModules.TMLocationManager;
 var PlaceCreate = require('./PlaceCreate');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var TotemConstants = require('../constants/TotemConstants');
+var ActionTypes = TotemConstants.ActionTypes;
+var LocationUpdateAction = require('../actions/LocationUpdateAction');
 
 var {
   StyleSheet,
@@ -13,11 +17,10 @@ class TotemApp{
         LocationManager.startLocationUpdates({}, function(err, response){
             console.log(`${response}`)
         })
-        NativeAppEventEmitter.addListener(
-              LocationManager.locationUpdatesEventChannel,
-                (locationUpdate) => console.log(locationUpdate)
-        );
-
+        NativeAppEventEmitter.addListener(LocationManager.locationUpdatesEventChannel,
+                                          function(locationUpdate){
+                                              LocationUpdateAction.createLocationUpdate(locationUpdate)
+                                          });
     }
 }
 
@@ -27,15 +30,17 @@ var Totem = React.createClass({
       this.app.startLocationUpdates();
   },
   render: function() {
+      console.log('calling render in top level component')
     return (
         <React.NavigatorIOS
         style={styles.container}
         initialRoute={{
-            title: 'Place Finder',
+            title: 'Place Create',
             component: PlaceCreate,
         }}/>
     );
-  }
+  },
+
 });
 
 var styles = StyleSheet.create({

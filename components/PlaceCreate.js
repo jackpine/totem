@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var globalStyles = require('../globalStyles');
+var LocationStore = require('../stores/LocationStore');
 
 var {
     StyleSheet,
@@ -45,11 +46,13 @@ var PlaceCreate = React.createClass({
         });
         return {
             filterText: "",
+            location: LocationStore.getLatest(),
             dataSource: ds.cloneWithRows(this._filterPlaceRows("", [])),
         }
     },
     componentDidMount: function() {
         this.processUserInput('');
+        LocationStore.on('change:currentLocation', this._onLocationChange);
     },
     _filterPlaceRows: function(filterText: string, responseData: Array<object>): Array<string> {
 
@@ -80,7 +83,10 @@ var PlaceCreate = React.createClass({
         return (
             <View style={globalStyles.navView}>
             <Text>
-                Name the Place You're in {this.state.filterText}
+            ~{this.state.location}~
+            </Text>
+            <Text>
+            Name the Place You're in {this.state.filterText}
             </Text>
             <Text>Name:</Text>
             <TextInput
@@ -99,6 +105,11 @@ var PlaceCreate = React.createClass({
 
     keyboardDidEnterText: function(text: string) {
         console.log("Keyboard:"+text);
+    },
+
+    _onLocationChange: function(){
+        this.setState(LocationStore.getLatest());
+
     }
 
 });
