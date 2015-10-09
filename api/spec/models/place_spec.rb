@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Place, type: :model do
 
- let(:place) { Place.new(name: "The Empire State Building", authoritative: false) }
+ let(:place) { Place.new(name: "The Empire State Building", is_authoritative: false) }
 
  describe "#valid?" do
    subject { place.valid? }
@@ -11,8 +11,8 @@ describe Place, type: :model do
      it { should be true }
    end
 
-   context "validating an 'authoritative' place" do
-     before {place.authoritative = true }
+   context "validating an 'is_authoritative' place" do
+     before {place.is_authoritative = true }
      context "missing the bounding polygon" do
        it { should be false }
      end

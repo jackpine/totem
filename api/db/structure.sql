@@ -50,7 +50,7 @@ SET default_with_oids = false;
 CREATE TABLE places (
     id integer NOT NULL,
     name text NOT NULL,
-    authoritative boolean NOT NULL,
+    is_authoritative boolean NOT NULL,
     import_source character varying,
     import_metadata jsonb,
     authoritative_boundary geometry(MultiPolygon),
@@ -103,10 +103,10 @@ ALTER TABLE ONLY places
 
 
 --
--- Name: index_places_on_authoritative; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_places_on_is_authoritative; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_places_on_authoritative ON places USING btree (authoritative);
+CREATE INDEX index_places_on_is_authoritative ON places USING btree (is_authoritative);
 
 
 --
