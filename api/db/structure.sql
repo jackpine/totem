@@ -44,12 +44,76 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: places; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE places (
+    id integer NOT NULL,
+    name text NOT NULL,
+    authoritative boolean NOT NULL,
+    import_source character varying,
+    import_metadata jsonb,
+    authoritative_boundary geometry(MultiPolygon),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: places_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE places_id_seq OWNED BY places.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_places_on_authoritative; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_places_on_authoritative ON places USING btree (authoritative);
+
+
+--
+-- Name: index_places_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_places_on_name ON places USING btree (name);
 
 
 --
@@ -65,5 +129,5 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 SET search_path TO "$user",public;
 
-
+INSERT INTO schema_migrations (version) VALUES ('20151009173019');
 
