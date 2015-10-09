@@ -113,7 +113,7 @@ CREATE INDEX index_places_on_is_authoritative ON places USING btree (is_authorit
 -- Name: index_places_on_name; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE UNIQUE INDEX index_places_on_name ON places USING btree (name);
+CREATE INDEX index_places_on_name ON places USING btree (name);
 
 
 --

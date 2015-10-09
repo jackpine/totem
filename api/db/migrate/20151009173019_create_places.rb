@@ -9,7 +9,7 @@ class CreatePlaces < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :places, :name, unique: true
+    add_index :places, :name
     add_index :places, :is_authoritative
   end
 end
