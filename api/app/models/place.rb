@@ -1,5 +1,5 @@
 class Place < ActiveRecord::Base
-  validates :name, presence: true, on: :create
+  validates :name, presence: { strict: true }
   validates :is_authoritative, inclusion: {in:[true, false]} , on: :create
   validates :authoritative_boundary, presence: true, if: :authoritative?
   validates :import_metadata, presence: true, if: :imported?
