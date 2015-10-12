@@ -11,23 +11,16 @@ var {
   NativeAppEventEmitter,
 } = React;
 
-class TotemApp{
-
-    startLocationUpdates(){
+var Totem = React.createClass({
+    componentDidMount: function(){
         LocationManager.startLocationUpdates({}, function(err, response){
             console.log(`${response}`)
         })
         NativeAppEventEmitter.addListener(LocationManager.locationUpdatesEventChannel,
                                           function(locationUpdate){
                                               LocationUpdateAction.createLocationUpdate(locationUpdate)
-                                          });
-    }
-}
-
-var Totem = React.createClass({
-  componentDidMount: function(){
-      this.app = new TotemApp();
-      this.app.startLocationUpdates();
+                                          }
+        );
   },
   render: function() {
       console.log('calling render in top level component')

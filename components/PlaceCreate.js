@@ -3,6 +3,7 @@
 var React = require('react-native');
 var globalStyles = require('../globalStyles');
 var LocationStore = require('../stores/LocationStore');
+var TotemApi = require("../util/TotemApi")
 
 var {
     StyleSheet,
@@ -16,7 +17,6 @@ var {
 } = React;
 
 
-// SearchBar
 var PlaceTable = React.createClass({
 
     render: function() {
@@ -70,8 +70,7 @@ var PlaceCreate = React.createClass({
         this.setState({
             filterText: filterText
         });
-        fetch("http://localhost:3000/api/v1/places/nearby")
-        .then((response) => response.json())
+        TotemApi.placesNearby([0, 0])
         .then((responseData) => {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText, responseData["places"])),
@@ -80,15 +79,15 @@ var PlaceCreate = React.createClass({
         .done();
     },
     render: function() {
-        var locationInfo;
+        var locationDebugInfo;
         if(this.state.location){
             var loc = this.state.location[0];
-            locationInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lng.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
+            locationDebugInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lng.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
         }
         return (
             <View style={globalStyles.navView}>
             <Text style={styles.debugInfo}>
-            {locationInfo}
+            {locationDebugInfo}
             </Text>
             <Text>
             Name the Place You're in {this.state.filterText}
