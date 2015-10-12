@@ -70,19 +70,12 @@ var PlaceCreate = React.createClass({
         this.setState({
             filterText: filterText
         });
-        TotemApi.placesNearby(0, 0)
-        .then((responseData) => {
-            this.setState({
-                dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText, responseData["places"])),
-            });
-        })
-        .done();
     },
     render: function() {
         var locationDebugInfo;
         if(this.state.location){
             var loc = this.state.location[0];
-            locationDebugInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lng.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
+            locationDebugInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lon.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
         }
         return (
             <View style={globalStyles.navView}>
@@ -113,6 +106,16 @@ var PlaceCreate = React.createClass({
 
     _onLocationChange: function(){
         this.setState({location: LocationStore.getLatest()});
+        if(this.state.location){
+            console.log(this.state.location[0].lat, this.state.location[0].lon)
+            TotemApi.placesNearby(this.state.location[0].lon, this.state.location[0].lat)
+            .then((responseData) => {
+                this.setState({
+                    dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(this.state.filterText, responseData["places"])),
+                });
+            })
+            .done();
+        }
 
     }
 
