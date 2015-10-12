@@ -70,7 +70,7 @@ var PlaceCreate = React.createClass({
         this.setState({
             filterText: filterText
         });
-        TotemApi.placesNearby([0, 0])
+        TotemApi.placesNearby(0, 0)
         .then((responseData) => {
             this.setState({
                 dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(filterText, responseData["places"])),
