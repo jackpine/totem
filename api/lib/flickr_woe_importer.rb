@@ -3,9 +3,7 @@ require 'json'
 class FlickrWOEImporter
   def self.process(json_data_paths)
     count = 0
-    inserted = 0
     pretend_inserted = 0
-    failed_to_insert = 0
     $stdout.sync = true
 
 
@@ -50,7 +48,6 @@ class FlickrWOEImporter
     else
       puts "inserted #{count} localities"
     end
-    puts "Failed to insert #{failed_to_insert} places due to validation error."
 
   end
 
