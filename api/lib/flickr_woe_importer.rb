@@ -29,7 +29,7 @@ class FlickrWOEImporter
           if ENV['PRETEND']
             pretend_inserted
           else
-            Place.create(name: name, 
+            Place.create!(name: name,
                          is_authoritative: true, 
                          authoritative_boundary: RGeo::GeoJSON.decode(feature["geometry"]),
                          import_source: "flickr-shapefiles-2.0.1",
