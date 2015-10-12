@@ -18,9 +18,16 @@ class FlickrWOEImporter
       ActiveRecord::Base.transaction do
         for feature in data["features"] do
 
-          flickr_id = feature["id"]
           metadata = feature["properties"]
-          metadata["flickr_id"] = flickr_id;
+          metadata["flickr_id"] =    feature["id"];
+          metadata["geometry"] = {}
+          metadata["geometry"]["created"] =      feature["geometry"]["created"]
+          metadata["geometry"]["alpha"] =        feature["geometry"]["alpha"]
+          metadata["geometry"]["points"] =       feature["geometry"]["points"]
+          metadata["geometry"]["edges"] =        feature["geometry"]["edges"]
+          metadata["geometry"]["is_donuthole"] = feature["geometry"]["is_donuthole"]
+          metadata["geometry"]["bbox"] =         feature["geometry"]["bbox"]
+
           if ENV['PRETEND']
             pretend_inserted
           else
