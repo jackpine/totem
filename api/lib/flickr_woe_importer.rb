@@ -10,7 +10,9 @@ class FlickrWOEImporter
     for json_path in json_data_paths do
       puts "processing #{json_path}"
       data = JSON.parse(File.read(json_path))
+      failed_to_insert = 0
 
+      factory = RGeo::Cartesian.simple_factory(:srid => 4326)
       ActiveRecord::Base.transaction do
         for feature in data["features"] do
 
@@ -24,14 +26,19 @@ class FlickrWOEImporter
           metadata["geometry"]["is_donuthole"] = feature["geometry"]["is_donuthole"]
           metadata["geometry"]["bbox"] =         feature["geometry"]["bbox"]
 
+          name = feature["properties"]["label"].split(',')[0];
           if ENV['PRETEND']
-            pretend_inserted
+            pretend_inserted += 1
           else
-            Place.create!(name: name,
-                         is_authoritative: true, 
-                         authoritative_boundary: RGeo::GeoJSON.decode(feature["geometry"]),
-                         import_source: "flickr-shapefiles-2.0.1",
-                         import_metadata: metadata)
+            begin
+              Place.create!(name: name,
+                           is_authoritative: true, 
+                           authoritative_boundary: RGeo::GeoJSON.decode(feature["geometry"], :geo_factory => factory),
+                           import_source: "flickr-shapefiles-2.0.1",
+                           import_metadata: metadata)
+            rescue
+              failed_to_insert += 1
+            end
             count += 1
             if(count % 1000 == 0)
               print "."
@@ -48,6 +55,7 @@ class FlickrWOEImporter
     else
       puts "inserted #{count} localities"
     end
+    puts "failed to insert #{failed_to_insert} records"
 
   end
 
