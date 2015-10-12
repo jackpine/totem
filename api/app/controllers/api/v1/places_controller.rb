@@ -17,7 +17,7 @@ class Api::V1::PlacesController < Api::BaseController
   private
 
   def place_params
-    params.require(:place).permit(:place_id, location: [ :type, coordinates: [] ])
+    params.require(:place).permit()
   end
 
 end
