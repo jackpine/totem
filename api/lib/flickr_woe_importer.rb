@@ -11,9 +11,7 @@ class FlickrWOEImporter
 
     for json_path in json_data_paths do
       puts "processing #{json_path}"
-      data = File.open(json_path, 'r') do |fd|
-        JSON.parse(fd.read())
-      end
+      data = JSON.parse(File.read(json_path))
 
       ActiveRecord::Base.transaction do
         for feature in data["features"] do
