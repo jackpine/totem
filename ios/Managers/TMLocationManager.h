@@ -6,8 +6,7 @@
 //  Copyright © 2015 totem. All rights reserved.
 //
 
-// XXX fixme, whats the proper import here?
-#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import <Foundation/Foundation.h>
 #import "RCTBridgeModule.h"
 
