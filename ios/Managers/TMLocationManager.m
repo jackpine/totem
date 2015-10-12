@@ -69,7 +69,7 @@ RCT_EXPORT_METHOD(startLocationUpdates:(NSDictionary *)args callback:(RCTRespons
     if (status == notDetermined) {
       NSLog(@"CoreLocation authorization is not determined");
     } else {
-      NSLog(@"CoreLocation authorization is not denied");
+      NSLog(@"CoreLocation authorization is denied");
     }
     [manager requestWhenInUseAuthorization];
   }
