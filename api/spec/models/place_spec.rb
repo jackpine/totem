@@ -34,5 +34,10 @@ describe Place, type: :model do
        it { should be true }
      end
    end
+
+   context "missing name attribute" do
+     before { place.name = nil }
+     it { should be false }
+   end
  end
 end
