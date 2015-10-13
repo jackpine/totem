@@ -6,7 +6,7 @@ class Place < ActiveRecord::Base
     "region": 3,
     "county": 4,
     "locality": 5,
-    "neighbourhood": 6,
+    "neighborhood": 6,
   }
   validates :is_authoritative, inclusion: {in:[true, false]} , on: :create
   validates :category, presence: true, if: :authoritative?

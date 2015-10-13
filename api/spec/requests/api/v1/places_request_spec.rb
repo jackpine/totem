@@ -33,16 +33,16 @@ describe 'places requests' do
 
 
     let!(:union_square_bounds) { "MULTIPOLYGON(((-122.420753 37.781406,-122.420753 37.79961,-122.394539 37.79961,-122.394539 37.781406,-122.420753 37.781406)))"}
-    let!(:union_square) { Place.create(name: "Union Square", category: :neighbourhood,is_authoritative: true, authoritative_boundary:union_square_bounds) }
+    let!(:union_square) { Place.create(name: "Union Square", category: :neighborhood,is_authoritative: true, authoritative_boundary:union_square_bounds) }
 
     let!(:noma_bounds) { "MULTIPOLYGON(((-122.417007 37.779583,-122.417007 37.792118,-122.401031 37.792118,-122.401031 37.779583,-122.417007 37.779583)))"}
-    let!(:noma) { Place.create(name: "NOMA", category: :neighbourhood, is_authoritative: true,  authoritative_boundary: noma_bounds) }
+    let!(:noma) { Place.create(name: "NOMA", category: :neighborhood, is_authoritative: true,  authoritative_boundary: noma_bounds) }
 
     let!(:civic_center_bounds) { "MULTIPOLYGON(((-122.423874 37.768665,-122.423874 37.78986,-122.402214 37.78986,-122.402214 37.768665,-122.423874 37.768665)))"}
-    let!(:civic_center) { Place.create(name: "Civic Center", category: :neighbourhood, is_authoritative: true,  authoritative_boundary: civic_center_bounds) }
+    let!(:civic_center) { Place.create(name: "Civic Center", category: :neighborhood, is_authoritative: true,  authoritative_boundary: civic_center_bounds) }
 
     let!(:tenderloin_bounds) {"MULTIPOLYGON(((-122.423874 37.768665,-122.423874 37.78986,-122.402214 37.78986,-122.402214 37.768665,-122.423874 37.768665)))" }
-    let!(:tenderloin) { Place.create(name: "Tenderloin", category: :neighbourhood,is_authoritative: true,  authoritative_boundary: tenderloin_bounds) }
+    let!(:tenderloin) { Place.create(name: "Tenderloin", category: :neighborhood,is_authoritative: true,  authoritative_boundary: tenderloin_bounds) }
 
     let!(:san_francisco_bounds) { "MULTIPOLYGON(((-122.561417 37.685516,-122.561417 37.86977,-122.333107 37.86977,-122.333107 37.685516,-122.561417 37.685516)))"}
     let!(:san_francisco) { Place.create(name: "San Francisco", category: :locality, is_authoritative: true,  authoritative_boundary:san_francisco_bounds) }
