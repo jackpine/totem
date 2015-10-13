@@ -1,8 +1,8 @@
-class Api::V1::PlacesController < Api::BaseController
+class Api::V1::PlacesController < Api::V1::BaseController
 
   def nearby
 
-    location = sanitize_location_params(params[:location])
+    location = sanitize_location_params(location_params)
 
     distance_func = "ST_Distance(authoritative_boundary, ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326))"
     @places = Place
@@ -20,9 +20,18 @@ class Api::V1::PlacesController < Api::BaseController
     params.require(:place).permit()
   end
 
+  def location_params
+    params.require(:location)
+  end
+
 
   def sanitize_location_params(param)
-    location_params = param.split(',').map {|v| v.to_f }
+    if param.blank?
+      location_params = []
+    else
+      location_params = param.split(',').map {|v| v.to_f }
+    end
+
     if location_params.length != 2
       respond_to do |format|
         format.json { render json: { error: "locate param is formatted incorrectly" }, status: :bad_request }
