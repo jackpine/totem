@@ -1,5 +1,5 @@
-quickstart
-==========
+totem-app quickstart
+====================
 
 There is a good quickstart doc on react's site, but here is an
 abbreviated version:
@@ -35,3 +35,10 @@ Develop and Debug the App
 
 Once the app has loaded, use ⌘R to reload and ⌘D to launch the
 debugger in Chrome (you may need to install an extension)
+
+totem-api
+=========
+
+make sure to seed the database with the example place data:
+
+    $ be rake totem:import_flickr_data
