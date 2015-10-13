@@ -3,7 +3,11 @@ class Api::V1::PlacesController < Api::BaseController
   def nearby
 
     location = sanitize_location_params(params[:location])
-    @places = Place.order("ST_Distance(authoritative_boundary, ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326))").limit(20);
+
+    distance_func = "ST_Distance(authoritative_boundary, ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326))"
+    @places = Place
+      .select('id', 'name', "#{distance_func} as distance")
+      .order("distance, name").limit(20);
 
     respond_to do |format|
       format.json { render :index }
