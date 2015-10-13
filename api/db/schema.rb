@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151009173019) do
+ActiveRecord::Schema.define(version: 20151013170030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20151009173019) do
     t.geometry "authoritative_boundary", limit: {:srid=>0, :type=>"multi_polygon"}
     t.datetime "created_at",                                                        null: false
     t.datetime "updated_at",                                                        null: false
+    t.integer  "category"
   end
 
   add_index "places", ["is_authoritative"], name: "index_places_on_is_authoritative", using: :btree

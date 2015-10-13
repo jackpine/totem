@@ -7,7 +7,7 @@ class Api::V1::PlacesController < Api::BaseController
     distance_func = "ST_Distance(authoritative_boundary, ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326))"
     @places = Place
       .select('id', 'name', "#{distance_func} as distance")
-      .order("distance, name").limit(20);
+      .order("distance ASC, category DESC").limit(20);
 
     respond_to do |format|
       format.json { render :index }
