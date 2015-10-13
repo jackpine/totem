@@ -11,20 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151013170030) do
+ActiveRecord::Schema.define(version: 20151013184933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
 
   create_table "places", force: :cascade do |t|
-    t.text     "name",                                                              null: false
-    t.boolean  "is_authoritative",                                                  null: false
+    t.text     "name",                                                                 null: false
+    t.boolean  "is_authoritative",                                                     null: false
     t.string   "import_source"
     t.jsonb    "import_metadata"
-    t.geometry "authoritative_boundary", limit: {:srid=>0, :type=>"multi_polygon"}
-    t.datetime "created_at",                                                        null: false
-    t.datetime "updated_at",                                                        null: false
+    t.geometry "authoritative_boundary", limit: {:srid=>4326, :type=>"multi_polygon"}
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
     t.integer  "category"
   end
 
