@@ -34,7 +34,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
     if location_params.length != 2
       respond_to do |format|
-        format.json { render json: { error: "locate param is formatted incorrectly" }, status: :bad_request }
+        format.json { render json: { error: "location param is formatted incorrectly" }, status: :bad_request }
       end
     end
     location_params
