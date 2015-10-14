@@ -1,14 +1,18 @@
-class Api::V1::PlacesController < Api::BaseController
+class Api::V1::PlacesController < Api::V1::BaseController
 
   def nearby
 
-    # stub out the cities list
-    cities_list = JSON.parse(File.read(Rails.root.join('public', 'citiesList.json')))
-    cities_list.collect! do |city_obj|
-      ActiveSupport::HashWithIndifferentAccess.new(city_obj)
-    end
+    location = sanitize_location_params(location_params)
 
-    @places = cities_list
+    my_loc = "ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326)"
+    distance_func = "ST_Distance(authoritative_boundary, #{my_loc}, true)"
+    within_func = "ST_DWithin(#{my_loc}, authoritative_boundary, 0.125)"
+
+    @places = Place
+      .select('id', 'name', "#{distance_func} as distance")
+      .where(within_func)
+      .order("distance ASC, category DESC, name ASC").limit(20);
+
     respond_to do |format|
       format.json { render :index }
     end
@@ -16,9 +20,26 @@ class Api::V1::PlacesController < Api::BaseController
 
   private
 
-  def place_params
-    params.require(:place).permit(:place_id, location: [ :type, coordinates: [] ])
+  def location_params
+    params.require(:location)
   end
+
+
+  def sanitize_location_params(param)
+    if param.blank?
+      location_params = []
+    else
+      location_params = param.split(',').map {|v| v.to_f }
+    end
+
+    if location_params.length != 2
+      respond_to do |format|
+        format.json { render json: { error: "location param is formatted incorrectly" }, status: :bad_request }
+      end
+    end
+    location_params
+  end
+
 
 end
 

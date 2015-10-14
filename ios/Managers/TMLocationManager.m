@@ -95,7 +95,7 @@ RCT_EXPORT_METHOD(startLocationUpdates:(NSDictionary *)args callback:(RCTRespons
 
   [self.bridge.eventDispatcher sendAppEventWithName:[self constantsToExport][@"locationUpdatesEventChannel"]
                                                body:@[@{@"lat":                [NSNumber numberWithDouble:myLoc.coordinate.latitude],
-                                                        @"lng":                [NSNumber numberWithDouble:myLoc.coordinate.longitude],
+                                                        @"lon":                [NSNumber numberWithDouble:myLoc.coordinate.longitude],
                                                         @"horizontalAccuracy": [NSNumber numberWithDouble:myLoc.horizontalAccuracy],
                                                         @"verticalAccuracy":   [NSNumber numberWithDouble:myLoc.verticalAccuracy],
                                                         @"altitude":           [NSNumber numberWithDouble:myLoc.altitude],

@@ -32,11 +32,12 @@ class FlickrWOEImporter
           else
             begin
               Place.create!(name: name,
-                           is_authoritative: true, 
+                            category: metadata["place_type"],
+                           is_authoritative: true,
                            authoritative_boundary: RGeo::GeoJSON.decode(feature["geometry"], :geo_factory => factory),
                            import_source: "flickr-shapefiles-2.0.1",
                            import_metadata: metadata)
-            rescue
+            rescue => e
               failed_to_insert += 1
             end
             count += 1

@@ -10,6 +10,7 @@
     "flux": "*",
     "underscore": "*",
     "backbone": "*",
-    "keymirror": "~0.1.0"
+    "keymirror": "~0.1.0",
+    "url-join": "*"
   }
 }
