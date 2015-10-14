@@ -20,10 +20,6 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
   private
 
-  def place_params
-    params.require(:place).permit()
-  end
-
   def location_params
     params.require(:location)
   end
