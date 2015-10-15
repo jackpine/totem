@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var globalStyles = require('../globalStyles');
+var DebugLocation = require('./DebugLocation');
 
 var {
     StyleSheet,
@@ -9,9 +9,6 @@ var {
     TextInput,
     View,
     ListView,
-    Component,
-    TouchableHighlight,
-    Image
 } = React;
 
 
@@ -72,14 +69,12 @@ var PlaceCreate = React.createClass({
         var locationDebugInfo;
         if(this.props.location){
             var loc = this.props.location[0];
-            locationDebugInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lon.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
+            locationDebugInfo = <DebugLocation location={this.props.location}/>
         }
 
         return (
             <View>
-            <Text style={styles.debugInfo}>
             {locationDebugInfo}
-            </Text>
             <Text>
             Name the Place You're in {this.state.filterText}
             </Text>
@@ -122,11 +117,6 @@ var styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
-    },
-    debugInfo: {
-        fontSize: 8,
-        paddingBottom: 4,
-        fontFamily: "Courier"
     }
 });
 
