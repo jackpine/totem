@@ -114,6 +114,9 @@ var PlaceCreate = React.createClass({
                     dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(this.state.filterText, responseData["places"])),
                 });
             })
+            .catch(function(error){
+                console.log('connecting to the api')
+            })
             .done();
         }
 
