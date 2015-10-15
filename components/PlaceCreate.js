@@ -2,8 +2,6 @@
 
 var React = require('react-native');
 var globalStyles = require('../globalStyles');
-var LocationStore = require('../stores/LocationStore');
-var TotemApi = require("../util/TotemApi")
 
 var {
     StyleSheet,
@@ -19,11 +17,33 @@ var {
 
 var PlaceTable = React.createClass({
 
+    _filterPlaceRows: function(filterText: string, placeList: Array<object>): Array<string> {
+
+        if(!this.dataSource)
+          this.dataSource = new ListView.DataSource({
+            rowHasChanged: function(r1, r2){
+              return r1 !== r2;
+            }
+          });
+
+        var placesBlob = [];
+        placeList.forEach(function(city){
+            if(city["name"].toLowerCase().startsWith(filterText.toLowerCase())){
+                placesBlob.push(city["name"]);
+            }
+        });
+
+        this.dataSource = this.dataSource.cloneWithRows(placesBlob);
+
+    },
     render: function() {
+
+        this._filterPlaceRows(this.props.filterText, this.props.nearbyPlaces);
+
         return (
             <ListView
             style={styles.listView}
-            dataSource={this.props.dataSource}
+            dataSource={this.dataSource}
             renderRow={this.renderPlace}
             automaticallyAdjustContentInsets={false}
             />
@@ -39,44 +59,22 @@ var PlaceTable = React.createClass({
 
 var PlaceCreate = React.createClass({
     getInitialState: function(){
-        var ds = new ListView.DataSource({
-            rowHasChanged: function(r1, r2){
-                return r1 !== r2;
-            }
-        });
         return {
             filterText: "",
-            location: LocationStore.getLatest(),
-            dataSource: ds.cloneWithRows(this._filterPlaceRows("", [])),
         }
     },
-    componentDidMount: function() {
-        this.processUserInput('');
-        LocationStore.on('change:currentLocation', this._onLocationChange);
-    },
-    _filterPlaceRows: function(filterText: string, responseData: Array<object>): Array<string> {
-
-        var placesBlob = [];
-        responseData.forEach(function(city){
-            if(city["name"].toLowerCase().startsWith(filterText.toLowerCase())){
-                placesBlob.push(city["name"]);
-            }
-        });
-        return placesBlob;
-
-    },
     processUserInput: function(filterText: string) {
-
         this.setState({
             filterText: filterText
         });
     },
     render: function() {
         var locationDebugInfo;
-        if(this.state.location){
-            var loc = this.state.location[0];
+        if(this.props.location){
+            var loc = this.props.location[0];
             locationDebugInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lon.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
         }
+
         return (
             <View>
             <Text style={styles.debugInfo}>
@@ -94,7 +92,8 @@ var PlaceCreate = React.createClass({
             keyboardType={'default'}
             />
             <PlaceTable
-            dataSource={this.state.dataSource}
+            filterText={ this.state.filterText }
+            nearbyPlaces= { this.props.nearbyPlaces }
             />
             </View>
         );
@@ -103,24 +102,6 @@ var PlaceCreate = React.createClass({
     keyboardDidEnterText: function(text: string) {
         console.log("Keyboard:"+text);
     },
-
-    _onLocationChange: function(){
-        this.setState({location: LocationStore.getLatest()});
-        if(this.state.location){
-            console.log(this.state.location[0].lat, this.state.location[0].lon)
-            TotemApi.placesNearby(this.state.location[0].lon, this.state.location[0].lat)
-            .then((responseData) => {
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(this._filterPlaceRows(this.state.filterText, responseData["places"])),
-                });
-            })
-            .catch(function(error){
-                console.log('connecting to the api')
-            })
-            .done();
-        }
-
-    }
 
 });
 

@@ -1,11 +1,13 @@
 var React = require('react-native');
 var LocationManager = React.NativeModules.TMLocationManager;
+var LocationStore = require('../stores/LocationStore');
+var LocationUpdateAction = require('../actions/LocationUpdateAction');
 var PlaceCreate = require('./PlaceCreate');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var TotemConstants = require('../constants/TotemConstants');
 var ActionTypes = TotemConstants.ActionTypes;
-var LocationUpdateAction = require('../actions/LocationUpdateAction');
 var NavigationBar = require('react-native-navbar');
+var TotemApi = require("../util/TotemApi")
 
 var {
     StyleSheet,
@@ -18,7 +20,14 @@ var {
 
 
 var Totem = React.createClass({
+    getInitialState: function(){
+        return {
+            location: LocationStore.getLatest(),
+            nearbyPlaces: []
+        }
+    },
     componentDidMount: function(){
+        LocationStore.on('change:currentLocation', this._onLocationChange);
         LocationManager.startLocationUpdates({}, function(err, response){
             console.log(`${response}`)
         })
@@ -39,13 +48,12 @@ var Totem = React.createClass({
         return (
             <View style={styles.navigator}>
             {navBar}
-            <Component navigator={navigator} route={route} />
+            <Component location={this.state.location} nearbyPlaces={this.state.nearbyPlaces} navigator={navigator} route={route} />
             </View>
         );
 
     },
     render: function() {
-        console.log('Calling render in top level component')
         return (
             <React.Navigator
             ref={this._setNavigatorRef}
@@ -86,6 +94,21 @@ var Totem = React.createClass({
             }
         }
     },
+    _onLocationChange: function(){
+        this.setState({location: LocationStore.getLatest()});
+        if(this.state.location){
+            TotemApi.placesNearby(this.state.location[0].lon, this.state.location[0].lat)
+            .then((responseData) => {
+                this.setState({nearbyPlaces: responseData['places']});
+            })
+            .catch(function(error){
+                console.log('connecting to the api failed!', error)
+            })
+            .done();
+        }
+
+    }
+
 });
 
 var styles = StyleSheet.create({
