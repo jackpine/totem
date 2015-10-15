@@ -11,6 +11,7 @@
     "underscore": "*",
     "backbone": "*",
     "keymirror": "~0.1.0",
-    "url-join": "*"
+    "url-join": "*",
+    "react-native-navbar": "*"
   }
 }

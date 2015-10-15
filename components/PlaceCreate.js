@@ -78,7 +78,7 @@ var PlaceCreate = React.createClass({
             locationDebugInfo = <Text>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lon.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>
         }
         return (
-            <View style={globalStyles.navView}>
+            <View>
             <Text style={styles.debugInfo}>
             {locationDebugInfo}
             </Text>
@@ -87,14 +87,14 @@ var PlaceCreate = React.createClass({
             </Text>
             <Text>Name:</Text>
             <TextInput
-                style={styles.placeFinderInput}
-                onChangeText={ this.processUserInput }
-                value={this.state.filterText}
-                defaultValue={""}
-                keyboardType={'default'}
+            style={styles.placeFinderInput}
+            onChangeText={ this.processUserInput }
+            value={this.state.filterText}
+            defaultValue={""}
+            keyboardType={'default'}
             />
             <PlaceTable
-                dataSource={this.state.dataSource}
+            dataSource={this.state.dataSource}
             />
             </View>
         );
