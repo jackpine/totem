@@ -22,18 +22,11 @@ var Totem = React.createClass({
         LocationManager.startLocationUpdates({}, function(err, response){
             console.log(`${response}`)
         })
-        NativeAppEventEmitter.addListener(LocationManager.locationUpdatesEventChannel,
-                                          function(locationUpdate){
-                                              LocationUpdateAction.createLocationUpdate(locationUpdate)
-                                          }
-                                         );
     },
     renderScene: function(route, nav){
 
-
         var Component = route.component;
         var navBar = route.navigationBar;
-        
 
         if (navBar) {
             navBar = React.addons.cloneWithProps(navBar, {
