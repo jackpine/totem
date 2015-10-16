@@ -24,11 +24,8 @@ var PlaceCreate = React.createClass({
         });
     },
     render: function() {
-        var locationDebugInfo;
-        if(this.props.location){
-            var loc = this.props.location[0];
-            locationDebugInfo = <DebugLocation location={this.props.location}/>
-        }
+
+        var locationDebugInfo = <DebugLocation location={this.props.location}/>
 
         return (
             <View>
