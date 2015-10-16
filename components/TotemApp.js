@@ -3,6 +3,7 @@ var LocationManager = React.NativeModules.TMLocationManager;
 var LocationStore = require('../stores/LocationStore');
 var LocationUpdateAction = require('../actions/LocationUpdateAction');
 var PlaceCreate = require('./PlaceCreate');
+var PlaceJoin = require('./PlaceJoin');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var TotemConstants = require('../constants/TotemConstants');
 var ActionTypes = TotemConstants.ActionTypes;
@@ -60,9 +61,9 @@ var Totem = React.createClass({
             style={styles.container}
             renderScene={this.renderScene}
             initialRoute={{
-                title: 'Place Create',
-                component: PlaceCreate,
-                navigationBar: <NavigationBar title="Initial View"/>
+                title: 'Place Join',
+                component: PlaceJoin,
+                navigationBar: <NavigationBar/>
             }}
             />
         );
