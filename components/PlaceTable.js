@@ -35,7 +35,7 @@ var PlaceTable = React.createClass({
     },
     render: function() {
 
-        this._filterPlaceRows(this.props.filterText, this.props.nearbyPlaces);
+        this._filterPlaceRows(this.props.filterText || "", this.props.nearbyPlaces);
 
         return (
             <ListView
