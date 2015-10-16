@@ -30,10 +30,6 @@ var PlaceCreate = React.createClass({
             locationDebugInfo = <DebugLocation location={this.props.location}/>
         }
 
-        var place_table = <PlaceTable
-            filterText={ this.state.filterText }
-            nearbyPlaces={ this.props.nearbyPlaces }
-            />
         return (
             <View>
             {locationDebugInfo}
