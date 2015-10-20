@@ -47,7 +47,8 @@ var Totem = React.createClass({
         }
 
         return (
-            <View style={styles.navigator}>
+            {/* settings flex lets the listview scroll properly */}
+            <View style={{flex: 1}}>
             {navBar}
             <Component location={this.state.location} nearbyPlaces={this.state.nearbyPlaces} navigator={navigator} route={route} />
             </View>
