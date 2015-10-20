@@ -1,5 +1,4 @@
 var urljoin = require('url-join');
-const queryString = require('query-string');
 
 var apiHost = 'http://localhost:3000';
 
