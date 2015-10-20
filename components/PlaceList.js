@@ -3,62 +3,129 @@
 var React = require('react-native');
 
 var {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    ListView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ListView,
+  PixelRatio,
+  TouchableHighlight,
 } = React;
 
-
+var PlaceRow
 
 var PlaceList = React.createClass({
 
-    _filterPlaceRows: function(filterText: string, placeList: Array<object>): Array<string> {
+  _filterPlaceRows: function(filterText: string, placeList: Array<object>): Array<string> {
 
-        if(!this.dataSource)
-          this.dataSource = new ListView.DataSource({
-            rowHasChanged: function(r1, r2){
-              return r1 !== r2;
-            }
-          });
+    if(!this.dataSource)
+      this.dataSource = new ListView.DataSource({
+        rowHasChanged: function(r1, r2){
+          return r1 !== r2;
+        }
+      });
 
-        var placesBlob = [];
-        placeList.forEach(function(city){
-            if(city["name"].toLowerCase().startsWith(filterText.toLowerCase())){
-                placesBlob.push(city["name"]);
-            }
-        });
+      var placesBlob = [];
+      placeList.forEach(function(city){
+        if(city["name"].toLowerCase().startsWith(filterText.toLowerCase())){
+          placesBlob.push(city["name"]);
+        }
+      });
 
-        this.dataSource = this.dataSource.cloneWithRows(placesBlob);
+      this.dataSource = this.dataSource.cloneWithRows(placesBlob);
 
+  },
+  _renderSectionHeader(data: any, section: string) {
+    return (
+      <View style={styles.sectionHeader}>
+        <Text style={styles.sectionHeaderTitle}>
+          {section.toUpperCase()}
+        </Text>
+      </View>
+      );
+  },
+  render: function() {
+
+    this._filterPlaceRows(this.props.filterText || "", this.props.nearbyPlaces);
+
+    var topView = this.props.renderAdditionalView &&
+      this.props.renderAdditionalView(this.renderRow, this.renderTextInput);
+
+
+    return (
+      <View style={styles.listContainer}>
+        {topView}
+        <ListView
+          style={styles.list}
+          dataSource={this.dataSource}
+          renderRow={this.renderRow}
+          keyboardShouldPersistTaps={true}
+          automaticallyAdjustContentInsets={false}
+          keyboardDismissMode="on-drag"
+        />
+      </View>)
+  },
+  renderRow: function(example: any, i: number){
+    console.log(example, i)
+    return (
+      <View key={i}>
+        <TouchableHighlight onPress={() => this.onPressRow(example)}>
+          <View style={styles.row}>
+            <Text style={styles.rowTitleText}>
+              {example}
+            </Text>
+            <Text style={styles.rowDetailText}>
+              {example}
+            </Text>
+          </View>
+        </TouchableHighlight>
+        <View style={styles.separator} />
+      </View>)
+  },
+  onPressRow: function(){
+    console.log('pressed row', arguments)
+  }
+
+
+  });
+
+  var styles = StyleSheet.create({
+  });
+
+  var styles = StyleSheet.create({
+    listContainer: {
+      flex: 1,
     },
-    render: function() {
-
-        this._filterPlaceRows(this.props.filterText || "", this.props.nearbyPlaces);
-
-        return (
-            <ListView
-            style={styles.listView}
-            dataSource={this.dataSource}
-            renderRow={this.renderPlace}
-            automaticallyAdjustContentInsets={false}
-            />
-        )
+    list: {
+      backgroundColor: '#eeeeee',
     },
-    renderPlace(row) {
-        return (
-            <Text>{row}</Text>
-        )
-    }
-
-});
-var styles = StyleSheet.create({
-    listView: {
-        paddingTop: 0,
-        backgroundColor: '#F5FCFF',
-        height: 400,
+    sectionHeader: {
+      padding: 5,
     },
-})
+    sectionHeaderTitle: {
+      fontWeight: '500',
+      fontSize: 11,
+    },
+    row: {
+      backgroundColor: 'white',
+      justifyContent: 'center',
+      paddingHorizontal: 15,
+      paddingVertical: 8,
+    },
+    separator: {
+      height: 1 / PixelRatio.get(),
+      backgroundColor: '#bbbbbb',
+      marginLeft: 15,
+    },
+    rowTitleText: {
+      fontSize: 17,
+      fontWeight: '500',
+    },
+    rowDetailText: {
+      fontSize: 15,
+      color: '#888888',
+      lineHeight: 20,
+    },
+  });
 
-module.exports = PlaceList;
+  module.exports = PlaceList;
