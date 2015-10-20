@@ -12,8 +12,6 @@ var {
   TouchableHighlight,
 } = React;
 
-var PlaceRow
-
 var PlaceList = React.createClass({
 
   _filterPlaceRows: function(filterText: string, placeList: Array<object>): Array<string> {
@@ -22,7 +20,11 @@ var PlaceList = React.createClass({
       this.dataSource = new ListView.DataSource({
         rowHasChanged: function(r1, r2){
           return r1 !== r2;
+        },
+        sectionHeaderHasChanged: function(s1, s2){
+          return s1 !== s2;
         }
+
       });
 
       var placesBlob = [];
@@ -32,7 +34,7 @@ var PlaceList = React.createClass({
         }
       });
 
-      this.dataSource = this.dataSource.cloneWithRows(placesBlob);
+      this.dataSource = this.dataSource.cloneWithRowsAndSections({'places':placesBlob});
 
   },
   _renderSectionHeader(data: any, section: string) {
@@ -59,6 +61,7 @@ var PlaceList = React.createClass({
           style={styles.list}
           dataSource={this.dataSource}
           renderRow={this.renderRow}
+          renderSectionHeader={this._renderSectionHeader}
           keyboardShouldPersistTaps={true}
           automaticallyAdjustContentInsets={false}
           keyboardDismissMode="on-drag"
@@ -87,9 +90,6 @@ var PlaceList = React.createClass({
   }
 
 
-  });
-
-  var styles = StyleSheet.create({
   });
 
   var styles = StyleSheet.create({

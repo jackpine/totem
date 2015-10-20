@@ -22,9 +22,9 @@ var PlaceCreate = React.createClass({
           <View>
             <Text>Join one of the following places</Text>
             <PlaceList
-            nearbyPlaces= { this.props.nearbyPlaces }
+              nearbyPlaces= { this.props.nearbyPlaces }
             />
-            </View>
+          </View>
         );
     },
 });
