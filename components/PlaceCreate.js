@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var DebugLocation = require('./DebugLocation');
-var PlaceTable = require('./PlaceTable');
+var PlaceList = require('./PlaceList');
 
 var {
     StyleSheet,
@@ -41,7 +41,7 @@ var PlaceCreate = React.createClass({
             defaultValue={""}
             keyboardType={'default'}
             />
-            <PlaceTable
+            <PlaceList
             filterText={ this.state.filterText }
             nearbyPlaces={ this.props.nearbyPlaces }
             />

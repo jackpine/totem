@@ -12,7 +12,7 @@ var {
 
 
 
-var PlaceTable = React.createClass({
+var PlaceList = React.createClass({
 
     _filterPlaceRows: function(filterText: string, placeList: Array<object>): Array<string> {
 
@@ -61,4 +61,4 @@ var styles = StyleSheet.create({
     },
 })
 
-module.exports = PlaceTable;
+module.exports = PlaceList;

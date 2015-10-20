@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var DebugLocation = require('./DebugLocation');
-var PlaceTable = require('./PlaceTable');
+var PlaceList = require('./PlaceList');
 
 var {
     StyleSheet,
@@ -21,7 +21,7 @@ var PlaceCreate = React.createClass({
         return (
           <View>
             <Text>Join one of the following places</Text>
-            <PlaceTable
+            <PlaceList
             nearbyPlaces= { this.props.nearbyPlaces }
             />
             </View>
