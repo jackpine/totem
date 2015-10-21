@@ -19,14 +19,11 @@ var PlaceCreate = React.createClass({
             var rightButton = function(){
 
             };
-            var titleConfig = {
-                title: 'Create a New Place'
-            }
             return (
                 <NavigationBar 
                     navigator={nav}
                     rightButton={rightButton}
-                    title={titleConfig}
+                    title={'Create a New Place'}
                 />
             );
         },

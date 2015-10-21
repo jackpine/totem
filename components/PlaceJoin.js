@@ -36,14 +36,11 @@ var PlaceJoin = React.createClass({
                 </View>
                 </TouchableHighlight>)
             };
-            var titleConfig = {
-                title: 'Where are you?'
-            }
             return (
                 <NavigationBar
                     leftButton={leftButton}
                     rightButton={rightButton}
-                    title={titleConfig}
+                    title={'Where are you?'}
                 />
             );
         }

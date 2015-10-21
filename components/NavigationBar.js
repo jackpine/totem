@@ -39,7 +39,7 @@ var NavigationBar = React.createClass({
             <View>
                 <View style={styles.toolbar}>
                     <View style={styles.toolbarButton}>{leftButton}</View>
-                    <Text style={styles.toolbarTitle}>Join a Place</Text>
+                    <Text style={styles.toolbarTitle}>{this.props.title}</Text>
                     <View style={styles.toolbarButton}>{this.props.rightButton()}</View>
                 </View>
             </View>)
