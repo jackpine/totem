@@ -11,6 +11,12 @@ var { Icon, } = require('react-native-icons');
 
 var NavigationBar = React.createClass({
 
+    propTypes:{
+        leftButton: React.PropTypes.func,
+        navigator: React.PropTypes.object.isRequired,
+        rightButton: React.PropTypes.func.isRequired,
+        title: React.PropTypes.string.isRequired,
+    },
     render: function(){
         var leftButton, rightButton;
 

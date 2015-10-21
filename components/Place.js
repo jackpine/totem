@@ -21,9 +21,9 @@ var Place = React.createClass({
             var rightButton = function(){};
             return (
                 <NavigationBar
-                    leftButton={leftButton}
                     rightButton={rightButton}
                     title={'Congrats, You are in a Place!'}
+                    navigator={nav}
                 />
             );
         }
