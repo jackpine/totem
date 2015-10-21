@@ -7,8 +7,7 @@ var PlaceJoin = require('./PlaceJoin');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var TotemConstants = require('../constants/TotemConstants');
 var ActionTypes = TotemConstants.ActionTypes;
-var NavigationBar = require('react-native-navbar');
-var TotemApi = require("../util/TotemApi")
+var TotemApi = require("../util/TotemApi");
 
 var {
     StyleSheet,
@@ -17,8 +16,8 @@ var {
     TouchableOpacity,
     View,
     Text,
+    Navigator,
 } = React;
-
 
 var Totem = React.createClass({
     getInitialState: function(){
@@ -35,36 +34,44 @@ var Totem = React.createClass({
     },
     renderScene: function(route, nav){
 
-        var Component = route.component;
-        var navBar = route.navigationBar;
+        var Component;
 
-        if (navBar) {
-            navBar = React.addons.cloneWithProps(navBar, {
-                navigator: navigator,
-                route: route,
-                title: route.title
+        console.log(`rendering ${route.path}`);
+        switch(route.path){
+          case 'place_create':
+            Component = PlaceCreate;
+            break;
+          case 'place_join':
+            Component = PlaceJoin;
+            break;
+          default:
+            Component = React.createClass({
+              render: function(){
+                return <Text>Sorry, there was a routing error with: {route.path}</Text>
+              }
             });
         }
 
         return (
-            {/* settings flex lets the listview scroll properly */}
-            <View style={{flex: 1}}>
-            {navBar}
-            <Component location={this.state.location} nearbyPlaces={this.state.nearbyPlaces} navigator={navigator} route={route} />
+            <View style={styles.navigator}>
+                {Component.navBar()}
+                <Component
+                    location={this.state.location}
+                    nearbyPlaces={this.state.nearbyPlaces}
+                    navigator={navigator}
+                    />
             </View>
         );
 
     },
     render: function() {
         return (
-            <React.Navigator
+            <Navigator
             ref={this._setNavigatorRef}
             style={styles.container}
             renderScene={this.renderScene}
             initialRoute={{
-                title: 'Place Join',
-                component: PlaceJoin,
-                navigationBar: <NavigationBar/>
+                path: 'place_join',
             }}
             />
         );
@@ -116,6 +123,9 @@ var Totem = React.createClass({
 var styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    navigator: {
+      flex: 1,
     },
     welcome: {
         fontSize: 20,

@@ -69,7 +69,6 @@ var PlaceList = React.createClass({
       </View>)
   },
   renderRow: function(example: any, i: number){
-    console.log(example, i)
     return (
       <View key={i}>
         <TouchableHighlight onPress={() => this.onPressRow(example)}>

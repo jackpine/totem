@@ -3,6 +3,7 @@
 var React = require('react-native');
 var DebugLocation = require('./DebugLocation');
 var PlaceList = require('./PlaceList');
+var NavigationBar = require('./NavigationBar');
 
 var {
     StyleSheet,
@@ -13,6 +14,13 @@ var {
 } = React;
 
 var PlaceCreate = React.createClass({
+    statics: {
+        navBar: function(){
+            return (
+                <NavigationBar />
+            );
+        }
+    },
     getInitialState: function(){
         return {
             filterText: "",
