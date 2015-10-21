@@ -58,15 +58,17 @@ var Totem = React.createClass({
             });
         }
 
-        console.log('nav:', nav, name)
+        var routeProps = route.passProps || {};
+        var componentProps = Object.assign({}, routeProps, {
+            location: this.state.location,
+            navigator: nav,
+            nearbyPlaces: this.state.nearbyPlaces
+        });
+        console.log(componentProps)
+
         return (
             <View style={styles.navigator}>
-                {Component.navBar(nav)}
-                <Component
-                    location={this.state.location}
-                    navigator={nav}
-                    nearbyPlaces={this.state.nearbyPlaces}
-                />
+                <Component {...componentProps} />
             </View>
         );
 

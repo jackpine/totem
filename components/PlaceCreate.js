@@ -14,20 +14,6 @@ var {
 } = React;
 
 var PlaceCreate = React.createClass({
-    statics:{
-        navBar: function(nav){
-            var rightButton = function(){
-
-            };
-            return (
-                <NavigationBar 
-                    navigator={nav}
-                    rightButton={rightButton}
-                    title={'Create a New Place'}
-                />
-            );
-        },
-    },
     getInitialState: function(){
         return {
             filterText: '',
@@ -39,7 +25,19 @@ var PlaceCreate = React.createClass({
         });
     },
     handleRowPress: function(place){
-        this.props.navigator.push({path: 'place'});
+        this.props.navigator.push({path: 'place', passProps:{name: place}});
+    },
+    renderNavBar: function(){
+        var rightButton = function(){
+
+        };
+        return (
+            <NavigationBar 
+                navigator={this.props.navigator}
+                rightButton={rightButton}
+                title={'Create a New Place'}
+            />
+        );
     },
     render: function() {
 
@@ -47,6 +45,7 @@ var PlaceCreate = React.createClass({
 
         return (
             <View syle={{flex: 1}}>
+                {this.renderNavBar()}
                 {locationDebugInfo}
                 <Text>Name the Place You're in {this.state.filterText}
                 </Text>

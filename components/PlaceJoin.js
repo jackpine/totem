@@ -17,36 +17,36 @@ var {
 
 
 var PlaceJoin = React.createClass({
-    statics: {
-        navBar: function(nav){
-            var leftButton = function(){};
-            var rightButton = function(){
-                return (
-                    <TouchableHighlight 
-                        onPress={function(){ nav.push({path: 'place_create'}) }}
-                        style={styles.placeCreateButton}
-                    >
-                    <View style={styles.placeCreateButton}>
-                    <Icon
-                        color={'#337ab7'}
-                        name={'fontawesome|plus-circle'}
-                        size={30}
-                        style={styles.placeCreateIcon}
-                    />
-                </View>
-                </TouchableHighlight>)
-            };
+    renderNavBar: function(){
+        var self = this;
+        var leftButton = function(){};
+        var rightButton = function(){
             return (
-                <NavigationBar
-                    leftButton={leftButton}
-                    rightButton={rightButton}
-                    title={'Where are you?'}
-                />
-            );
-        }
+                <TouchableHighlight 
+                    onPress={(place)=>self.props.navigator.push({path: 'place_create'})}
+                    style={styles.placeCreateButton}
+                >
+                    <View style={styles.placeCreateButton}>
+                        <Icon
+                            color={'#337ab7'}
+                            name={'fontawesome|plus-circle'}
+                            size={30}
+                            style={styles.placeCreateIcon}
+                        />
+                    </View>
+                </TouchableHighlight>)
+        };
+        return (
+            <NavigationBar
+                leftButton={leftButton}
+                rightButton={rightButton}
+                navigator={this.props.navigator}
+                title={'Where are you?'}
+            />
+        );
     },
     handleRowPress: function(place){
-        this.props.navigator.push({path: 'place'});
+        this.props.navigator.push({path: 'place', passProps:{name: place}});
     },
     render: function() {
 
@@ -54,6 +54,7 @@ var PlaceJoin = React.createClass({
 
         return (
             <View style={styles.listWrapper}>
+                {this.renderNavBar()}
                 {locationDebugInfo}
                 <PlaceList
                     nearbyPlaces= {this.props.nearbyPlaces}

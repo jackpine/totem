@@ -15,23 +15,23 @@ var Place = React.createClass({
     propTypes: {
         name: React.PropTypes.string.isRequired,
     },
-    statics: {
-        navBar: function(nav){
-            var leftButton = function(){};
-            var rightButton = function(){};
-            return (
-                <NavigationBar
-                    rightButton={rightButton}
-                    title={'Congrats, You are in a Place!'}
-                    navigator={nav}
-                />
-            );
-        }
+    renderNavBar: function(){
+        var leftButton = function(){};
+        var rightButton = function(){};
+        return (
+            <NavigationBar
+                rightButton={rightButton}
+                title={'Congrats, You are in ' + this.props.name}
+                navigator={this.props.navigator}
+            />
+        );
     },
     render: function(){
-
         return (
-            <Text>Hi welcome to {this.props.name}</Text>
+            <View>
+                {this.renderNavBar()}
+                <Text>Hi welcome to {this.props.name}, there's a lot you can do in this place.</Text>
+            </View>
         )
 
     }
