@@ -18,10 +18,10 @@ var {
 
 var PlaceJoin = React.createClass({
     statics: {
-        navBar: function(){
+        navBar: function(nav){
             var leftButton = function(){};
             var rightButton = function(){
-                return (<TouchableHighlight style={styles.placeCreateButton} onPress={() => console.log('foo') }>
+                return (<TouchableHighlight style={styles.placeCreateButton} onPress={function(){ nav.push({path: 'place_create'}) }}>
                     <View style={styles.placeCreateButton}>
                     <Icon
                         name='fontawesome|plus-circle'
@@ -60,6 +60,7 @@ var PlaceJoin = React.createClass({
       console.log('create a place!')
     }
 });
+
 var styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
@@ -79,7 +80,6 @@ var styles = StyleSheet.create({
   listWrapper: {
     flex: 1
   }
-}
-                              )
+});
 
 module.exports = PlaceJoin;

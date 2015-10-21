@@ -14,12 +14,22 @@ var {
 } = React;
 
 var PlaceCreate = React.createClass({
-    statics: {
-        navBar: function(){
+    statics:{
+        navBar: function(nav){
+            var rightButton = function(){
+
+            };
+            var titleConfig = {
+                title: "Create a New Place"
+            }
             return (
-                <NavigationBar />
+                <NavigationBar 
+                    title={titleConfig}
+                    navigator={nav}
+                    rightButton={ rightButton }
+                />
             );
-        }
+        },
     },
     getInitialState: function(){
         return {

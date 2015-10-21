@@ -36,7 +36,6 @@ var Totem = React.createClass({
 
         var Component;
 
-        console.log(`rendering ${route.path}`);
         switch(route.path){
           case 'place_create':
             Component = PlaceCreate;
@@ -54,7 +53,7 @@ var Totem = React.createClass({
 
         return (
             <View style={styles.navigator}>
-                {Component.navBar()}
+                {Component.navBar(nav)}
                 <Component
                     location={this.state.location}
                     nearbyPlaces={this.state.nearbyPlaces}
