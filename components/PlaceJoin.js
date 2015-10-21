@@ -45,8 +45,8 @@ var PlaceJoin = React.createClass({
             );
         }
     },
-    onPressCreatePlace: function(){
-      console.log('create a place!')
+    handleRowPress: function(place){
+        this.props.navigator.push({path: 'place'});
     },
     render: function() {
 
@@ -57,6 +57,7 @@ var PlaceJoin = React.createClass({
                 {locationDebugInfo}
                 <PlaceList
                     nearbyPlaces= {this.props.nearbyPlaces}
+                    onRowPress={this.handleRowPress}
                 />
             </View>
         );

@@ -4,6 +4,7 @@ var LocationStore = require('../stores/LocationStore');
 var LocationUpdateAction = require('../actions/LocationUpdateAction');
 var PlaceCreate = require('./PlaceCreate');
 var PlaceJoin = require('./PlaceJoin');
+var Place = require('./Place');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var TotemConstants = require('../constants/TotemConstants');
 var ActionTypes = TotemConstants.ActionTypes;
@@ -46,6 +47,9 @@ var Totem = React.createClass({
             case 'place_join':
                 Component = PlaceJoin;
             break;
+            case 'place':
+                Component = Place;
+            break;
             default:
                 Component = React.createClass({
                 render: function(){
@@ -54,12 +58,13 @@ var Totem = React.createClass({
             });
         }
 
+        console.log('nav:', nav, name)
         return (
             <View style={styles.navigator}>
                 {Component.navBar(nav)}
                 <Component
                     location={this.state.location}
-                    navigator={navigator}
+                    navigator={nav}
                     nearbyPlaces={this.state.nearbyPlaces}
                 />
             </View>

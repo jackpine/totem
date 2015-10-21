@@ -14,6 +14,9 @@ var {
 
 var PlaceList = React.createClass({
 
+    propTypes: {
+        onRowPress: React.PropTypes.func.isRequired,
+    },
     _filterPlaceRows: function(filterText: string, placeList: Array<object>): Array<string> {
 
         if(!this.dataSource)
@@ -62,8 +65,8 @@ var PlaceList = React.createClass({
                 <View style={styles.separator} />
             </View>)
     },
-    onPressRow: function(){
-        console.log('pressed row', arguments)
+    onPressRow: function(row){
+        this.props.onRowPress(row);
     },
     render: function() {
 

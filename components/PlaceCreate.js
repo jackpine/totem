@@ -38,6 +38,9 @@ var PlaceCreate = React.createClass({
             filterText: filterText
         });
     },
+    handleRowPress: function(place){
+        this.props.navigator.push({path: 'place'});
+    },
     render: function() {
 
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
@@ -58,6 +61,7 @@ var PlaceCreate = React.createClass({
                 <PlaceList
                     filterText={this.state.filterText}
                     nearbyPlaces={this.props.nearbyPlaces}
+                    onRowPress={this.handleRowPress}
                 />
             </View>
         );
