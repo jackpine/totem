@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 var {
     StyleSheet,
@@ -17,13 +19,17 @@ var NavigationBar = React.createClass({
         else{
             var nav = this.props.navigator;
             leftButton = (
-                <TouchableHighlight style={styles.defaultBackButton} onPress={function(){ nav.pop() }}>
+                <TouchableHighlight
+                    onPress={function(){ nav.pop() }}
+                    style={styles.defaultBackButton}
+                >
                     <View style={styles.defaultBackButton}>
                         <Icon
-                            name='ion|chevron-left'
+                            color={'#337ab7'}
+                            name={'ion|chevron-left'}
                             size={30}
-                            color='#337ab7'
-                            style={styles.backChevron} />
+                            style={styles.backChevron}
+                        />
                     </View>
                 </TouchableHighlight> 
             )
@@ -63,8 +69,8 @@ var styles = StyleSheet.create({
         paddingLeft: 5,
     },
     defaultBackButton: {
-    width: 60,
-    flexDirection: "row",
+        width: 60,
+        flexDirection: 'row',
     },
 });
 

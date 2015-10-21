@@ -20,20 +20,20 @@ var PlaceCreate = React.createClass({
 
             };
             var titleConfig = {
-                title: "Create a New Place"
+                title: 'Create a New Place'
             }
             return (
                 <NavigationBar 
-                    title={titleConfig}
                     navigator={nav}
-                    rightButton={ rightButton }
+                    rightButton={rightButton}
+                    title={titleConfig}
                 />
             );
         },
     },
     getInitialState: function(){
         return {
-            filterText: "",
+            filterText: '',
         }
     },
     processUserInput: function(filterText: string) {
@@ -46,29 +46,24 @@ var PlaceCreate = React.createClass({
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
 
         return (
-            <View>
-            {locationDebugInfo}
-            <Text>
-            Name the Place You're in {this.state.filterText}
-            </Text>
-            <Text>Name:</Text>
-            <TextInput
-            style={styles.placeFinderInput}
-            onChangeText={ this.processUserInput }
-            value={this.state.filterText}
-            defaultValue={""}
-            keyboardType={'default'}
-            />
-            <PlaceList
-            filterText={ this.state.filterText }
-            nearbyPlaces={ this.props.nearbyPlaces }
-            />
+            <View syle={{flex: 1}}>
+                {locationDebugInfo}
+                <Text>Name the Place You're in {this.state.filterText}
+                </Text>
+                <Text>Name:</Text>
+                <TextInput
+                    defaultValue={''}
+                    keyboardType={'default'}
+                    onChangeText={this.processUserInput}
+                    style={styles.placeFinderInput}
+                    value={this.state.filterText}
+                />
+                <PlaceList
+                    filterText={this.state.filterText}
+                    nearbyPlaces={this.props.nearbyPlaces}
+                />
             </View>
         );
-    },
-
-    keyboardDidEnterText: function(text: string) {
-        console.log("Keyboard:"+text);
     },
 
 });

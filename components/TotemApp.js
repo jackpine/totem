@@ -7,7 +7,7 @@ var PlaceJoin = require('./PlaceJoin');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var TotemConstants = require('../constants/TotemConstants');
 var ActionTypes = TotemConstants.ActionTypes;
-var TotemApi = require("../util/TotemApi");
+var TotemApi = require('../util/TotemApi');
 
 var {
     StyleSheet,
@@ -32,22 +32,25 @@ var Totem = React.createClass({
             console.log(`${response}`)
         })
     },
+    componentWillUnmount: function() {
+        this._listeners && this._listeners.forEach(listener => listener.remove());
+    },
     renderScene: function(route, nav){
 
         var Component;
 
         switch(route.path){
-          case 'place_create':
-            Component = PlaceCreate;
+            case 'place_create':
+                Component = PlaceCreate;
             break;
-          case 'place_join':
-            Component = PlaceJoin;
+            case 'place_join':
+                Component = PlaceJoin;
             break;
-          default:
-            Component = React.createClass({
-              render: function(){
-                return <Text>Sorry, there was a routing error with: {route.path}</Text>
-              }
+            default:
+                Component = React.createClass({
+                render: function(){
+                    return <Text>Sorry, there was a routing error with: {route.path}</Text>
+                }
             });
         }
 
@@ -56,27 +59,12 @@ var Totem = React.createClass({
                 {Component.navBar(nav)}
                 <Component
                     location={this.state.location}
-                    nearbyPlaces={this.state.nearbyPlaces}
                     navigator={navigator}
-                    />
+                    nearbyPlaces={this.state.nearbyPlaces}
+                />
             </View>
         );
 
-    },
-    render: function() {
-        return (
-            <Navigator
-            ref={this._setNavigatorRef}
-            style={styles.container}
-            renderScene={this.renderScene}
-            initialRoute={{
-                path: 'place_join',
-            }}
-            />
-        );
-    },
-    componentWillUnmount: function() {
-        this._listeners && this._listeners.forEach(listener => listener.remove());
     },
     _setNavigatorRef: function(navigator) {
 
@@ -115,7 +103,19 @@ var Totem = React.createClass({
             .done();
         }
 
-    }
+    },
+    render: function() {
+        return (
+            <Navigator
+                initialRoute={{
+                    path: 'place_join',
+                }}
+                ref={this._setNavigatorRef}
+                renderScene={this.renderScene}
+                style={styles.container}
+            />
+        );
+    },
 
 });
 
@@ -124,7 +124,7 @@ var styles = StyleSheet.create({
         flex: 1,
     },
     navigator: {
-      flex: 1,
+        flex: 1,
     },
     welcome: {
         fontSize: 20,
