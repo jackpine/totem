@@ -60,8 +60,6 @@ var styles = StyleSheet.create({
     },
     toolbarButton:{
         width: 50,
-        color:'#fff',
-        textAlign:'center'
     },
     toolbarTitle:{
         color:'black',
