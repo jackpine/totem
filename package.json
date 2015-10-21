@@ -6,12 +6,12 @@
     "start": "node_modules/react-native/packager/packager.sh"
   },
   "dependencies": {
-    "react-native": "0.11.2",
-    "flux": "*",
-    "underscore": "*",
     "backbone": "*",
+    "flux": "*",
     "keymirror": "~0.1.0",
-    "url-join": "*",
-    "react-native-navbar": "*"
+    "react-native": "0.11.2",
+    "react-native-icons": "^0.4.0",
+    "underscore": "*",
+    "url-join": "*"
   }
 }
