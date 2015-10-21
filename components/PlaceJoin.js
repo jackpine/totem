@@ -21,16 +21,22 @@ var PlaceJoin = React.createClass({
         navBar: function(){
             var leftButton = function(){};
             var rightButton = function(){
-                return (<TouchableHighlight style={styles.placeCreateWrapper} onPress={() => console.log('foo') }>
+                return (<TouchableHighlight style={styles.placeCreateButton} onPress={() => console.log('foo') }>
+                    <View style={styles.placeCreateButton}>
                     <Icon
-                        name='fontawesome|plus'
-                        size={20}
-                        color='black'
-                        style={styles.placeCreateButton} />
+                        name='fontawesome|plus-circle'
+                        size={30}
+                        color='#337ab7'
+                        style={styles.placeCreateIcon} />
+                </View>
                 </TouchableHighlight>)
             };
+            var titleConfig = {
+                title: "Where are you?"
+            }
             return (
                 <NavigationBar 
+                    title={titleConfig}
                     leftButton={ leftButton }
                     rightButton={ rightButton }
                     />
@@ -61,13 +67,14 @@ var styles = StyleSheet.create({
   joinInstructions: {
 
   },
-  placeCreateWrapper: {
-    height: 28,
-    width: 28
-  },
   placeCreateButton: {
-    height: 28,
-    width: 28
+    width: 60,
+    flexDirection: "row",
+    paddingLeft: 5,
+  },
+  placeCreateIcon: {
+    height: 30,
+    width: 30,
   },
   listWrapper: {
     flex: 1
