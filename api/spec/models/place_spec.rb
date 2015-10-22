@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Place, type: :model do
 
- let(:place) { Place.new(name: "The Empire State Building", is_authoritative: false) }
+ let(:place) { Place.new(name: "The Empire State Building", is_authoritative: false, category: :neighborhood) }
 
  describe "#valid?" do
    subject { place.valid? }

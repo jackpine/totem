@@ -6,7 +6,7 @@ describe 'places requests' do
   let(:location_params) { "-122.408227,37.787359" }
 
   before do
-    Place.create!(name: 'place1', is_authoritative: true, authoritative_boundary: "MULTIPOLYGON (((0 0, 0 1, 1 1, 1 0, 0 0)))")
+    Place.create!(name: 'place1', category: :neighborhood, is_authoritative: true, authoritative_boundary: "MULTIPOLYGON (((0 0, 0 1, 1 1, 1 0, 0 0)))")
   end
 
   context "when valid" do
