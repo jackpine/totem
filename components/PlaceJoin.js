@@ -69,9 +69,6 @@ var styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
   },
-  joinInstructions: {
-
-  },
   placeCreateButton: {
     width: 60,
     flexDirection: 'row',
