@@ -17,6 +17,11 @@ var {
 
 
 var PlaceJoin = React.createClass({
+    getInitialState: function(){
+        return {
+            filterText: '',
+        }
+    },
     renderNavBar: function(){
         var self = this;
         var leftButton = function(){};
@@ -45,8 +50,29 @@ var PlaceJoin = React.createClass({
             />
         );
     },
+    handleUserInput: function(filterText: string) {
+        this.setState({
+            filterText: filterText
+        });
+    },
     handleRowPress: function(place){
         this.props.navigator.push({path: 'place', passProps:{name: place}});
+    },
+    renderTextInput(searchTextInputStyle: any) {
+        return (
+            <View style={styles.searchRow}>
+                <TextInput
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    clearButtonMode="always"
+                    onChangeText={this.handleUserInput}
+                    placeholder="Search..."
+                    style={styles.searchTextInput}
+                    testID="place_search"
+                    value={this.state.searchText}
+                />
+            </View>
+        );
     },
     render: function() {
 
@@ -55,17 +81,27 @@ var PlaceJoin = React.createClass({
         return (
             <View style={styles.listWrapper}>
                 {this.renderNavBar()}
-                {locationDebugInfo}
+                {this.renderTextInput()}
                 <PlaceList
+                    filterText={this.state.filterText}
                     nearbyPlaces= {this.props.nearbyPlaces}
                     onRowPress={this.handleRowPress}
                 />
             </View>
         );
-    },
+    }
 });
 
 var styles = StyleSheet.create({
+    searchTextInput: {
+        backgroundColor: 'white',
+        borderColor: '#cccccc',
+        borderRadius: 3,
+        borderWidth: 1,
+        paddingLeft: 8,
+        margin: 8,
+        height:40,
+    },
   headerContainer: {
     flexDirection: 'row',
   },
