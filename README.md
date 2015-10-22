@@ -43,6 +43,18 @@ make sure to seed the database with the example place data:
 
     $ be rake totem:import_flickr_data
 
+tests
+=====
+
+right now, all we have are some rspecs in the api
+
+    $ cd api && be rspec spec/
+
+and some jest unit tests:
+
+    $ npm test
+
+
 eslint for es6 and jsx in vim
 =============================
 
