@@ -19,7 +19,7 @@ var PlaceList = React.createClass({
     },
     _filterPlaceRows: function(filterText: string, placeList: Array<object>): Array<string> {
 
-        if(!this.dataSource)
+        if(!this.dataSource){
             this.dataSource = new ListView.DataSource({
                 rowHasChanged: function(r1, r2){
                     return r1 !== r2;
@@ -29,15 +29,16 @@ var PlaceList = React.createClass({
                 }
 
             });
+        }
 
-            var placesBlob = [];
-            placeList.forEach(function(city){
-                if(city['name'].toLowerCase().startsWith(filterText.toLowerCase())){
-                    placesBlob.push(city['name']);
-                }
-            });
+        var placesBlob = [];
+        placeList.forEach(function(city){
+            if(city['name'].toLowerCase().startsWith(filterText.toLowerCase())){
+                placesBlob.push(city['name']);
+            }
+        });
 
-            this.dataSource = this.dataSource.cloneWithRowsAndSections({'places':placesBlob});
+        this.dataSource = this.dataSource.cloneWithRowsAndSections({'places':placesBlob});
 
     },
     _renderSectionHeader(data: any, section: string) {
