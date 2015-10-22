@@ -64,7 +64,6 @@ var Totem = React.createClass({
             navigator: nav,
             nearbyPlaces: this.state.nearbyPlaces
         });
-        console.log(componentProps)
 
         return (
             <View style={styles.navigator}>
