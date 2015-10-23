@@ -1,4 +1,4 @@
-class AddTypeToPlaces < ActiveRecord::Migration
+class AddCategoryToPlaces < ActiveRecord::Migration
   def change
     add_column :places, :category, :integer
   end
