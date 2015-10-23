@@ -62,7 +62,7 @@ var PlaceList = React.createClass({
                         </Text>
                         <Text style={styles.rowDetailText}>
                             {
-                            `dist: ${place.distance.toFixed(2)} rel: ${place.relevance.toFixed(4)}\ncategory: ${place.category}`
+                            `dist: ${place.distance.toFixed(2)} rel: ${place.relevance.toFixed(4)}\ncategory: ${place.category} width: ${place.max_width.toFixed(0)}`
                             }
                         </Text>
                     </View>

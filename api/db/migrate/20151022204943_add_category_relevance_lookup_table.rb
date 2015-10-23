@@ -5,6 +5,6 @@ class AddCategoryRelevanceLookupTable < ActiveRecord::Migration
     ActiveRecord::Base.connection.execute(raw_sql)
   end
   def down
-    ActiveRecord::Base.connection.execute("drop function relevance(float, integer);")
+    ActiveRecord::Base.connection.execute("drop function relevance(float, integer, float);")
   end
 end
