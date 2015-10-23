@@ -60,11 +60,11 @@ var PlaceList = React.createClass({
                         <Text style={styles.rowTitleText}>
                             {place.name}
                         </Text>
-                        <View style={styles.rowDetailText}>
-                            <Text>distance: {place.distance.toFixed(2)}</Text>
-                            <Text>relevance: {place.relevance.toFixed(4)}</Text>
-                            <Text>category: {place.category}</Text>
-                        </View>
+                        <Text style={styles.rowDetailText}>
+                            {
+                            `dist: ${place.distance.toFixed(2)} rel: ${place.relevance.toFixed(4)}\ncategory: ${place.category}`
+                            }
+                        </Text>
                     </View>
                 </TouchableHighlight>
                 <View style={styles.separator} />
@@ -129,7 +129,9 @@ var styles = StyleSheet.create({
         fontWeight: '500',
     },
     rowDetailText: {
+        flex: 1,
         fontSize: 15,
+        fontFamily: 'Courier',
         color: '#888888',
         lineHeight: 20,
     },
