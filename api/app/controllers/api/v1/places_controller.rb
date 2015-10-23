@@ -9,9 +9,9 @@ class Api::V1::PlacesController < Api::V1::BaseController
     within_func = "ST_DWithin(#{my_loc}, authoritative_boundary, 0.125)"
 
     @places = Place
-      .select('id', 'name', "#{distance_func} as distance")
+      .select('id', 'name', "#{distance_func} as distance, category, relevance(#{distance_func}, category) as relevance")
       .where(within_func)
-      .order("distance ASC, category DESC, name ASC").limit(20);
+      .order("relevance DESC, category DESC, name ASC").limit(20);
 
     respond_to do |format|
       format.json { render :index }
