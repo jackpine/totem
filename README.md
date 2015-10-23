@@ -67,5 +67,4 @@ let g:syntastic_javascript_checkers = ['eslint']
 
 To configure eslint, babel-eslint, eslint-plugin-react I've set up a
 `.eslintrc` file that kills a few of the react rules and sets up a
-global strict mode. [Check it out
-here](https://bitbucket.org/svevang/dotfiles/raw/c7525e1584649485c0e8498465cce19be02c06af/.eslintrc)
+global strict mode. You can find it in the root of this repo.
