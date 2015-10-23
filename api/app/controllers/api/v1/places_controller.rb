@@ -11,7 +11,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
     @places = Place
       .select('id', 'name', "#{distance_func} as distance, category, relevance(#{distance_func}, category) as relevance")
       .where(within_func)
-      .order("relevance DESC, category DESC, name ASC").limit(20);
+      .order("relevance DESC, category DESC, name ASC");
 
     respond_to do |format|
       format.json { render :index }
