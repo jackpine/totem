@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "node_modules/react-native/packager/packager.sh",
+    "test": "jest"
   },
   "dependencies": {
     "backbone": "*",
@@ -21,9 +22,6 @@
     "eslint-plugin-react": "3.3.1"
   },
   "lint": "eslint . --ext .js --ext .jsx",
-  "scripts": {
-        "test": "jest"
-  },
   "jest": {
     "scriptPreprocessor": "node_modules/react-native/jestSupport/scriptPreprocess.js",
     "setupEnvScriptFile": "node_modules/react-native/jestSupport/env.js",
