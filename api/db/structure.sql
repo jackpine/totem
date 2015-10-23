@@ -59,10 +59,10 @@ CREATE FUNCTION relevance(distance double precision, category integer) RETURNS d
       BEGIN
         CASE category
         WHEN 1 THEN -- continent
-          category_relevance := 0;
+          category_relevance := 0.35;
           category_diameter := 1000.0 * 10000.0; -- meters
         WHEN 2 THEN -- country
-          category_relevance := 0;
+          category_relevance := 0.4;
           category_diameter := 1000.0 * 5000.0;
         WHEN 3 THEN -- region
           category_relevance := 0.5;
@@ -80,6 +80,8 @@ CREATE FUNCTION relevance(distance double precision, category integer) RETURNS d
           raise EXCEPTION 'unknown place category';
         END CASE;
 
+        --        Distance to Place vs. Relevance 
+        --
         -- relevance
         --   1 |------------\
         --     |              \
