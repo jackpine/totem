@@ -21,8 +21,10 @@ var PlaceList = React.createClass({
 
         if(!this.dataSource){
             this.dataSource = new ListView.DataSource({
-                rowHasChanged: function(r1, r2){
-                    return r1 !== r2;
+                rowHasChanged: function(place1, place2){
+                    return (place1['id'] !== place2['id'] ||
+                            place1['distance'] !== place2['distance'] ||
+                           place1['relevance'] !== place2['relevance']) ;
                 },
                 sectionHeaderHasChanged: function(s1, s2){
                     return s1 !== s2;
@@ -32,9 +34,9 @@ var PlaceList = React.createClass({
         }
 
         var placesBlob = [];
-        placeList.forEach(function(city){
-            if(city['name'].toLowerCase().startsWith(filterText.toLowerCase())){
-                placesBlob.push(city['name']);
+        placeList.forEach(function(place){
+            if(place['name'].toLowerCase().startsWith(filterText.toLowerCase())){
+                placesBlob.push(place);
             }
         });
 
@@ -50,23 +52,25 @@ var PlaceList = React.createClass({
             </View>
             );
     },
-    renderRow: function(example: any, i: number){
+    renderRow: function(place: any, i: number){
         return (
             <View key={i}>
-                <TouchableHighlight onPress={() => this.onPressRow(example)}>
+                <TouchableHighlight onPress={() => this.onRowPress(place)}>
                     <View style={styles.row}>
                         <Text style={styles.rowTitleText}>
-                            {example}
+                            {place.name}
                         </Text>
                         <Text style={styles.rowDetailText}>
-                            {example}
+                            {
+                            `dist: ${place.distance.toFixed(2)} rel: ${place.relevance.toFixed(4)}\ncategory: ${place.category} width: ${place.max_width.toFixed(0)}`
+                            }
                         </Text>
                     </View>
                 </TouchableHighlight>
                 <View style={styles.separator} />
             </View>)
     },
-    onPressRow: function(row){
+    onRowPress: function(row){
         this.props.onRowPress(row);
     },
     render: function() {
@@ -125,7 +129,9 @@ var styles = StyleSheet.create({
         fontWeight: '500',
     },
     rowDetailText: {
+        flex: 1,
         fontSize: 15,
+        fontFamily: 'Courier',
         color: '#888888',
         lineHeight: 20,
     },

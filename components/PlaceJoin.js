@@ -56,7 +56,7 @@ var PlaceJoin = React.createClass({
         });
     },
     handleRowPress: function(place){
-        this.props.navigator.push({path: 'place', passProps:{name: place}});
+        this.props.navigator.push({path: 'place', passProps:place});
     },
     renderTextInput(searchTextInputStyle: any) {
         return (
@@ -82,6 +82,7 @@ var PlaceJoin = React.createClass({
             <View style={styles.listWrapper}>
                 {this.renderNavBar()}
                 {this.renderTextInput()}
+                {locationDebugInfo}
                 <PlaceList
                     filterText={this.state.filterText}
                     nearbyPlaces= {this.props.nearbyPlaces}

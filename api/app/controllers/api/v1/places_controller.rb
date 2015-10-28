@@ -4,14 +4,22 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
     location = sanitize_location_params(location_params)
 
-    my_loc = "ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326)"
-    distance_func = "ST_Distance(authoritative_boundary, #{my_loc}, true)"
-    within_func = "ST_DWithin(#{my_loc}, authoritative_boundary, 0.125)"
+    my_loca_sql = "ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326)"
+    distance_sql = "ST_Distance(authoritative_boundary, #{my_loca_sql}, true)"
+    within_sql = "ST_DWithin(#{my_loca_sql}, authoritative_boundary, 0.125)"
+    width_sql = "ST_Length(ST_LongestLine(authoritative_boundary, authoritative_boundary), true)"
+
+    select_sql = <<EOL
+    id, name, category, authoritative_boundary as poly,
+    #{distance_sql} as distance,
+    #{width_sql} as max_width,
+    relevance(#{distance_sql}, category, #{width_sql}) as relevance
+EOL
 
     @places = Place
-      .select('id', 'name', "#{distance_func} as distance")
-      .where(within_func)
-      .order("distance ASC, category DESC, name ASC").limit(20);
+      .select(select_sql)
+      .where(within_sql)
+      .order("relevance DESC, category DESC, name ASC");
 
     respond_to do |format|
       format.json { render :index }
