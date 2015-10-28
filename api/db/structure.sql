@@ -40,6 +40,60 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 SET search_path = public, pg_catalog;
 
 --
+-- Name: category_relevance(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION category_relevance(category integer) RETURNS double precision
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+relevance float;
+BEGIN
+  CASE category
+  WHEN 1 THEN -- continent
+    relevance := 0.35;
+  WHEN 2 THEN -- country
+    relevance := 0.45;
+  WHEN 3 THEN -- region
+    relevance := 0.45;
+  WHEN 4 THEN -- county
+    relevance := 0.5;
+  WHEN 5 THEN -- locality
+    relevance := 1;
+  WHEN 6 THEN -- neighborhood
+    relevance := 1;
+  ELSE
+    raise EXCEPTION 'unknown place category';
+  END CASE;
+
+  return relevance;
+END
+$$;
+
+
+--
+-- Name: distance_relevance(double precision, double precision); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION distance_relevance(distance double precision, place_diameter double precision) RETURNS double precision
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+relevance float;
+BEGIN
+  IF distance BETWEEN 0 and place_diameter THEN
+    relevance := 2 / (exp(50*(distance/place_diameter)) + 1);
+  ELSE
+    relevance := 0;
+  END IF;
+
+  return relevance;
+END
+
+$$;
+
+
+--
 -- Name: relevance(double precision, integer, geometry); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -108,57 +162,17 @@ CREATE FUNCTION relevance(distance double precision, category integer, bounding_
 CREATE FUNCTION relevance(distance double precision, category integer, place_diameter double precision) RETURNS double precision
     LANGUAGE plpgsql
     AS $$
-      DECLARE
-        category_relevance float;
-        category_relevance_weight float := 0.5;
+DECLARE
+category_relevance_weight float := 0.5;
+distance_relevance_weight float := 0.5;
 
-        distance_relevance float;
-        distance_relevance_weight float := 0.5;
+BEGIN
 
-        exponent float;
+  RETURN (distance_relevance_weight * distance_relevance(distance, place_diameter) 
+    + category_relevance_weight * category_relevance(category));
+END
 
-      BEGIN
-        CASE category
-        WHEN 1 THEN -- continent
-          category_relevance := 0.35;
-        WHEN 2 THEN -- country
-          category_relevance := 0.45;
-        WHEN 3 THEN -- region
-          category_relevance := 0.45;
-        WHEN 4 THEN -- county
-          category_relevance := 0.5;
-        WHEN 5 THEN -- locality
-          category_relevance := 1;
-        WHEN 6 THEN -- neighborhood
-          category_relevance := 1;
-        ELSE
-          raise EXCEPTION 'unknown place category';
-        END CASE;
-
-        --        Distance to Place vs. Relevance 
-        --
-        -- relevance
-        --   1 |------------\
-        --     |              \
-        --   0 |________________\______
-        --     |        |       |   |
-        --     0        d1      c   d2     c=place_diameter e.g. the width of Kentucky
-        -- in this example, d1 is most relevant (1) and d2 is not relevant at all (0)
-
-        IF distance BETWEEN 0 and place_diameter THEN
-          distance_relevance := 2 / (exp(50*(distance/place_diameter)) + 1);
-        ELSIF distance > place_diameter THEN
-          -- if the distance compared to place_diameter is too great, then punt
-          -- e.g. if I am more than 2.5 km from the border of a town that is 5 km wide.
-          RETURN 0.0;
-        ELSE
-          distance_relevance := 0;
-        END IF;
-
-        RETURN (distance_relevance_weight * distance_relevance + category_relevance_weight * category_relevance);
-      END
-
-      $$;
+$$;
 
 
 SET default_tablespace = '';
