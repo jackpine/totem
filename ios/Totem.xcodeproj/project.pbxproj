@@ -23,8 +23,12 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		22023E131BB58BCF00F98082 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		229A3F661BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; settings = {ASSET_TAGS = (); }; };
-		229A3F671BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; settings = {ASSET_TAGS = (); }; };
+		222E667B1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E66791BE3C8DD008C5F5B /* Fabric.framework */; };
+		222E667C1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E66791BE3C8DD008C5F5B /* Fabric.framework */; };
+		222E667D1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */; };
+		222E667E1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */; };
+		229A3F661BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; };
+		229A3F671BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; };
 		22EF7EA01BD6BF19004D064B /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22EF7E9F1BD6BECD004D064B /* libReactNativeIcons.a */; };
 		22EF7EA21BD6C086004D064B /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 22EF7EA11BD6C086004D064B /* FontAwesome.otf */; };
 		22EF7EA61BD6C146004D064B /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22EF7EA51BD6C146004D064B /* ionicons.ttf */; };
@@ -138,6 +142,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Totem/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Totem/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		222E66791BE3C8DD008C5F5B /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		229A3F641BBEB552007F76A5 /* TMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMLocationManager.h; path = Managers/TMLocationManager.h; sourceTree = "<group>"; };
 		229A3F651BBEB552007F76A5 /* TMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMLocationManager.m; path = Managers/TMLocationManager.m; sourceTree = "<group>"; };
 		22EF7E901BD6BECD004D064B /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -153,6 +159,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				22023E131BB58BCF00F98082 /* libReact.a in Frameworks */,
+				222E667E1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */,
+				222E667C1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +170,7 @@
 			files = (
 				22EF7EA01BD6BF19004D064B /* libReactNativeIcons.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				222E667D1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -171,6 +180,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				222E667B1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +351,8 @@
 				00E356EF1AD99517003FC87E /* TotemTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				22EF7EA41BD6C0A5004D064B /* Icons */,
+				222E66791BE3C8DD008C5F5B /* Fabric.framework */,
+				222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -380,9 +392,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Totem" */;
 			buildPhases = (
+				2273F4531BE2B7DE00242E33 /* ShellScript */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				222E666D1BE3C890008C5F5B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -405,6 +419,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 6GP7LY63TM;
 					};
 				};
 			};
@@ -575,6 +592,36 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		222E666D1BE3C890008C5F5B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run e1262e56a471344a7330c726c2dbb7965c29983b de7ee2dc47d5b3feebc04d723f9739d667037f9cfdebb9489c9dcc54d06231a2";
+		};
+		2273F4531BE2B7DE00242E33 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo '***************************'\necho Within $PROJECT_DIR\necho Building with ${CONFIGURATION} configuration\necho `pwd`\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		00E356EA1AD99517003FC87E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -622,7 +669,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -640,7 +690,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = TotemTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -653,6 +706,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -670,6 +728,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
