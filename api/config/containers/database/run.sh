@@ -1,5 +1,6 @@
-#!/bin/sh
-set -x
+#!/usr/bin/env bash
+BIN_DIR=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
 
-docker run --name totem-db \
-  -d mdillon/postgis:9.4
+. $BIN_DIR/_container_funcs.sh
+
+run_database
