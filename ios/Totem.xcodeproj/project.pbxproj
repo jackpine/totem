@@ -605,6 +605,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run e1262e56a471344a7330c726c2dbb7965c29983b de7ee2dc47d5b3feebc04d723f9739d667037f9cfdebb9489c9dcc54d06231a2";
+			showEnvVarsInLog = 0;
 		};
 		2273F4531BE2B7DE00242E33 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -617,7 +618,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo '***************************'\necho Within $PROJECT_DIR\necho Building with ${CONFIGURATION} configuration\necho `pwd`\n";
+			shellScript = "echo '***************************'\necho 'Bundling and Minifying React-Native Javascript'\ncd $PROJECT_DIR/bin\necho `pwd`\n$PROJECT_DIR/bin/react-bundle-minify\n\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
