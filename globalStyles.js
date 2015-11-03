@@ -6,11 +6,16 @@ var {
     StyleSheet,
 } = React;
 
-var globalStyles = StyleSheet.create({
-    navView: {
-        margin: 20,
-        marginTop: 80,
+var GlobalStyles = StyleSheet.create({
+    textInput: {
+        backgroundColor: 'white',
+        borderColor: '#cccccc',
+        borderRadius: 3,
+        borderWidth: 1,
+        paddingLeft: 8,
+        margin: 8,
+        height:40,
     },
 });
 
-module.exports = globalStyles;
+module.exports = GlobalStyles;
