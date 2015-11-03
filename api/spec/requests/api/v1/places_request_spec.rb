@@ -9,6 +9,29 @@ describe 'places requests' do
     Place.create!(name: 'place1', category: :neighborhood, is_authoritative: true, authoritative_boundary: "MULTIPOLYGON (((0 0, 0 1, 1 1, 1 0, 0 0)))")
   end
 
+  describe 'POST /api/v1/places' do
+    context 'when valid' do
+      it 'creates a new place' do
+        post '/api/v1/places', { place: { name: "My New Place", category_id: 6 }, format: :json}
+        binding.pry
+        expect(response).to be_success
+
+        expected_response = JSON.parse({
+          place: {
+            name: "My New Place",
+            category_id: 6,
+            id: Place.last.id
+          }
+        }.to_json)
+
+        expect(JSON.parse(response.body)).to eq(expected_response)
+      end
+    end
+    context 'when missing required parameters' do
+
+    end
+  end
+
   context "when valid" do
     describe 'GET /api/v1/places/nearby' do
       it 'returns a list of places' do

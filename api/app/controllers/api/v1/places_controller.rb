@@ -1,5 +1,23 @@
 class Api::V1::PlacesController < Api::V1::BaseController
 
+  def create
+    @place = Place.new(place_params)
+    @place.is_authoritative = false
+
+    respond_to do |format|
+      if @place.save
+        format.json do
+          render json: { place: @place.as_json }, status: :created#, location: api_v1_place_path(@place)
+        end
+      else
+        format.json do
+          render json: { error: { message: @place.errors.full_messages.join(',') }},
+                 status: :unprocessable_entity
+        end
+      end
+    end
+  end
+
   def nearby
 
     location = sanitize_location_params(location_params)
@@ -30,6 +48,16 @@ EOL
 
   def location_params
     params.require(:location)
+  end
+
+  def place_params
+    some_params = params.require(:place).permit([:name, :category_id])
+
+    # API only deals with numeric category ids
+    if category_id = some_params.delete(:category_id)
+      some_params[:category] = category_id.to_i
+    end
+    some_params
   end
 
 

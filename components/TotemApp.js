@@ -1,5 +1,6 @@
 var React = require('react-native');
 var LocationManager = React.NativeModules.TMLocationManager;
+var _ = require('underscore');
 var LocationStore = require('../stores/LocationStore');
 var LocationUpdateAction = require('../actions/LocationUpdateAction');
 var PlaceCreate = require('./PlaceCreate');

@@ -5,7 +5,8 @@ var Button = require('react-native-button');
 var DebugLocation = require('./DebugLocation');
 var PlaceList = require('./PlaceList');
 var NavigationBar = require('./NavigationBar');
-var GlobalStyles = require('../GlobalStyles.js');
+var GlobalStyles = require('../GlobalStyles');
+var TotemApi = require('../util/TotemApi');
 
 var {
     StyleSheet,
@@ -19,7 +20,7 @@ var {
 
 var PickerItemIOS = PickerIOS.Item
 
-var PLACE_TYPES = {
+var PLACE_CATEGORIES = {
     "continent": 1,
     "country": 2,
     "region": 3,
@@ -32,7 +33,7 @@ var PlaceCreate = React.createClass({
     getInitialState: function() {
       return {
         placeName: "",
-        placeType: 3,
+        placeCategoryId: 3,
         errors: []
       };
     },
@@ -51,11 +52,11 @@ var PlaceCreate = React.createClass({
     render: function() {
 
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
-        var placeTypeOptions = Object.keys(PLACE_TYPES).map(function(placeType) {
+        var placeCategoryIdOptions = Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
           return <PickerItemIOS
-                    key={placeType}
-                    value={PLACE_TYPES[placeType]}
-                    label={placeType} />
+                    key={placeCategoryId}
+                    value={PLACE_CATEGORIES[placeCategoryId]}
+                    label={placeCategoryId} />
         });
 
         var errorComponents =this.state.errors.map((error) => (
@@ -79,9 +80,9 @@ var PlaceCreate = React.createClass({
                 <View style={{flexDirection: "row"}}>
                     <PickerIOS
                         style={{flex: 1, textAlign: "center"}}
-                        selectedValue={this.state.placeType}
-                        onValueChange={(placeType) => this.setState({placeType: placeType}) }>
-                        {placeTypeOptions}
+                        selectedValue={this.state.placeCategoryId}
+                        onValueChange={(placeCategoryId) => this.setState({placeCategoryId: placeCategoryId}) }>
+                        {placeCategoryIdOptions}
                     </PickerIOS>
                 </View>
 
@@ -102,10 +103,17 @@ var PlaceCreate = React.createClass({
         errors.push("Place Name must be at least 3 characters.");
       }
       this.setState({errors: errors});
+      return errors.length == 0;
     },
     handleSubmitPress: function(){
       if(this.validate()) {
         console.log('SUBMIT!');
+        TotemApi.placeCreate({
+          name: this.state.placeName,
+          category_id: this.state.placeCategoryId
+        }).then(function(json){
+          console.log('posted the place', arguments)
+        });
       } else {
         console.log('invalid!');
       }
