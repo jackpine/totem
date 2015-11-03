@@ -18,7 +18,7 @@ class TotemApi{
               'Accept': 'application/json',
               'Content-Type': 'application/json',
             },
-            body:JSON.stringify(placeParams),
+            body:JSON.stringify({ place: placeParams }),
         };
 
         return fetch(urljoin(apiHost, "/api/v1/places"), placeCreateOptions)
