@@ -12,7 +12,7 @@ def download_data_and_extract(name, url)
   puts "getting '#{name}'"
   file_location = @data_path.join(name)
   if(cache_locally && File.exist?(file_location) )
-    puts "dicovered cached file: #{name}"
+    puts "discovered cached file: #{name}"
     system("cd #{@data_path} && ls -lk #{name}")
   else
     puts "fetching from web"
