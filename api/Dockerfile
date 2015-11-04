@@ -8,6 +8,7 @@ CMD ["/sbin/my_init"]
 RUN rm -f /etc/service/nginx/down
 RUN rm /etc/nginx/sites-enabled/default
 
+# set up the nginx server and env config
 ADD config/containers/totem-api-nginx-server.conf /etc/nginx/sites-enabled/totem-api-nginx-server.conf
 ADD config/containers/totem-api-nginx-env.conf /etc/nginx/main.d/totem-api-nginx-env.conf
 

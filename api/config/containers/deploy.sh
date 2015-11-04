@@ -57,6 +57,16 @@ function provision {
     echo "at this point you should run rake db:setup and import the seed data for the db"
   fi
 
+  if [[ "staging production" =~ $ENVIRONMENT ]]; then
+    if [[ `whoami` = 'core' ]]; then
+      echo "enabling api/db docker services on coreos"
+      docker cp totem-api:/home/app/totem-api/config/containers/services/totem-api.service /home/core
+      docker cp totem-api:/home/app/totem-api/config/containers/services/totem-db.service /home/core
+      sudo systemctl enable /home/core/totem-api.service
+      sudo systemctl enable /home/core/totem-db.service
+    fi
+  fi
+
 
 #  echo "Copying config."
 #  docker exec -i open-analytics bash -c "cat - > ~app/open-analytics/.env" < ~/open-analytics/ops/secrets/open-analytics-$ENVIRONMENT-api.env
