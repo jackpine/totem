@@ -3,7 +3,7 @@ default: &default
   pool: 5
   host: totem-db
   port: "5432"
-  user: postgres
+  username: postgres
   timeout: 5000
 
 development:
