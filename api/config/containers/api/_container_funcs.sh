@@ -32,13 +32,19 @@ EOF
 
 run_api(){
 
-  ENVIRONMENT=$1
+  DEPLOY_ENVIRONMENT=$1
   ENV_CONFIG="${@:2}"
+
+  if [[ $DEPLOY_ENVIRONMENT = "staging" ]]; then
+    PASSENGER_APP_ENVIRONMENT="production"
+  else
+    PASSENGER_APP_ENVIRONMENT=$DEPLOY_ENVIRONMENT
+  fi
 
   docker run --name totem-api \
     -p 80:80 \
     --link totem-db:totem-db \
-    -e PASSENGER_APP_ENV=$ENVIRONMENT $ENV_CONFIG \
+    -e PASSENGER_APP_ENV=$PASSENGER_APP_ENVIRONMENT $ENV_CONFIG \
     -d svevang/totem-api
 }
 
