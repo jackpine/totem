@@ -54,6 +54,17 @@ and some jest unit tests:
 
     $ npm test
 
+Adhoc builds
+============
+
+Note that there is a new build phase script that bundles the react
+javascript when building for the Adhoc configuration. This is so that
+you don't forget to bundle the JS when distributing the app.  However,
+this script is working intermittently.
+
+In the case of building AdHoc configurations, make sure to `cd ios/bin;
+./react-bundle-minify` by hand first
+
 
 eslint for es6 and jsx in vim
 =============================
