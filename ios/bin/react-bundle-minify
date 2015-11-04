@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict'
 
 var path = require('path');
 var bundle = require('../../node_modules/react-native/local-cli/bundle');
