@@ -28,7 +28,7 @@ class Place < ActiveRecord::Base
   end
 
   def as_json
-    super(only: [:name, :id, :category_id])
+    super(only: [:name, :id, :category_id], methods: [:category])
   end
 
   def authoritative?

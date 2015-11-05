@@ -19,7 +19,8 @@ describe 'places requests' do
           place: {
             name: "My New Place",
             category_id: 6,
-            id: Place.last.id
+            category: "neighborhood",
+            id: Place.last.id,
           }
         }.to_json)
 
