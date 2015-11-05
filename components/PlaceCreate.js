@@ -21,18 +21,18 @@ var {
 var PickerItemIOS = PickerIOS.Item
 
 var PLACE_CATEGORIES = {
-    "continent": 1,
-    "country": 2,
-    "region": 3,
-    "county": 4,
-    "locality": 5,
-    "neighborhood": 6,
+    'continent': 1,
+    'country': 2,
+    'region': 3,
+    'county': 4,
+    'locality': 5,
+    'neighborhood': 6,
 };
 
 var PlaceCreate = React.createClass({
     getInitialState: function() {
       return {
-        placeName: "",
+        placeName: '',
         placeCategoryId: 3,
         errors: []
       };
@@ -49,50 +49,6 @@ var PlaceCreate = React.createClass({
             />
         );
     },
-    render: function() {
-
-        var locationDebugInfo = <DebugLocation location={this.props.location}/>
-        var placeCategoryIdOptions = Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
-          return <PickerItemIOS
-                    key={placeCategoryId}
-                    value={PLACE_CATEGORIES[placeCategoryId]}
-                    label={placeCategoryId} />
-        });
-
-        var errorComponents =this.state.errors.map((error) => (
-          <Text style={{padding: 12, color: 'white', backgroundColor: "tomato"}}>{error}</Text>
-        ));
-
-        return (
-            <View syle={{flex: 1}}>
-                {this.renderNavBar()}
-                {locationDebugInfo}
-                <TextInput
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    onChangeText={this.handleUserInput}
-                    placeholder="Place Name"
-                    style={GlobalStyles.textInput}
-                    testID="place_name"
-                    value={this.state.placeName}
-                />
-                {errorComponents}
-                <View style={{flexDirection: "row"}}>
-                    <PickerIOS
-                        style={{flex: 1, textAlign: "center"}}
-                        selectedValue={this.state.placeCategoryId}
-                        onValueChange={(placeCategoryId) => this.setState({placeCategoryId: placeCategoryId}) }>
-                        {placeCategoryIdOptions}
-                    </PickerIOS>
-                </View>
-
-                <Button onPress={this.handleSubmitPress}>
-                    Create Place
-                </Button>
-
-            </View>
-        );
-    },
     handleUserInput: function(newPlaceName){
       this.setState({placeName: newPlaceName});
       console.log(this.state.placeName);
@@ -100,7 +56,7 @@ var PlaceCreate = React.createClass({
     validate: function() {
       var errors = [];
       if(this.state.placeName.length < 3) {
-        errors.push("Place Name must be at least 3 characters.");
+        errors.push('Place Name must be at least 3 characters.');
       }
       this.setState({errors: errors});
       return errors.length == 0;
@@ -117,6 +73,53 @@ var PlaceCreate = React.createClass({
       } else {
         console.log('invalid!');
       }
+    },
+    render: function() {
+
+        var locationDebugInfo = <DebugLocation location={this.props.location}/>
+        var placeCategoryIdOptions = Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
+            return (
+                <PickerItemIOS
+                    key={placeCategoryId}
+                    label={placeCategoryId} 
+                    value={PLACE_CATEGORIES[placeCategoryId]}
+                />)
+        });
+
+        var errorComponents =this.state.errors.map((error) => (
+          <Text style={{padding: 12, color: 'white', backgroundColor: 'tomato'}}>{error}</Text>
+        ));
+
+        return (
+            <View syle={{flex: 1}}>
+                {this.renderNavBar()}
+                {locationDebugInfo}
+                <TextInput
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    onChangeText={this.handleUserInput}
+                    placeholder="Place Name"
+                    style={GlobalStyles.textInput}
+                    testID="place_name"
+                    value={this.state.placeName}
+                />
+                {errorComponents}
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <PickerIOS
+                        onValueChange={(placeCategoryId) => this.setState({placeCategoryId: placeCategoryId}) }
+                        selectedValue={this.state.placeCategoryId}
+                        style={{flex: 1, alignSelf: 'center'}}
+                    >
+                        {placeCategoryIdOptions}
+                    </PickerIOS>
+                </View>
+
+                <Button onPress={this.handleSubmitPress}>
+                        Establish this Place
+                </Button>
+
+            </View>
+        );
     },
 });
 
