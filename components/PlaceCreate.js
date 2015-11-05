@@ -77,14 +77,6 @@ var PlaceCreate = React.createClass({
     render: function() {
 
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
-        var placeCategoryIdOptions = Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
-            return (
-                <PickerItemIOS
-                    key={placeCategoryId}
-                    label={placeCategoryId} 
-                    value={PLACE_CATEGORIES[placeCategoryId]}
-                />)
-        });
 
         var errorComponents =this.state.errors.map((error) => (
           <Text style={{padding: 12, color: 'white', backgroundColor: 'tomato'}}>{error}</Text>
@@ -110,7 +102,14 @@ var PlaceCreate = React.createClass({
                         selectedValue={this.state.placeCategoryId}
                         style={{flex: 1, alignSelf: 'center'}}
                     >
-                        {placeCategoryIdOptions}
+                    {Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
+                        return (
+                            <PickerItemIOS
+                                key={placeCategoryId}
+                                label={placeCategoryId} 
+                                value={PLACE_CATEGORIES[placeCategoryId]}
+                            />)
+                    })}
                     </PickerIOS>
                 </View>
 
