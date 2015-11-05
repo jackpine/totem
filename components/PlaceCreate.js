@@ -31,11 +31,11 @@ var PLACE_CATEGORIES = {
 
 var PlaceCreate = React.createClass({
     getInitialState: function() {
-      return {
-        placeName: '',
-        placeCategoryId: 3,
-        errors: []
-      };
+        return {
+            placeName: '',
+            placeCategoryId: 3,
+            errors: []
+        };
     },
     renderNavBar: function(){
         var rightButton = function(){
@@ -50,36 +50,36 @@ var PlaceCreate = React.createClass({
         );
     },
     handleUserInput: function(newPlaceName){
-      this.setState({placeName: newPlaceName});
-      console.log(this.state.placeName);
+        this.setState({placeName: newPlaceName});
+        console.log(this.state.placeName);
     },
     validate: function() {
-      var errors = [];
-      if(this.state.placeName.length < 3) {
-        errors.push('Place Name must be at least 3 characters.');
-      }
-      this.setState({errors: errors});
-      return errors.length == 0;
+        var errors = [];
+        if(this.state.placeName.length < 3) {
+            errors.push('Place Name must be at least 3 characters.');
+        }
+        this.setState({errors: errors});
+        return errors.length == 0;
     },
     handleSubmitPress: function(){
-      if(this.validate()) {
-        console.log('SUBMIT!');
-        TotemApi.placeCreate({
-          name: this.state.placeName,
-          category_id: this.state.placeCategoryId
-        }).then(function(json){
-          console.log('posted the place', arguments)
-        });
-      } else {
-        console.log('invalid!');
-      }
+        if(this.validate()) {
+            console.log('SUBMIT!');
+            TotemApi.placeCreate({
+                name: this.state.placeName,
+                category_id: this.state.placeCategoryId
+            }).then(function(json){
+                console.log('posted the place', arguments)
+            });
+        } else {
+            console.log('invalid!');
+        }
     },
     render: function() {
 
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
 
         var errorComponents =this.state.errors.map((error) => (
-          <Text style={{padding: 12, color: 'white', backgroundColor: 'tomato'}}>{error}</Text>
+            <Text style={{padding: 12, color: 'white', backgroundColor: 'tomato'}}>{error}</Text>
         ));
 
         return (
@@ -101,20 +101,20 @@ var PlaceCreate = React.createClass({
                         onValueChange={(placeCategoryId) => this.setState({placeCategoryId: placeCategoryId}) }
                         selectedValue={this.state.placeCategoryId}
                         style={{flex: 1, alignSelf: 'center'}}
-                    >
-                    {Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
-                        return (
-                            <PickerItemIOS
-                                key={placeCategoryId}
-                                label={placeCategoryId} 
-                                value={PLACE_CATEGORIES[placeCategoryId]}
-                            />)
-                    })}
+                        >
+                        {Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
+                            return (
+                                <PickerItemIOS
+                                    key={placeCategoryId}
+                                    label={placeCategoryId} 
+                                    value={PLACE_CATEGORIES[placeCategoryId]}
+                                />)
+                        })}
                     </PickerIOS>
                 </View>
 
                 <Button onPress={this.handleSubmitPress}>
-                        Establish this Place
+                    Establish this Place
                 </Button>
 
             </View>
