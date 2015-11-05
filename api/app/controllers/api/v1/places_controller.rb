@@ -28,16 +28,16 @@ class Api::V1::PlacesController < Api::V1::BaseController
     width_sql = "ST_Length(ST_LongestLine(authoritative_boundary, authoritative_boundary), true)"
 
     select_sql = <<EOL
-    id, name, category, authoritative_boundary as poly,
+    id, name, category_id, authoritative_boundary as poly,
     #{distance_sql} as distance,
     #{width_sql} as max_width,
-    relevance(#{distance_sql}, category, #{width_sql}) as relevance
+    relevance(#{distance_sql}, category_id, #{width_sql}) as relevance
 EOL
 
     @places = Place
       .select(select_sql)
       .where(within_sql)
-      .order("relevance DESC, category DESC, name ASC");
+      .order("relevance DESC, category_id DESC, name ASC");
 
     respond_to do |format|
       format.json { render :index }
@@ -51,13 +51,7 @@ EOL
   end
 
   def place_params
-    some_params = params.require(:place).permit([:name, :category_id])
-
-    # API only deals with numeric category ids
-    if category_id = some_params.delete(:category_id)
-      some_params[:category] = category_id.to_i
-    end
-    some_params
+    params.require(:place).permit([:name, :category_id])
   end
 
 

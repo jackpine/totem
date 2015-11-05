@@ -13,7 +13,6 @@ describe 'places requests' do
     context 'when valid' do
       it 'creates a new place' do
         post '/api/v1/places', { place: { name: "My New Place", category_id: 6 }, format: :json}
-        binding.pry
         expect(response).to be_success
 
         expected_response = JSON.parse({

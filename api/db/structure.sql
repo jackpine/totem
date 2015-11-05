@@ -63,7 +63,7 @@ BEGIN
   WHEN 6 THEN -- neighborhood
     relevance := 1;
   ELSE
-    raise EXCEPTION 'unknown place category';
+    raise EXCEPTION 'unknown place category: %', category;
   END CASE;
 
   return relevance;
@@ -192,7 +192,7 @@ CREATE TABLE places (
     authoritative_boundary geometry(MultiPolygon,4326),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    category integer
+    category_id integer
 );
 
 
@@ -273,4 +273,8 @@ INSERT INTO schema_migrations (version) VALUES ('20151013170030');
 INSERT INTO schema_migrations (version) VALUES ('20151013184933');
 
 INSERT INTO schema_migrations (version) VALUES ('20151022204943');
+
+INSERT INTO schema_migrations (version) VALUES ('20151105181300');
+
+INSERT INTO schema_migrations (version) VALUES ('20151105182655');
 
