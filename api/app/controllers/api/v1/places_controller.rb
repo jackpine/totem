@@ -21,23 +21,8 @@ class Api::V1::PlacesController < Api::V1::BaseController
   def nearby
 
     location = sanitize_location_params(location_params)
+    @places = Place.nearby(location[0], location[1], 0.125)
 
-    my_loca_sql = "ST_GeomFromText('POINT(#{location[0]} #{location[1]})', 4326)"
-    distance_sql = "ST_Distance(authoritative_boundary, #{my_loca_sql}, true)"
-    within_sql = "ST_DWithin(#{my_loca_sql}, authoritative_boundary, 0.125)"
-    width_sql = "ST_Length(ST_LongestLine(authoritative_boundary, authoritative_boundary), true)"
-
-    select_sql = <<EOL
-    id, name, category_id, authoritative_boundary as poly,
-    #{distance_sql} as distance,
-    #{width_sql} as max_width,
-    relevance(#{distance_sql}, category_id, #{width_sql}) as relevance
-EOL
-
-    @places = Place
-      .select(select_sql)
-      .where(within_sql)
-      .order("relevance DESC, category_id DESC, name ASC");
 
     respond_to do |format|
       format.json { render :index }
