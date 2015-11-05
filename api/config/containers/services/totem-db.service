@@ -1,0 +1,12 @@
+[Unit]
+Description=Totem DB
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill totem-db
+ExecStart=/usr/bin/docker start totem-db
+
+[Install]
+WantedBy=multi-user.target

@@ -13,8 +13,9 @@ module.exports = React.createClass({
         var loc;
         if(this.props.location)
             loc = this.props.location[0];
-        else
-            loc = {lat: 'missing', lon: 'missing'}
+        else{
+            loc = {lat: 0, lon: 0};
+        }
 
         return (<Text style={styles.debugInfo}>{`Lat: ${loc.lat.toPrecision(9)} Lng: ${loc.lon.toPrecision(10)} HrzAccurc: ${loc.horizontalAccuracy}`}</Text>)
     }

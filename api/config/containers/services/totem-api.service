@@ -1,0 +1,14 @@
+[Unit]
+Description=Totem API
+After=totem-db.service
+After=docker.service
+Requires=docker.service
+Requires=totem-db.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill totem-api
+ExecStart=/usr/bin/docker start totem-api
+
+[Install]
+WantedBy=multi-user.target
