@@ -1,6 +1,15 @@
-#!/usr/bin/env node
+#!/usr/bin/env bash
 
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+PROGRAM=$(cat << EOF
+// javascript!
 var path = require('path');
 var bundle = require('../../node_modules/react-native/local-cli/bundle');
+bundle.init(['--minify', '--out', "$BIN_DIR/../main.jsbundle"]);
 
-bundle.init(['--minify', '--out', path.join(__dirname, '../main.jsbundle')])
+EOF)
+
+NVM_PATH="$HOME/.nvm/versions/"
+NODE_VERSION=$(ls -1 $NVM_PATH | grep v4)
+echo "$PROGRAM" | $NVM_PATH/$NODE_VERSION/bin/node
