@@ -5,6 +5,7 @@ var DebugLocation = require('./DebugLocation');
 var PlaceList = require('./PlaceList');
 var NavigationBar = require('./NavigationBar');
 var { Icon } = require('react-native-icons');
+var GlobalStyles = require('../GlobalStyles');
 
 var {
     StyleSheet,
@@ -67,7 +68,7 @@ var PlaceJoin = React.createClass({
                     clearButtonMode="always"
                     onChangeText={this.handleUserInput}
                     placeholder="Search..."
-                    style={styles.searchTextInput}
+                    style={GlobalStyles.textInput}
                     testID="place_search"
                     value={this.state.searchText}
                 />
@@ -103,21 +104,21 @@ var styles = StyleSheet.create({
         margin: 8,
         height:40,
     },
-  headerContainer: {
-    flexDirection: 'row',
-  },
-  placeCreateButton: {
-    width: 60,
-    flexDirection: 'row',
-    paddingLeft: 5,
-  },
-  placeCreateIcon: {
-    height: 30,
-    width: 30,
-  },
-  listWrapper: {
-    flex: 1
-  }
+    headerContainer: {
+      flexDirection: 'row',
+    },
+    placeCreateButton: {
+      width: 60,
+      flexDirection: 'row',
+      paddingLeft: 5,
+    },
+    placeCreateIcon: {
+      height: 30,
+      width: 30,
+    },
+    listWrapper: {
+      flex: 1
+    }
 });
 
 module.exports = PlaceJoin;

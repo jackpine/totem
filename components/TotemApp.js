@@ -1,5 +1,6 @@
 var React = require('react-native');
 var LocationManager = React.NativeModules.TMLocationManager;
+var _ = require('underscore');
 var LocationStore = require('../stores/LocationStore');
 var LocationUpdateAction = require('../actions/LocationUpdateAction');
 var PlaceCreate = require('./PlaceCreate');
@@ -96,12 +97,12 @@ var Totem = React.createClass({
             }
         }
     },
-    _onLocationChange: function(){
+    _onLocationChange: _.throttle(function(){
         this.setState({location: LocationStore.getLatest()});
         if(this.state.location){
             TotemApi.placesNearby(this.state.location[0].lon, this.state.location[0].lat)
-            .then((responseData) => {
-                this.setState({nearbyPlaces: responseData['places']});
+            .then((nearbyPlacesList) => {
+                this.setState({nearbyPlaces: nearbyPlacesList});
             })
             .catch(function(error){
                 console.log('connecting to the api failed!', error)
@@ -109,7 +110,7 @@ var Totem = React.createClass({
             .done();
         }
 
-    },
+    }, 30000),
     render: function() {
         return (
             <Navigator

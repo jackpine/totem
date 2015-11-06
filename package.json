@@ -12,6 +12,7 @@
     "keymirror": "~0.1.0",
     "react-native": "0.13.0",
     "react-native-icons": "^0.6.1",
+    "react-native-button": "*",
     "underscore": "*",
     "url-join": "*"
   },

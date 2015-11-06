@@ -40,4 +40,13 @@ describe Place, type: :model do
      it { should be false }
    end
  end
+
+ describe "#category" do
+   it {expect(place.category).to eq "neighborhood" }
+ end
+ describe "#category=" do
+   before { place.category = :continent }
+   it { expect(place.category_id).to eq 1 }
+   it { expect(place.category).to eq "continent" }
+ end
 end
