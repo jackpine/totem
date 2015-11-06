@@ -225,10 +225,49 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: visits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    id integer NOT NULL,
+    place_id integer NOT NULL,
+    location geometry(Point,4326) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: visits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE visits_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: visits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE visits_id_seq OWNED BY visits.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY visits ALTER COLUMN id SET DEFAULT nextval('visits_id_seq'::regclass);
 
 
 --
@@ -237,6 +276,14 @@ ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::reg
 
 ALTER TABLE ONLY places
     ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_pkey PRIMARY KEY (id);
 
 
 --
@@ -251,6 +298,20 @@ CREATE INDEX index_places_on_is_authoritative ON places USING btree (is_authorit
 --
 
 CREATE INDEX index_places_on_name ON places USING btree (name);
+
+
+--
+-- Name: index_visits_on_location; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_visits_on_location ON visits USING gist (location);
+
+
+--
+-- Name: index_visits_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_visits_on_place_id ON visits USING btree (place_id);
 
 
 --
@@ -279,4 +340,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151105181300');
 INSERT INTO schema_migrations (version) VALUES ('20151105182655');
 
 INSERT INTO schema_migrations (version) VALUES ('20151106170659');
+
+INSERT INTO schema_migrations (version) VALUES ('20151106172430');
 

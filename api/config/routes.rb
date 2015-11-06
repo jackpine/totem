@@ -2,8 +2,11 @@ Rails.application.routes.draw do
 
   namespace 'api' do
     namespace 'v1' do
-      resource 'places', only: [:create] do
-        get 'nearby', action: :nearby
+      resources 'places', only: [:create] do
+        collection do
+          get 'nearby', action: :nearby
+        end
+        resources :visits, only: [:create]
       end
     end
   end

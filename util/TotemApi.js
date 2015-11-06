@@ -39,6 +39,20 @@ class TotemApi{
         return fetch(urljoin(apiHost, '/api/v1/places'), placeCreateOptions)
         .then((response) => response.json());
     }
+    static visitCreate(visitParams){
+
+        var visitCreateOptions = {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body:JSON.stringify({ visit: visitParams }),
+        };
+
+        return fetch(urljoin(apiHost, '/api/v1/places', visitParams.place_id, 'visits'), visitCreateOptions)
+        .then((response) => response.json());
+    }
 
 }
 

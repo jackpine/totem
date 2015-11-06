@@ -15,6 +15,8 @@ class Place < ActiveRecord::Base
   validates :authoritative_boundary, presence: true, if: :authoritative?
   validates :import_metadata, presence: true, if: :imported?
 
+  has_many :visits
+
   def self.nearby(lon, lat, radius_dregrees)
     my_loca_sql = "ST_GeomFromText('POINT(#{lon} #{lat})', 4326)"
     distance_sql = "ST_Distance(authoritative_boundary, #{my_loca_sql}, true)"
