@@ -192,7 +192,7 @@ CREATE TABLE places (
     authoritative_boundary geometry(MultiPolygon,4326),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    category_id integer
+    category_id integer NOT NULL
 );
 
 
@@ -277,4 +277,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151022204943');
 INSERT INTO schema_migrations (version) VALUES ('20151105181300');
 
 INSERT INTO schema_migrations (version) VALUES ('20151105182655');
+
+INSERT INTO schema_migrations (version) VALUES ('20151106170659');
 
