@@ -7,7 +7,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
     respond_to do |format|
       if @place.save
         format.json do
-          render json: { place: @place.as_json }, status: :created#, location: api_v1_place_path(@place)
+          render json: @place.as_json, status: :created#, location: api_v1_place_path(@place)
         end
       else
         format.json do

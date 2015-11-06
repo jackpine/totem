@@ -16,12 +16,10 @@ describe 'places requests' do
         expect(response).to be_success
 
         expected_response = JSON.parse({
-          place: {
-            name: "My New Place",
-            category_id: 6,
-            category: "neighborhood",
-            id: Place.last.id,
-          }
+          name: "My New Place",
+          category_id: 6,
+          category: "neighborhood",
+          id: Place.last.id,
         }.to_json)
 
         expect(JSON.parse(response.body)).to eq(expected_response)
@@ -78,7 +76,7 @@ describe 'places requests' do
 
     it "orders places based on location" do
       get "/api/v1/places/nearby.json", :location => location_params
-      expect(JSON.parse(response.body)["places"].map {|r| r["name"] }).to eq(["Civic Center",
+      expect(JSON.parse(response.body).map {|r| r["name"] }).to eq(["Civic Center",
                                                                   "NOMA",
                                                                   "Tenderloin",
                                                                   "Union Square",

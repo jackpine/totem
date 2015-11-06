@@ -74,7 +74,7 @@ var PlaceCreate = React.createClass({
                 category_id: this.state.placeCategoryId,
                 location: this.props.location
             }).then(function(place_json){
-                navigator.replace({path: 'place', passProps:place_json['place']});
+                navigator.replace({path: 'place', passProps:place_json});
             });
         } else {
             console.log('invalid!');
