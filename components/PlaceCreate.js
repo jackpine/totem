@@ -58,17 +58,23 @@ var PlaceCreate = React.createClass({
         if(this.state.placeName.length < 3) {
             errors.push('Place Name must be at least 3 characters.');
         }
+        if(!this.props.location){
+            errors.push('Still waiting for a location, just a second.');
+        }
         this.setState({errors: errors});
         return errors.length == 0;
     },
     handleSubmitPress: function(){
+
         if(this.validate()) {
-            console.log('SUBMIT!');
+            console.log('Submitting a place');
+            var navigator = this.props.navigator;
             TotemApi.placeCreate({
                 name: this.state.placeName,
-                category_id: this.state.placeCategoryId
-            }).then(function(json){
-                console.log('posted the place', arguments)
+                category_id: this.state.placeCategoryId,
+                location: this.props.location
+            }).then(function(place_json){
+                navigator.replace({path: 'place', passProps:place_json['place']});
             });
         } else {
             console.log('invalid!');
