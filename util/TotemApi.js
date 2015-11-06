@@ -1,15 +1,28 @@
 'use strict'
 
+var React = require('react-native');
+var NativeGlobals =   React.NativeModules.TMGlobals;
 var urljoin = require('url-join');
 
-var apiHost = 'http://localhost:3000';
+
+var apiHost;
+switch(NativeGlobals.buildType){
+    case 'adhoc':
+        apiHost = 'http://api-staging.totem-app.com';
+        break;
+    case 'appstore':
+        apiHost = 'http://api.totem-app.com';
+        break;
+    default:
+        apiHost = 'http://localhost:3000';
+}
 
 class TotemApi{
 
     static placesNearby(lon, lat){
         var params = `${lon},${lat}`;
         return fetch(urljoin(apiHost, '/api/v1/places/nearby', `?location=${encodeURIComponent(params)}`))
-        .then((response) => response.json())
+        .then((response) => response.json());
     }
 
     static placeCreate(placeParams){

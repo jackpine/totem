@@ -23,8 +23,14 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		22023E131BB58BCF00F98082 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		229A3F661BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; settings = {ASSET_TAGS = (); }; };
-		229A3F671BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; settings = {ASSET_TAGS = (); }; };
+		222E667B1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E66791BE3C8DD008C5F5B /* Fabric.framework */; };
+		222E667C1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E66791BE3C8DD008C5F5B /* Fabric.framework */; };
+		222E667D1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */; };
+		222E667E1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */; };
+		227B116B1BEA98940025CA28 /* TMGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 227B116A1BEA98940025CA28 /* TMGlobals.m */; };
+		227B116C1BEA98940025CA28 /* TMGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 227B116A1BEA98940025CA28 /* TMGlobals.m */; };
+		229A3F661BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; };
+		229A3F671BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; };
 		22EF7EA01BD6BF19004D064B /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 22EF7E9F1BD6BECD004D064B /* libReactNativeIcons.a */; };
 		22EF7EA21BD6C086004D064B /* FontAwesome.otf in Resources */ = {isa = PBXBuildFile; fileRef = 22EF7EA11BD6C086004D064B /* FontAwesome.otf */; };
 		22EF7EA61BD6C146004D064B /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22EF7EA51BD6C146004D064B /* ionicons.ttf */; };
@@ -138,6 +144,10 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Totem/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Totem/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		222E66791BE3C8DD008C5F5B /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		227B11691BEA98940025CA28 /* TMGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMGlobals.h; path = Totem/TMGlobals.h; sourceTree = "<group>"; };
+		227B116A1BEA98940025CA28 /* TMGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMGlobals.m; path = Totem/TMGlobals.m; sourceTree = "<group>"; };
 		229A3F641BBEB552007F76A5 /* TMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMLocationManager.h; path = Managers/TMLocationManager.h; sourceTree = "<group>"; };
 		229A3F651BBEB552007F76A5 /* TMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMLocationManager.m; path = Managers/TMLocationManager.m; sourceTree = "<group>"; };
 		22EF7E901BD6BECD004D064B /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -153,6 +163,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				22023E131BB58BCF00F98082 /* libReact.a in Frameworks */,
+				222E667E1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */,
+				222E667C1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +174,7 @@
 			files = (
 				22EF7EA01BD6BF19004D064B /* libReactNativeIcons.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
+				222E667D1BE3C8DD008C5F5B /* Crashlytics.framework in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
@@ -171,6 +184,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
+				222E667B1BE3C8DD008C5F5B /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +267,8 @@
 		13B07FAE1A68108700A75B9A /* Totem */ = {
 			isa = PBXGroup;
 			children = (
+				227B11691BEA98940025CA28 /* TMGlobals.h */,
+				227B116A1BEA98940025CA28 /* TMGlobals.m */,
 				229A3F561BBEB29C007F76A5 /* Managers */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -341,6 +357,8 @@
 				00E356EF1AD99517003FC87E /* TotemTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				22EF7EA41BD6C0A5004D064B /* Icons */,
+				222E66791BE3C8DD008C5F5B /* Fabric.framework */,
+				222E667A1BE3C8DD008C5F5B /* Crashlytics.framework */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -380,9 +398,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Totem" */;
 			buildPhases = (
+				2273F4531BE2B7DE00242E33 /* ShellScript */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				222E666D1BE3C890008C5F5B /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -405,6 +425,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 6GP7LY63TM;
 					};
 				};
 			};
@@ -575,11 +598,43 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		222E666D1BE3C890008C5F5B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run e1262e56a471344a7330c726c2dbb7965c29983b de7ee2dc47d5b3feebc04d723f9739d667037f9cfdebb9489c9dcc54d06231a2";
+			showEnvVarsInLog = 0;
+		};
+		2273F4531BE2B7DE00242E33 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n  echo '***************************'\n  echo \"Bundling and Minifying React-Native Javascript for ${CONFIGURATION}\"\n  cd $PROJECT_DIR/bin\n  echo `pwd`\n  $PROJECT_DIR/bin/react-bundle-minify\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		00E356EA1AD99517003FC87E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				227B116C1BEA98940025CA28 /* TMGlobals.m in Sources */,
 				00E356F31AD99517003FC87E /* TotemTests.m in Sources */,
 				229A3F671BBEB552007F76A5 /* TMLocationManager.m in Sources */,
 			);
@@ -591,6 +646,7 @@
 			files = (
 				229A3F661BBEB552007F76A5 /* TMLocationManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				227B116B1BEA98940025CA28 /* TMGlobals.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -622,7 +678,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -640,7 +699,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = TotemTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -653,6 +715,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = DEBUG_BUILD;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -670,6 +738,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = APPSTORE_BUILD;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -682,6 +758,88 @@
 				PRODUCT_NAME = Totem;
 			};
 			name = Release;
+		};
+		227720241BEAA72F003ADE17 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Adhoc;
+		};
+		227720251BEAA72F003ADE17 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "";
+				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = ADHOC_BUILD;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native/React/**",
+				);
+				INFOPLIST_FILE = Totem/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.totem-app";
+				PRODUCT_NAME = Totem;
+			};
+			name = Adhoc;
+		};
+		227720261BEAA72F003ADE17 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = TotemTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Totem.app/Totem";
+			};
+			name = Adhoc;
 		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -777,27 +935,30 @@
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
 				00E356F71AD99517003FC87E /* Release */,
+				227720261BEAA72F003ADE17 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Adhoc;
 		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Totem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+				227720251BEAA72F003ADE17 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Adhoc;
 		};
 		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Totem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+				227720241BEAA72F003ADE17 /* Adhoc */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Adhoc;
 		};
 /* End XCConfigurationList section */
 	};
