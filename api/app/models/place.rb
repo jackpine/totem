@@ -12,7 +12,7 @@ class Place < ActiveRecord::Base
   validates :is_authoritative, inclusion: {in:[true, false]} , on: :create
   validates :category_id, inclusion: {in:PLACE_CATEGORIES.values()}
   validates :category_id, presence: true
-  validates :authoritative_boundary, presence: true, if: :authoritative?
+  validates :authoritative_boundary, presence: true
   validates :import_metadata, presence: true, if: :imported?
 
   has_many :visits

@@ -189,7 +189,7 @@ CREATE TABLE places (
     is_authoritative boolean NOT NULL,
     import_source character varying,
     import_metadata jsonb,
-    authoritative_boundary geometry(MultiPolygon,4326),
+    authoritative_boundary geometry(MultiPolygon,4326) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     category_id integer NOT NULL
@@ -342,4 +342,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151105182655');
 INSERT INTO schema_migrations (version) VALUES ('20151106170659');
 
 INSERT INTO schema_migrations (version) VALUES ('20151106172430');
+
+INSERT INTO schema_migrations (version) VALUES ('20151106222532');
 
