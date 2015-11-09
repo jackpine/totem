@@ -3,7 +3,7 @@ require 'rails_helper'
 require 'json'
 
 describe 'places requests' do
-  let(:place){ Place.create!(name: 'place1', is_authoritative: false, category: :neighborhood) }
+  let(:place){ FactoryGirl.create(:place, name: 'place1', is_authoritative: false, category: :neighborhood) }
 
   describe 'POST /api/v1/places/:id/visits' do
     context 'when valid' do
