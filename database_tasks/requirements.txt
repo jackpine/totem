@@ -1,0 +1,4 @@
+shapely
+ipython
+GeoAlchemy2
+psycopg2
