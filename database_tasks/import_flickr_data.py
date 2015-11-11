@@ -66,6 +66,8 @@ def main(argv):
              "category_id": PLACE_CATEGORIES[metadata["place_type"]],
              "is_authoritative": True,
              "authoritative_boundary": from_shape(place_shape, srid=4326),
+             # for now just copy the other boundary
+             "boundary": from_shape(place_shape, srid=4326),
              "import_source": "flickr-shapefiles-2.0.1",
              "import_metadata": metadata,
              "created_at": now,

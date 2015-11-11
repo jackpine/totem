@@ -3,7 +3,7 @@ require 'rgeo/geo_json'
 class Api::V1::VisitsController < Api::V1::BaseController
   def create
     @place = Place.find(place_params)
-    @visit = Visit.new(visit_params)
+    @visit = Visit.visit_place(@place, visit_params)
 
     respond_to do |format|
       if @visit.persisted?
