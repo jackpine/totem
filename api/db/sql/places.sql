@@ -10,7 +10,6 @@ new_boundary geometry;
 tmp_hull geometry;
 
 BEGIN
-  RAISE NOTICE 'IN place calc boundary, num pts: %', ST_NumGeometries(visits);
 
   if ST_NumGeometries(visits) IS NULL THEN
     RAISE EXCEPTION 'There must be at least one visit';
@@ -33,14 +32,9 @@ BEGIN
         closest_poly = j;
       END IF;
 
-      RAISE NOTICE 'point %', ST_AsText(ST_GeometryN(visits, i));
-      RAISE NOTICE 'polygon %', ST_AsText(ST_GeometryN(authoritative_boundary, i));
-      RAISE NOTICE 'distance from % % %', i,j, tmp_distance;
       j = j + 1;
     END LOOP;
-    RAISE NOTICE '******* for visit % the closest poly is %', i, closest_poly;
     tmp_hull =  ST_ConvexHull(ST_Collect(ST_GeometryN(visits, i), ST_GeometryN(authoritative_boundary, closest_poly)));
-    RAISE NOTICE 'tmp_hull? %', ST_AsText(tmp_hull);
     new_boundary = ST_Multi(ST_Union(new_boundary, tmp_hull));
 
 
