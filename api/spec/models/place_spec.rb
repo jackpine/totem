@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Place, type: :model do
 
- let(:place) { Place.new(name: "The Empire State Building", is_authoritative: false, category: :neighborhood) }
+ let(:place) { FactoryGirl.build(:place, name: "The Empire State Building", category: :neighborhood) }
 
  describe "#valid?" do
    subject { place.valid? }
@@ -10,18 +10,9 @@ describe Place, type: :model do
    context "validating a regular place" do
      it { should be true }
    end
-
-   context "validating an 'is_authoritative' place" do
-     before {place.is_authoritative = true }
-     context "missing the bounding polygon" do
-       it { should be false }
-     end
-     context "with bounding polygon" do
-       before do
-         place.authoritative_boundary = "POLYGON ((35 10, 45 45, 15 40, 10 20, 35 10), (20 30, 35 35, 30 20, 20 30))"
-       end
-       it { should be true }
-     end
+   context "missing the bounding polygon" do
+     before { place.authoritative_boundary = nil }
+     it { should be false }
    end
 
    context "imported data" do

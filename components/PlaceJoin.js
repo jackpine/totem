@@ -4,8 +4,10 @@ var React = require('react-native');
 var DebugLocation = require('./DebugLocation');
 var PlaceList = require('./PlaceList');
 var NavigationBar = require('./NavigationBar');
+var TotemApi = require('../util/TotemApi');
 var { Icon } = require('react-native-icons');
 var GlobalStyles = require('../GlobalStyles');
+var _ = require('underscore');
 
 var {
     StyleSheet,
@@ -57,7 +59,16 @@ var PlaceJoin = React.createClass({
         });
     },
     handleRowPress: function(place){
-        this.props.navigator.push({path: 'place', passProps:place});
+        var navigator = this.props.navigator;
+
+        var locationGeoJson = { 'type': 'Point', 'coordinates': [this.props.location[0].lon,
+                                                                 this.props.location[0].lat] };
+            TotemApi.visitCreate({
+                place_id: place.id,
+                location: locationGeoJson
+            }).then(function(visit_json){
+                navigator.push({path: 'place', passProps:place});
+            });
     },
     renderTextInput(searchTextInputStyle: any) {
         return (

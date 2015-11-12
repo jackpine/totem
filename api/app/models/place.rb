@@ -12,17 +12,19 @@ class Place < ActiveRecord::Base
   validates :is_authoritative, inclusion: {in:[true, false]} , on: :create
   validates :category_id, inclusion: {in:PLACE_CATEGORIES.values()}
   validates :category_id, presence: true
-  validates :authoritative_boundary, presence: true, if: :authoritative?
+  validates :authoritative_boundary, presence: true
   validates :import_metadata, presence: true, if: :imported?
+
+  has_many :visits
 
   def self.nearby(lon, lat, radius_dregrees)
     my_loca_sql = "ST_GeomFromText('POINT(#{lon} #{lat})', 4326)"
-    distance_sql = "ST_Distance(authoritative_boundary, #{my_loca_sql}, true)"
-    within_sql = "ST_DWithin(#{my_loca_sql}, authoritative_boundary, #{radius_dregrees})"
-    width_sql = "ST_Length(ST_LongestLine(authoritative_boundary, authoritative_boundary), true)"
+    distance_sql = "ST_Distance(boundary, #{my_loca_sql}, true)"
+    within_sql = "ST_DWithin(#{my_loca_sql}, boundary, #{radius_dregrees})"
+    width_sql = "ST_Length(ST_LongestLine(boundary, boundary), true)"
 
     select_sql = <<EOL
-    id, name, category_id, authoritative_boundary as poly,
+    id, name, category_id, boundary,
     #{distance_sql} as distance,
     #{width_sql} as max_width,
     relevance(#{distance_sql}, category_id, #{width_sql}) as relevance

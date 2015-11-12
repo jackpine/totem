@@ -94,65 +94,57 @@ $$;
 
 
 --
--- Name: relevance(double precision, integer, geometry); Type: FUNCTION; Schema: public; Owner: -
+-- Name: place_calculate_boundary(geometry, geometry); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION relevance(distance double precision, category integer, bounding_poly geometry) RETURNS double precision
+CREATE FUNCTION place_calculate_boundary(authoritative_boundary geometry, visits geometry) RETURNS geometry
     LANGUAGE plpgsql
     AS $$
-      DECLARE
-        category_relevance float;
-        category_relevance_weight float := 0.5;
+DECLARE
+relevance float;
+i integer;
+j integer;
+min_distance float;
+tmp_distance float;
+closest_poly integer;
+new_boundary geometry;
+tmp_hull geometry;
 
-        longest_diameter_of_place float;
-        distance_relevance float;
-        distance_relevance_weight float := 0.5;
+BEGIN
 
-        exponent float;
+  if ST_NumGeometries(visits) IS NULL THEN
+    RAISE EXCEPTION 'There must be at least one visit';
+  END IF;
+  if ST_NumGeometries(authoritative_boundary) IS NULL THEN
+    RAISE EXCEPTION 'There must be at least one authoritative bounding polygon';
+  END IF;
 
-      BEGIN
-        CASE category
-        WHEN 1 THEN -- continent
-          category_relevance := 0.35;
-        WHEN 2 THEN -- country
-          category_relevance := 0.4;
-        WHEN 3 THEN -- region
-          category_relevance := 0.4;
-        WHEN 4 THEN -- county
-          category_relevance := 0.5;
-        WHEN 5 THEN -- locality
-          category_relevance := 1;
-        WHEN 6 THEN -- neighborhood
-          category_relevance := 1;
-        ELSE
-          raise EXCEPTION 'unknown place category';
-        END CASE;
+  new_boundary = ST_GeomFromText('MULTIPOLYGON EMPTY');
+  i = 1;
+  WHILE i <=  ST_NumGeometries(visits) LOOP
 
-        longest_diameter_of_place := ST_Length(ST_LongestLine(bounding_poly, bounding_poly), true);
-        --        Distance to Place vs. Relevance 
-        --
-        -- relevance
-        --   1 |------------\
-        --     |              \
-        --   0 |________________\______
-        --     |        |       |   |
-        --     0        d1      c   d2     c=longest_diameter_of_place e.g. the width of Kentucky
-        -- in this example, d1 is most relevant (1) and d2 is not relevant at all (0)
+    min_distance = 'Infinity';
+    j = 1;
+    WHILE j <=  ST_NumGeometries(authoritative_boundary) LOOP
+      tmp_distance = ST_Distance(ST_GeometryN(visits, i), ST_GeometryN(authoritative_boundary, j));
 
-        IF distance BETWEEN 0 and longest_diameter_of_place THEN
-          distance_relevance := 1 - exp(distance/longest_diameter_of_place - 1);
-        ELSIF distance > longest_diameter_of_place THEN
-          -- if the distance compared to longest_diameter_of_place is too great, then punt
-          -- e.g. if I am 5 km from the border of a town that is 5 km wide.
-          RETURN 0.0;
-        ELSE
-          distance_relevance := 0;
-        END IF;
+      if tmp_distance < min_distance THEN
+        min_distance = tmp_distance;
+        closest_poly = j;
+      END IF;
 
-        RETURN (distance_relevance_weight * distance_relevance + category_relevance_weight * (distance_relevance * category_relevance))/2.0;
-      END
+      j = j + 1;
+    END LOOP;
+    tmp_hull =  ST_ConvexHull(ST_Collect(ST_GeometryN(visits, i), ST_GeometryN(authoritative_boundary, closest_poly)));
+    new_boundary = ST_Multi(ST_Union(new_boundary, tmp_hull));
 
-      $$;
+
+    i = i + 1;
+  END LOOP;
+
+  return new_boundary;
+END
+$$;
 
 
 --
@@ -189,10 +181,11 @@ CREATE TABLE places (
     is_authoritative boolean NOT NULL,
     import_source character varying,
     import_metadata jsonb,
-    authoritative_boundary geometry(MultiPolygon,4326),
+    authoritative_boundary geometry(MultiPolygon,4326) NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    category_id integer NOT NULL
+    category_id integer NOT NULL,
+    boundary geometry(MultiPolygon,4326) NOT NULL
 );
 
 
@@ -225,10 +218,49 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: visits; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE visits (
+    id integer NOT NULL,
+    place_id integer NOT NULL,
+    location geometry(Point,4326) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: visits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE visits_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: visits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE visits_id_seq OWNED BY visits.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY visits ALTER COLUMN id SET DEFAULT nextval('visits_id_seq'::regclass);
 
 
 --
@@ -237,6 +269,14 @@ ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::reg
 
 ALTER TABLE ONLY places
     ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY visits
+    ADD CONSTRAINT visits_pkey PRIMARY KEY (id);
 
 
 --
@@ -251,6 +291,20 @@ CREATE INDEX index_places_on_is_authoritative ON places USING btree (is_authorit
 --
 
 CREATE INDEX index_places_on_name ON places USING btree (name);
+
+
+--
+-- Name: index_visits_on_location; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_visits_on_location ON visits USING gist (location);
+
+
+--
+-- Name: index_visits_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_visits_on_place_id ON visits USING btree (place_id);
 
 
 --
@@ -279,4 +333,12 @@ INSERT INTO schema_migrations (version) VALUES ('20151105181300');
 INSERT INTO schema_migrations (version) VALUES ('20151105182655');
 
 INSERT INTO schema_migrations (version) VALUES ('20151106170659');
+
+INSERT INTO schema_migrations (version) VALUES ('20151106172430');
+
+INSERT INTO schema_migrations (version) VALUES ('20151106222532');
+
+INSERT INTO schema_migrations (version) VALUES ('20151111172646');
+
+INSERT INTO schema_migrations (version) VALUES ('20151111215203');
 
