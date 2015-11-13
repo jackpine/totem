@@ -61,8 +61,8 @@ var PlaceJoin = React.createClass({
     handleRowPress: function(place){
         var navigator = this.props.navigator;
 
-        var locationGeoJson = { 'type': 'Point', 'coordinates': [this.props.location[0].lon,
-                                                                 this.props.location[0].lat] };
+        var locationGeoJson = { 'type': 'Point', 'coordinates': [this.props.location.lon,
+                                                                 this.props.location.lat] };
             TotemApi.visitCreate({
                 place_id: place.id,
                 location: locationGeoJson
