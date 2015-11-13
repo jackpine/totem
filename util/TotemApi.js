@@ -17,6 +17,11 @@ switch(NativeGlobals.buildType){
         apiHost = 'http://localhost:3000';
 }
 
+var DEFAULT_HEADERS = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+};
+
 class TotemApi{
 
     static placesNearby(lon, lat){
@@ -29,10 +34,7 @@ class TotemApi{
 
         var placeCreateOptions = {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
+            headers: DEFAULT_HEADERS,
             body:JSON.stringify({ place: placeParams }),
         };
 
@@ -43,10 +45,7 @@ class TotemApi{
 
         var visitCreateOptions = {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
+            headers: DEFAULT_HEADERS,
             body:JSON.stringify({ visit: visitParams }),
         };
 
