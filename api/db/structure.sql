@@ -280,6 +280,13 @@ ALTER TABLE ONLY visits
 
 
 --
+-- Name: index_places_on_boundary; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_places_on_boundary ON places USING gist (boundary);
+
+
+--
 -- Name: index_places_on_is_authoritative; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -341,4 +348,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151106222532');
 INSERT INTO schema_migrations (version) VALUES ('20151111172646');
 
 INSERT INTO schema_migrations (version) VALUES ('20151111215203');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113171813');
 
