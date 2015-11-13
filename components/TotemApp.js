@@ -100,7 +100,7 @@ var Totem = React.createClass({
     _onLocationChange: _.throttle(function(){
         this.setState({location: LocationStore.getLatest()});
         if(this.state.location){
-            TotemApi.placesNearby(this.state.location[0].lon, this.state.location[0].lat)
+            TotemApi.placesNearby(this.state.location.lon, this.state.location.lat)
             .then((nearbyPlacesList) => {
                 this.setState({nearbyPlaces: nearbyPlacesList});
             })

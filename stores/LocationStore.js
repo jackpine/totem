@@ -21,7 +21,11 @@ LocationStore.dispatchToken = AppDispatcher.register(function(action) {
     switch(action.type) {
 
         case ActionTypes.LOCATION_UPDATE:
-            currentLocation = action.location[0]
+            if(action.location == null)
+                currentLocation = null
+            else{
+                currentLocation = action.location[0]
+            }
             LocationStore.trigger('change:currentLocation')
             break;
 
