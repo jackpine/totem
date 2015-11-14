@@ -12,7 +12,8 @@ describe 'places requests' do
   describe 'POST /api/v1/places' do
     context 'when valid' do
       it 'creates a new place' do
-        post '/api/v1/places', { place: { name: "My New Place", category_id: 6 }, format: :json}
+        visit_count = Visit.count()
+        post '/api/v1/places', { place: { name: "My New Place", category_id: 6, location: {"type": "Point", "coordinates": [100.0, 0.0]} }, format: :json}
         expect(response).to be_success
 
         expected_response = JSON.parse({
@@ -23,6 +24,11 @@ describe 'places requests' do
         }.to_json)
 
         expect(JSON.parse(response.body)).to eq(expected_response)
+        expect(Visit.count).to eq(visit_count + 1)
+        expect(Visit.last.place_id).to eq(Place.last.id)
+
+        location = RGeo::GeoJSON.decode({"type": "Point", "coordinates": [100.0, 0.0]}.deep_stringify_keys)
+        expect(Place.last.boundary.contains?(location)).to be(true)
       end
     end
     context 'when missing required parameters' do

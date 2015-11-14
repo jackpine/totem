@@ -12,7 +12,7 @@ class Place < ActiveRecord::Base
   validates :is_authoritative, inclusion: {in:[true, false]} , on: :create
   validates :category_id, inclusion: {in:PLACE_CATEGORIES.values()}
   validates :category_id, presence: true
-  validates :authoritative_boundary, presence: true
+  validates :boundary, presence: true
   validates :import_metadata, presence: true, if: :imported?
 
   has_many :visits
@@ -34,6 +34,28 @@ EOL
       .select(select_sql)
       .where(within_sql)
       .order("relevance DESC, category_id DESC, name ASC");
+
+  end
+
+  def self.create_at_location(place_params, location_params)
+
+    place = Place.new(place_params)
+    place.is_authoritative = false
+    location = location_params['location']
+
+    query = <<SQL
+    SELECT ST_AsText(place_calculate_boundary) as boundary
+    FROM place_calculate_boundary(NULL, ST_GeomFromText('#{location}'));
+SQL
+    result = connection.execute(query)
+    place.boundary = result[0]['boundary']
+
+    Place.transaction do
+        place.save()
+        Visit.create(place_id: place.id, location: location)
+    end
+
+    place
 
   end
 

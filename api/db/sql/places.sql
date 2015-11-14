@@ -9,15 +9,28 @@ closest_poly integer;
 new_boundary geometry;
 tmp_hull geometry;
 
+-- in points case
+visit_centroid geometry;
 BEGIN
 
-  if ST_NumGeometries(visits) IS NULL THEN
+  IF ST_NumGeometries(visits) IS NULL THEN
     RAISE EXCEPTION 'There must be at least one visit';
   END IF;
-  if ST_NumGeometries(authoritative_boundary) IS NULL THEN
-    RAISE EXCEPTION 'There must be at least one authoritative bounding polygon';
+
+  IF ST_NumGeometries(authoritative_boundary) IS NULL THEN
+    visit_centroid = ST_SetSRID(ST_Centroid(visits), 4326);
+    IF ST_NumGeometries(visits) < 3 THEN
+      -- a quick way to calculate 15 meters instead of degrees
+      return ST_Multi(ST_Transform(ST_Buffer(ST_Transform(visit_centroid,
+                                                         3857),
+                                            15),
+                                  4326));
+    ELSE
+      return ST_ConvexHull(visit_centroid);
+    END IF;
   END IF;
 
+  -- extend existing geometries using a convex hull
   new_boundary = ST_GeomFromText('MULTIPOLYGON EMPTY');
   i = 1;
   WHILE i <=  ST_NumGeometries(visits) LOOP

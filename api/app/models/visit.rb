@@ -14,13 +14,13 @@ class Visit < ActiveRecord::Base
           FROM visits
           LEFT JOIN places
           ON places.id=visits.place_id
-          WHERE visits.place_id = #{ActiveRecord::Base.sanitize(place.id)}
+          WHERE visits.place_id = #{sanitize(place.id)}
           GROUP BY visits.location, places.authoritative_boundary, visits.place_id
          ) AS subquery
-      WHERE places.id = #{ActiveRecord::Base.sanitize(place.id)}
+      WHERE places.id = #{sanitize(place.id)}
 EOF
 
-        ActiveRecord::Base.connection.execute(query)
+        connection.execute(query)
         visit
     else
       visit
