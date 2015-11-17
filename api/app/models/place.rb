@@ -41,7 +41,7 @@ EOL
 
     place = Place.new(place_params)
     place.is_authoritative = false
-    location = location_params['location']
+    location = location_params[:location]
 
     query = <<SQL
     SELECT ST_AsText(place_calculate_boundary) as boundary

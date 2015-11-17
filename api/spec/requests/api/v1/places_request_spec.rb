@@ -13,7 +13,7 @@ describe 'places requests' do
     context 'when valid' do
       it 'creates a new place' do
         visit_count = Visit.count()
-        post '/api/v1/places', { place: { name: "My New Place", category_id: 6, location: {"type": "Point", "coordinates": [100.0, 0.0]} }, format: :json}
+        post '/api/v1/places', { place: { name: "My New Place", category_id: 6}, location: {"type": "Point", "coordinates": [100.0, 0.0] }, format: :json}
         expect(response).to be_success
 
         expected_response = JSON.parse({

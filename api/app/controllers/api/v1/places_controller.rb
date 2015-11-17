@@ -30,20 +30,14 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
   private
 
-  def place_create_params
-    tmp_params = params.require(:place).permit([{:location => [:type,{:coordinates => []}]},
-                                                :name,
-                                                :category_id])
-    tmp_params
-  end
   def location_params
-    tmp_params = place_create_params.permit([{:location => [:type,{:coordinates => []}]}])
-    tmp_params.merge!({location: RGeo::GeoJSON.decode(tmp_params['location']).as_text}) unless tmp_params[:location].blank?
-    tmp_params
+    tmp_params = params.require(:location).permit([:type,{:coordinates => []}])
+    {location: RGeo::GeoJSON.decode(tmp_params).as_text}
+
   end
   def place_params
-    place_create_params.permit([:name,
-                                :category_id])
+    params.require(:place).permit([:name,
+                                   :category_id])
   end
 
   def nearby_params

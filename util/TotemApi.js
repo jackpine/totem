@@ -36,10 +36,11 @@ class TotemApi{
         var placeCreateOptions = {
             method: 'POST',
             headers: DEFAULT_HEADERS,
-            body:JSON.stringify({ place: {
-                name: name,
-                category_id: category_id,
-                location: location
+            body:JSON.stringify({
+                location: location,
+                place: {
+                    name: name,
+                    category_id: category_id,
             } }),
         };
 
