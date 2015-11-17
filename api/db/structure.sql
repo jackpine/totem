@@ -110,15 +110,28 @@ closest_poly integer;
 new_boundary geometry;
 tmp_hull geometry;
 
+-- in points case
+visit_centroid geometry;
 BEGIN
 
-  if ST_NumGeometries(visits) IS NULL THEN
+  IF ST_NumGeometries(visits) IS NULL THEN
     RAISE EXCEPTION 'There must be at least one visit';
   END IF;
-  if ST_NumGeometries(authoritative_boundary) IS NULL THEN
-    RAISE EXCEPTION 'There must be at least one authoritative bounding polygon';
+
+  IF ST_NumGeometries(authoritative_boundary) IS NULL THEN
+    visit_centroid = ST_SetSRID(ST_Centroid(visits), 4326);
+    IF ST_NumGeometries(visits) < 3 THEN
+      -- a quick way to calculate 15 meters instead of degrees
+      return ST_Multi(ST_Transform(ST_Buffer(ST_Transform(visit_centroid,
+                                                         3857),
+                                            15),
+                                  4326));
+    ELSE
+      return ST_ConvexHull(visit_centroid);
+    END IF;
   END IF;
 
+  -- extend existing geometries using a convex hull
   new_boundary = ST_GeomFromText('MULTIPOLYGON EMPTY');
   i = 1;
   WHILE i <=  ST_NumGeometries(visits) LOOP
@@ -181,7 +194,7 @@ CREATE TABLE places (
     is_authoritative boolean NOT NULL,
     import_source character varying,
     import_metadata jsonb,
-    authoritative_boundary geometry(MultiPolygon,4326) NOT NULL,
+    authoritative_boundary geometry(MultiPolygon,4326),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     category_id integer NOT NULL,
@@ -280,6 +293,13 @@ ALTER TABLE ONLY visits
 
 
 --
+-- Name: index_places_on_boundary; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_places_on_boundary ON places USING gist (boundary);
+
+
+--
 -- Name: index_places_on_is_authoritative; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -341,4 +361,8 @@ INSERT INTO schema_migrations (version) VALUES ('20151106222532');
 INSERT INTO schema_migrations (version) VALUES ('20151111172646');
 
 INSERT INTO schema_migrations (version) VALUES ('20151111215203');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113171813');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113172347');
 

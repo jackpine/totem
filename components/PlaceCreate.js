@@ -69,11 +69,10 @@ var PlaceCreate = React.createClass({
         if(this.validate()) {
             console.log('Submitting a place');
             var navigator = this.props.navigator;
-            TotemApi.placeCreate({
-                name: this.state.placeName,
-                category_id: this.state.placeCategoryId,
-                location: this.props.location
-            }).then(function(place_json){
+            TotemApi.placeCreate(this.state.placeName,
+                                 this.state.placeCategoryId,
+                                 this.props.location.lon, this.props.location.lat)
+            .then(function(place_json){
                 navigator.replace({path: 'place', passProps:place_json});
             });
         } else {

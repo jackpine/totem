@@ -1,9 +1,9 @@
 'use strict'
 
 var React = require('react-native');
-var NativeGlobals =   React.NativeModules.TMGlobals;
+var NativeGlobals = React.NativeModules.TMGlobals;
+var Geo = require('./Geo')
 var urljoin = require('url-join');
-
 
 var apiHost;
 switch(NativeGlobals.buildType){
@@ -17,6 +17,11 @@ switch(NativeGlobals.buildType){
         apiHost = 'http://localhost:3000';
 }
 
+var DEFAULT_HEADERS = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+};
+
 class TotemApi{
 
     static placesNearby(lon, lat){
@@ -25,32 +30,34 @@ class TotemApi{
         .then((response) => response.json());
     }
 
-    static placeCreate(placeParams){
+    static placeCreate(name, category_id, lon, lat){
 
+        var location = Geo.jsonFromPoint(lon, lat);
         var placeCreateOptions = {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({ place: placeParams }),
+            headers: DEFAULT_HEADERS,
+            body:JSON.stringify({
+                location: location,
+                place: {
+                    name: name,
+                    category_id: category_id,
+            } }),
         };
 
+        debugger
         return fetch(urljoin(apiHost, '/api/v1/places'), placeCreateOptions)
         .then((response) => response.json());
     }
-    static visitCreate(visitParams){
+    static visitCreate(place_id, lon, lat){
 
+        var location = Geo.jsonFromPoint(lon, lat);
         var visitCreateOptions = {
             method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-            },
-            body:JSON.stringify({ visit: visitParams }),
+            headers: DEFAULT_HEADERS,
+            body:JSON.stringify({ visit: {place_id: place_id, location: location} }),
         };
 
-        return fetch(urljoin(apiHost, '/api/v1/places', visitParams.place_id, 'visits'), visitCreateOptions)
+        return fetch(urljoin(apiHost, '/api/v1/places', place_id, 'visits'), visitCreateOptions)
         .then((response) => response.json());
     }
 

@@ -1,11 +1,10 @@
 class Api::V1::PlacesController < Api::V1::BaseController
 
   def create
-    @place = Place.new(place_params)
-    @place.is_authoritative = false
+    @place = Place.create_at_location(place_params, location_params)
 
     respond_to do |format|
-      if @place.save
+      if @place.persisted?
         format.json do
           render json: @place.as_json, status: :created#, location: api_v1_place_path(@place)
         end
@@ -20,7 +19,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
   def nearby
 
-    location = sanitize_location_params(location_params)
+    location = sanitize_nearby_params(nearby_params)
     @places = Place.nearby(location[0], location[1], 0.125)
 
 
@@ -32,27 +31,32 @@ class Api::V1::PlacesController < Api::V1::BaseController
   private
 
   def location_params
+    tmp_params = params.require(:location).permit([:type,{:coordinates => []}])
+    {location: RGeo::GeoJSON.decode(tmp_params).as_text}
+
+  end
+  def place_params
+    params.require(:place).permit([:name,
+                                   :category_id])
+  end
+
+  def nearby_params
     params.require(:location)
   end
 
-  def place_params
-    params.require(:place).permit([:name, :category_id])
-  end
-
-
-  def sanitize_location_params(param)
+  def sanitize_nearby_params(param)
     if param.blank?
-      location_params = []
+      nearby_params = []
     else
-      location_params = param.split(',').map {|v| v.to_f }
+      nearby_params = param.split(',').map {|v| v.to_f }
     end
 
-    if location_params.length != 2
+    if nearby_params.length != 2
       respond_to do |format|
         format.json { render json: { error: "location param is formatted incorrectly" }, status: :bad_request }
       end
     end
-    location_params
+    nearby_params
   end
 
 

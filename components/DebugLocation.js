@@ -12,9 +12,9 @@ module.exports = React.createClass({
     render: function() {
         var loc;
         if(this.props.location){
-            loc = Object.assign({}, this.props.location[0])
-            loc.lat = this.props.location[0].lat.toPrecision(9);
-            loc.lon = this.props.location[0].lon.toPrecision(9);
+            loc = Object.assign({}, this.props.location)
+            loc.lat = this.props.location.lat.toPrecision(9);
+            loc.lon = this.props.location.lon.toPrecision(9);
         }
         else
             loc = {lat: 'missing', lon: 'missing'}

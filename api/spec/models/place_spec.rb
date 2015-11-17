@@ -11,7 +11,7 @@ describe Place, type: :model do
      it { should be true }
    end
    context "missing the bounding polygon" do
-     before { place.authoritative_boundary = nil }
+     before { place.boundary = nil }
      it { should be false }
    end
 
