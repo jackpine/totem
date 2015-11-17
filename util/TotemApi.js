@@ -30,29 +30,33 @@ class TotemApi{
         .then((response) => response.json());
     }
 
-    static placeCreate(placeParams){
+    static placeCreate(name, category_id, lon, lat){
 
-        var location = placeParams['location'];
-        placeParams.location = Geo.jsonFromPoint(location['lon'], location['lat']);
-
+        var location = Geo.jsonFromPoint(lon, lat);
         var placeCreateOptions = {
             method: 'POST',
             headers: DEFAULT_HEADERS,
-            body:JSON.stringify({ place: placeParams }),
+            body:JSON.stringify({ place: {
+                name: name,
+                category_id: category_id,
+                location: location
+            } }),
         };
 
+        debugger
         return fetch(urljoin(apiHost, '/api/v1/places'), placeCreateOptions)
         .then((response) => response.json());
     }
-    static visitCreate(visitParams){
+    static visitCreate(place_id, lon, lat){
 
+        var location = Geo.jsonFromPoint(lon, lat);
         var visitCreateOptions = {
             method: 'POST',
             headers: DEFAULT_HEADERS,
-            body:JSON.stringify({ visit: visitParams }),
+            body:JSON.stringify({ visit: {place_id: place_id, location: location} }),
         };
 
-        return fetch(urljoin(apiHost, '/api/v1/places', visitParams.place_id, 'visits'), visitCreateOptions)
+        return fetch(urljoin(apiHost, '/api/v1/places', place_id, 'visits'), visitCreateOptions)
         .then((response) => response.json());
     }
 

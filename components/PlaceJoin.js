@@ -5,7 +5,6 @@ var DebugLocation = require('./DebugLocation');
 var PlaceList = require('./PlaceList');
 var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
-var Geo = require('../util/Geo');
 var { Icon } = require('react-native-icons');
 var GlobalStyles = require('../GlobalStyles');
 var _ = require('underscore');
@@ -62,11 +61,8 @@ var PlaceJoin = React.createClass({
     handleRowPress: function(place){
         var navigator = this.props.navigator;
 
-        var locationGeoJson = Geo.jsonFromPoint(this.props.location.lon, this.props.location.lat);
-            TotemApi.visitCreate({
-                place_id: place.id,
-                location: locationGeoJson
-            }).then(function(visit_json){
+        TotemApi.visitCreate(place.id, this.props.location.lon, this.props.location.lat)
+        .then(function(visit_json){
                 navigator.push({path: 'place', passProps:place});
             });
     },
