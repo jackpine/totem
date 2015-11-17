@@ -44,7 +44,6 @@ class TotemApi{
             } }),
         };
 
-        debugger
         return fetch(urljoin(apiHost, '/api/v1/places'), placeCreateOptions)
         .then((response) => response.json());
     }
