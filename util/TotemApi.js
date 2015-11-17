@@ -1,9 +1,9 @@
 'use strict'
 
 var React = require('react-native');
-var NativeGlobals =   React.NativeModules.TMGlobals;
+var NativeGlobals = React.NativeModules.TMGlobals;
+var Geo = require('./Geo')
 var urljoin = require('url-join');
-
 
 var apiHost;
 switch(NativeGlobals.buildType){
@@ -31,6 +31,9 @@ class TotemApi{
     }
 
     static placeCreate(placeParams){
+
+        var location = placeParams['location'];
+        placeParams.location = Geo.jsonFromPoint(location['lon'], location['lat']);
 
         var placeCreateOptions = {
             method: 'POST',
