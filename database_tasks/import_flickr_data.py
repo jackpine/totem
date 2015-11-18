@@ -4,13 +4,10 @@ import json
 import datetime
 
 import IPython
-from shapely.geometry import mapping, shape
-import sqlalchemy
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy import create_engine, Table, MetaData, Column
-from geoalchemy2 import Geometry
+from shapely.geometry import shape
 from geoalchemy2.shape import from_shape
 
+from totem_database import get_places_table
 
 PLACE_CATEGORIES =   {
     'continent': 1,
@@ -36,25 +33,9 @@ def derive_metadata_from_feature(feature):
     name = feature["properties"]["label"].split(',')[0];
     return metadata, name
 
-def get_db_engine():
-    host = os.environ['DB_HOST']
-    port = os.environ['DB_PORT']
-    username = os.environ['DB_USERNAME']
-    database = os.environ['DB_NAME']
-    return create_engine(sqlalchemy.engine.url.URL('postgresql', username=username, port=port, database=database, host=host))
-
 def main(argv):
 
-    engine = get_db_engine()
-    meta = MetaData()
-    meta.bind = engine
-    meta.reflect()
-    places = Table('places', 
-            meta, 
-            Column('authoritative_boundary', Geometry('MULTIPOLYGON')),
-            autoload=True,
-            autoload_with=engine,
-            extend_existing=True);
+    places = get_places_table()
 
     for path in argv:
         data = json.loads(open(path).read())
@@ -74,8 +55,8 @@ def main(argv):
              "updated_at": now
              }).execute()
 
-        print path
-        print len(data["features"])
+        print(path)
+        print(len(data["features"]))
 
 if __name__ == '__main__':
     main(sys.argv[1:])

@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'database_task'
 
 @data_path = Rails.root.join('tmp/data_import')
 
@@ -35,12 +36,8 @@ namespace :totem do
 
     name = "flickr_shapes_public_dataset_2.0.1.tar.gz"
     json_paths = download_data_and_extract(name, 'https://s3.amazonaws.com/totem-placefinder/flickr_shapes_public_dataset_2.0.1.tar.gz')
-    puts "Begin loading"
-    db_config = Rails.configuration.database_configuration[Rails.env]
-    db_script_path = Rails.root.join('../database_tasks/run_task.sh import_flickr_data');
-    db_env = "DB_NAME=#{db_config['database']} DB_USERNAME=#{db_config['username']} DB_PORT=#{db_config['port']} DB_HOST=#{db_config['host']}"
-
-    system("#{db_env} #{db_script_path} #{json_paths.join(' ')}")
+    puts "Begin database task"
+    DatabaseTask.execute('import_flickr_data', json_paths)
 
   end
 
