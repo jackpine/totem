@@ -37,7 +37,7 @@ namespace :totem do
     name = "flickr_shapes_public_dataset_2.0.1.tar.gz"
     json_paths = download_data_and_extract(name, 'https://s3.amazonaws.com/totem-placefinder/flickr_shapes_public_dataset_2.0.1.tar.gz')
     puts "Begin database task"
-    DatabaseTask.execute('import_flickr_data', json_paths)
+    DatabaseTask.exec('import_flickr_data', json_paths)
 
   end
 
