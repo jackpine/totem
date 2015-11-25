@@ -109,27 +109,5 @@ def main(argv):
 
     walk_dir(argv[0], insert_record)
 
-
-    # for path in argv:
-        # data = json.loads(open(path).read())
-        # for feature in data['features']:
-            # place_shape = shape(feature['geometry'])
-            # metadata, name = derive_metadata_from_feature(feature)
-            # now = datetime.datetime.now()
-            # places.insert({"name": name,
-             # "category_id": PLACE_CATEGORIES[metadata["place_type"]],
-             # "is_authoritative": True,
-             # "authoritative_boundary": from_shape(place_shape, srid=4326),
-             # # for now just copy the other boundary
-             # "boundary": from_shape(place_shape, srid=4326),
-             # "import_source": "flickr-shapefiles-2.0.1",
-             # "import_metadata": metadata,
-             # "created_at": now,
-             # "updated_at": now
-             # }).execute()
-
-        # print(path)
-        # print(len(data["features"]))
-
 if __name__ == '__main__':
     main(sys.argv[1:])

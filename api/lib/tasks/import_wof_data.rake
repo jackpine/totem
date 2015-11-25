@@ -38,7 +38,6 @@ def clone_repo_and_freshen(git_url)
 end
 
 namespace :totem do
-# http://code.flickr.net/2011/01/08/flickr-shapefiles-public-dataset-2-0-1
   desc "Import the whosonfirst public dataset"
   task import_wof_data: :environment do
     puts "use the 'CACHE=/path/to/wof-repo' env var to speed up the clone"
