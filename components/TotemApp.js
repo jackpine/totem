@@ -97,8 +97,7 @@ var Totem = React.createClass({
             }
         }
     },
-    _onLocationChange: _.throttle(function(){
-        this.setState({location: LocationStore.getLatest()});
+    fetchNearbyPlaces: _.throttle(function(){
         if(this.state.location){
             TotemApi.placesNearby(this.state.location.lon, this.state.location.lat)
             .then((nearbyPlacesList) => {
@@ -109,8 +108,11 @@ var Totem = React.createClass({
             })
             .done();
         }
-
     }, 30000),
+    _onLocationChange: function(){
+        this.setState({location: LocationStore.getLatest()});
+        this.fetchNearbyPlaces();
+    },
     render: function() {
         return (
             <Navigator
