@@ -34,7 +34,11 @@ var PlaceJoin = React.createClass({
                     onPress={(place)=>self.props.navigator.push({path: 'place_create'})}
                     style={styles.placeCreateButton}
                 >
-                    <View style={styles.placeCreateButton}>
+                    <View
+                        accessibilityLabel={"Place Create Icon"}
+                        accessible
+                        style={styles.placeCreateButton}
+                    >
                         <Icon
                             color={'#337ab7'}
                             name={'fontawesome|plus-circle'}
