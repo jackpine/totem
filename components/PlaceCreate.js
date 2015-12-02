@@ -92,6 +92,8 @@ var PlaceCreate = React.createClass({
                 {this.renderNavBar()}
                 {locationDebugInfo}
                 <TextInput
+                    accessibilityLabel={'Place Create Input'}
+                    accessible
                     autoCapitalize="none"
                     autoCorrect={false}
                     onChangeText={this.handleUserInput}
@@ -118,9 +120,14 @@ var PlaceCreate = React.createClass({
                     </PickerIOS>
                 </View>
 
-                <Button onPress={this.handleSubmitPress}>
-                    Establish this Place
-                </Button>
+                <View 
+                    accessibilityLabel={'Place Create Submit'}
+                    accessible
+                >
+                    <Button onPress={this.handleSubmitPress}>
+                        Establish this Place
+                    </Button>
+                </View>
 
             </View>
         );

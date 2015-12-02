@@ -29,7 +29,11 @@ var NavigationBar = React.createClass({
                     onPress={function(){ nav.pop() }}
                     style={styles.defaultBackButton}
                 >
-                    <View style={styles.defaultBackButton}>
+                    <View
+                        accessibilityLabel={'Go Back Chevron'}
+                        accessible
+                        style={styles.defaultBackButton}
+                    >
                         <Icon
                             color={'#337ab7'}
                             name={'ion|chevron-left'}
