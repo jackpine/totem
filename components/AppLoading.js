@@ -13,15 +13,10 @@ var {
 var Place = React.createClass({
 
     propTypes: {
-        name: React.PropTypes.string.isRequired,
     },
     renderNavBar: function(){
-        var leftButton = function(){};
-        var rightButton = function(){};
         return (
             <NavigationBar
-                rightButton={function(){}}
-                leftButton={function(){}}
                 title={'Totem'}
                 navigator={this.props.navigator}
             />

@@ -14,13 +14,16 @@ var NavigationBar = React.createClass({
     propTypes:{
         leftButton: React.PropTypes.func,
         navigator: React.PropTypes.object.isRequired,
-        rightButton: React.PropTypes.func.isRequired,
+        rightButton: React.PropTypes.func,
         title: React.PropTypes.string.isRequired,
     },
     render: function(){
-        var leftButton, rightButton;
+        var leftButton = null;
+        var rightButton;
 
-        if(this.props.leftButton)
+        if( typeof this.props.rightButton != 'undefined')
+            rightButton = this.props.rightButton()
+        if( typeof this.props.leftButton != 'undefined')
             leftButton = this.props.leftButton()
         else{
             var nav = this.props.navigator;
@@ -50,7 +53,7 @@ var NavigationBar = React.createClass({
                 <View style={styles.toolbar}>
                     <View style={styles.toolbarButton}>{leftButton}</View>
                     <Text style={styles.toolbarTitle}>{this.props.title}</Text>
-                    <View style={styles.toolbarButton}>{this.props.rightButton()}</View>
+                    <View style={styles.toolbarButton}>{rightButton}</View>
                 </View>
             </View>)
     }
