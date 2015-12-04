@@ -60,6 +60,10 @@ class TotemApi{
         .then((response) => response.json());
     }
 
+    static userSessionUrl(){
+        return urljoin(apiHost, '/users/sign_up')
+    }
+
 }
 
 module.exports = TotemApi;

@@ -1,15 +1,28 @@
+'use strict'
+
 var React = require('react-native');
 var LocationManager = React.NativeModules.TMLocationManager;
 var _ = require('underscore');
+
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var TotemConstants = require('../constants/TotemConstants');
+var TotemApi = require('../util/TotemApi');
+
+// Stores
 var LocationStore = require('../stores/LocationStore');
+var UserStore = require('../stores/UserStore');
+
+// Actions
 var LocationUpdateAction = require('../actions/LocationUpdateAction');
+
+// Components
 var PlaceCreate = require('./PlaceCreate');
 var PlaceJoin = require('./PlaceJoin');
 var Place = require('./Place');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var TotemConstants = require('../constants/TotemConstants');
+var AppLoading = require('./AppLoading');
+var UserSignInCreate = require('./UserSignInCreate');
+
 var ActionTypes = TotemConstants.ActionTypes;
-var TotemApi = require('../util/TotemApi');
 
 var {
     StyleSheet,
@@ -24,24 +37,63 @@ var {
 var Totem = React.createClass({
     getInitialState: function(){
         return {
-            location: LocationStore.getLatest(),
+            userLoaded: false,
+            user: null,
+            location: null,
             nearbyPlaces: []
         }
     },
     componentDidMount: function(){
-        LocationStore.on('change:currentLocation', this._onLocationChange);
+        LocationStore.addListener('change', this._onLocationChange);
         LocationManager.startLocationUpdates({}, function(err, response){
             console.log(`${response}`)
-        })
+        });
+        var self = this;
+        UserStore.get().then(function(user){
+            self.setState({userLoaded: true, user: user})
+        });
     },
     componentWillUnmount: function() {
         this._listeners && this._listeners.forEach(listener => listener.remove());
     },
+    assignDefaultSceneProps: function(){
+
+    },
+    appIsLoading: function(){
+        return !(this.state.userLoaded && this.state.location)
+    },
     renderScene: function(route, nav){
 
         var Component;
+        var routeProps;
 
-        switch(route.path){
+        if(this.appIsLoading()){
+            Component = AppLoading;
+        }
+        else if(!this.state.user){
+            Component = UserSignInCreate
+        }
+        else{
+        // when new scenes are pushed on, they can pass props to the next scene
+            routeProps = route.passProps || {};
+            Component = this.lookupSceneByPath(route.path);
+        }
+
+        var componentProps = Object.assign({}, routeProps, {
+            location: this.state.location,
+            navigator: nav,
+            nearbyPlaces: this.state.nearbyPlaces
+        });
+
+        return (
+            <View style={styles.navigator}>
+                <Component {...componentProps} />
+            </View>
+        );
+    },
+    lookupSceneByPath(path){
+        var Component;
+        switch(path){
             case 'place_create':
                 Component = PlaceCreate;
             break;
@@ -58,20 +110,7 @@ var Totem = React.createClass({
                 }
             });
         }
-
-        var routeProps = route.passProps || {};
-        var componentProps = Object.assign({}, routeProps, {
-            location: this.state.location,
-            navigator: nav,
-            nearbyPlaces: this.state.nearbyPlaces
-        });
-
-        return (
-            <View style={styles.navigator}>
-                <Component {...componentProps} />
-            </View>
-        );
-
+        return Component;
     },
     _setNavigatorRef: function(navigator) {
 
@@ -110,8 +149,13 @@ var Totem = React.createClass({
         }
     }, 30000),
     _onLocationChange: function(){
-        this.setState({location: LocationStore.getLatest()});
-        this.fetchNearbyPlaces();
+        var self = this;
+        LocationStore.getLatestAsync().then(function(latestLocation){
+            self.setState({location: latestLocation});
+        })
+        if(this.state.location){
+            this.fetchNearbyPlaces();
+        }
     },
     render: function() {
         return (

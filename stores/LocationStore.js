@@ -2,37 +2,47 @@
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var TotemConstants = require('../constants/TotemConstants');
-var Backbone = require('backbone');
+var EventEmitter = require('EventEmitter');
 var _ = require('underscore');
 
 var ActionTypes = TotemConstants.ActionTypes;
 
+// this is the stand-in store
 var currentLocation = null;
 
-var LocationStore = _.extend({}, Backbone.Events, {
+class LocationStore extends EventEmitter{
 
-    getLatest: function(){
-        return currentLocation;
+    constructor(){
+
+        super();
+        var self = this;
+
+        this.dispatchToken = AppDispatcher.register((action)=>this.processDispatch(action));
     }
 
-})
+    processDispatch(action){
+        switch(action.type) {
 
-LocationStore.dispatchToken = AppDispatcher.register(function(action) {
-    switch(action.type) {
+            case ActionTypes.LOCATION_UPDATE:
+                if(action.location == null)
+                    currentLocation = null;
+                else{
+                    currentLocation = action.location[0]
+                }
+                this.emit('change')
+                break;
 
-        case ActionTypes.LOCATION_UPDATE:
-            if(action.location == null)
-                currentLocation = null
-            else{
-                currentLocation = action.location[0]
-            }
-            LocationStore.trigger('change:currentLocation')
-            break;
+            default:
+                // do nothing
+        }
 
-        default:
-            // do nothing
     }
 
-});
+    getLatestAsync(){
+        return new Promise(function(resolve, reject){
+            resolve(currentLocation);
+        });
+    }
+}
 
-module.exports = LocationStore;
+module.exports = new LocationStore;

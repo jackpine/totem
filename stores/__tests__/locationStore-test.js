@@ -11,7 +11,7 @@ describe('location store', ()=>{
     var callback;
 
     beforeEach(function() {
-        AppDispatcher = require('../../dispatcher/AppDispatcher');
+        AppDispatcher = require.requireActual('../../dispatcher/AppDispatcher');
         LocationStore = require('../LocationStore');
         callback = AppDispatcher.register.mock.calls[0][0];
     });
@@ -22,7 +22,9 @@ describe('location store', ()=>{
 
     it('returns null when no location set', () => {
         console.log(TotemConstants)
-        expect(LocationStore.getLatest()).toBe(null);
+        LocationStore.getLatestAsync().then(function(latest){
+            expect(latest).toBe(null);
+        })
     });
 
     it('it returns the latest location', () => {
@@ -36,15 +38,16 @@ describe('location store', ()=>{
             'altitude':0}
         ];
         var payload = {
-            type: TotemConstants.ActionTypes.LOCATION_UPDATE,
+            type: "LOCATION_UPDATE",
             location: location
         };
         callback(payload)
 
-        expect(LocationStore.getLatest()).toBeTruthy();
-        expect(LocationStore.getLatest()[0]['lon']).toBe(-122.0);
-        expect(LocationStore.getLatest()[0]['lat']).toBe(37.0);
-        expect(LocationStore.getLatest()[0]['timestamp']).toBe('2015-10-22T13:34:47-05:00');
+        LocationStore.getLatestAsync().then(function(latest){
+            expect(latest).toBeTruthy();
+            expect(latest[0]['lon']).toBe(-122.0);
+            expect(latest[0]['timestamp']).toBe('2015-10-22T13:34:47-05:00');
+        })
 
     });
 

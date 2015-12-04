@@ -1,3 +1,5 @@
+'use strict'
+
 var React = require('react-native');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var TotemConstants = require('../constants/TotemConstants');
