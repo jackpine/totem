@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || auth_token_pairs_me_path
+    stored_location_for(resource) || auth_token_pairs_me_path({:user => Base64.encode64(current_user.to_json).strip()}) 
   end
 
   rescue_from CanCan::AccessDenied do |exception|

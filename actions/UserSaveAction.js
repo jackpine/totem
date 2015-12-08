@@ -17,7 +17,7 @@ var UserSaveAction = {
       var user = new User(username, email, publicToken, PrivateToken);
 
       AppDispatcher.dispatch({
-          type: ActionTypes.USER_PROFILE_SAVE,
+          type: ActionTypes.USER_SAVE,
           user: user
       });
   }

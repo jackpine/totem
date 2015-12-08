@@ -12,7 +12,7 @@ var {
 
 var ActionTypes = TotemConstants.ActionTypes;
 
-var STORAGE_KEY = 'totem:user-profile';
+var STORAGE_KEY = 'totem:user';
 
 class UserProfileStore extends EventEmitter{
 
@@ -23,7 +23,7 @@ class UserProfileStore extends EventEmitter{
     }
     async processDispatch(action){
         switch(action.type) {
-            case ActionTypes.USER_PROFILE_SAVE:
+            case ActionTypes.USER_SAVE:
                 // save the profile
                 await this.save(action.user);
                 this.emit('change');
@@ -36,7 +36,7 @@ class UserProfileStore extends EventEmitter{
         try{
             var user = await AsyncStorage.getItem(STORAGE_KEY);
             if(user)
-                user = JSON.loads(user);
+                user = JSON.parse(user);
             return user;
         }
         catch(e){
@@ -48,7 +48,7 @@ class UserProfileStore extends EventEmitter{
 
     async save(user){
         try{
-            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(action.user));
+            await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(user));
         }
         catch(e) {
             //TODO set up remote logging here

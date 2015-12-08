@@ -3,6 +3,13 @@
 var React = require('react-native');
 var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
+var UserStore = require('../stores/UserStore');
+
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var TotemConstants = require('../constants/TotemConstants');
+
+var url = require('url');
+var Buffer = require('buffer').Buffer;
 
 var {
     StyleSheet,
@@ -12,12 +19,16 @@ var {
 } = React;
 
 var WEBVIEW_REF = 'webview';
-var DEFAULT_URL = 'https://m.facebook.com';
 
 
 var UserSignInCreate = React.createClass({
 
-    propTypes: {
+    getInitialState: function(){
+        return {
+        }
+    },
+    componentDidMount: function(){
+        console.log('mounted@')
     },
     render: function(){
         return (
@@ -39,7 +50,24 @@ var UserSignInCreate = React.createClass({
         )
     },
     onNavigationStateChange: function(navState) {
-        console.log(`state change! ${navState}`);
+
+        console.log(`state change! `, navState);
+
+        if(new RegExp(/auth_token_pairs\/me/).test(navState.url)){
+            var parsedUrl = url.parse(navState.url)
+            var b64json = decodeURIComponent(parsedUrl.query.split('=')[1]);
+            var buf = new Buffer(b64json, 'base64')
+            var parsedUserDoc = JSON.parse(buf.toString('utf8'));
+            console.log('Discovered the auth url!', parsedUserDoc)
+
+
+
+            UserStore.save(parsedUserDoc).then(function(){
+                console.log('saved!', arguments)
+            }).catch(function(err){
+                debugger // wtf??
+            })
+        }
     },
 
 });

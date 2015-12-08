@@ -1,6 +1,3 @@
 #message
-  - if current_user.present?
-    :javascript
-      #{render 'auth_token_pair.js', public_token: current_user.public_token}
-  - else
+  - if current_user.blank?
     = link_to  "Please log in", new_user_session_path
