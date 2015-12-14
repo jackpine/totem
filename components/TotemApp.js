@@ -44,14 +44,14 @@ var Totem = React.createClass({
         }
     },
     componentDidMount: function(){
-        LocationStore.addListener('change', this._onLocationChange);
+        LocationStore.addListener('change', this.onLocationChange);
         LocationManager.startLocationUpdates({}, function(err, response){
             console.log(`${response}`)
         });
-        var self = this;
-        UserStore.get().then(function(user){
-            self.setState({userLoaded: true, user: user})
-        });
+
+        UserStore.addListener('change', this.onUserChange);
+        this.loadUser();
+
     },
     componentWillUnmount: function() {
         this._listeners && this._listeners.forEach(listener => listener.remove());
@@ -136,6 +136,14 @@ var Totem = React.createClass({
             }
         }
     },
+    loadUser: function(){
+        var self = this;
+        UserStore.getAsync().then(function(user){
+            self.setState({userLoaded: true, user: user})
+        }).catch(function(){
+            debugger
+        })
+    },
     fetchNearbyPlaces: _.throttle(function(){
         if(this.state.location){
             TotemApi.placesNearby(this.state.location.lon, this.state.location.lat)
@@ -148,14 +156,21 @@ var Totem = React.createClass({
             .done();
         }
     }, 30000),
-    _onLocationChange: function(){
+    onLocationChange: function(){
         var self = this;
+
         LocationStore.getLatestAsync().then(function(latestLocation){
             self.setState({location: latestLocation});
+        }).catch(function(e){
+            console.log('TotemApp: caught massive error from location store:', e)
         })
+
         if(this.state.location){
             this.fetchNearbyPlaces();
         }
+    },
+    onUserChange: function(){
+        this.loadUser();
     },
     render: function() {
         return (

@@ -3,11 +3,7 @@
 var React = require('react-native');
 var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
-var UserStore = require('../stores/UserStore');
-
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var TotemConstants = require('../constants/TotemConstants');
-
+var UserActions = require('../actions/UserActions');
 var url = require('url');
 var Buffer = require('buffer').Buffer;
 
@@ -58,15 +54,7 @@ var UserSignInCreate = React.createClass({
             var b64json = decodeURIComponent(parsedUrl.query.split('=')[1]);
             var buf = new Buffer(b64json, 'base64')
             var parsedUserDoc = JSON.parse(buf.toString('utf8'));
-            console.log('Discovered the auth url!', parsedUserDoc)
-
-
-
-            UserStore.save(parsedUserDoc).then(function(){
-                console.log('saved!', arguments)
-            }).catch(function(err){
-                debugger // wtf??
-            })
+            UserActions.save(parsedUserDoc)
         }
     },
 

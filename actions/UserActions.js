@@ -11,14 +11,13 @@ var {
   NativeAppEventEmitter
 } = React;
 
-var UserSaveAction = {
-  saveProfile: function(username, email, publicToken, privateToken) {
-
-      var user = new User(username, email, publicToken, PrivateToken);
-
+var UserActions  = {
+    save(user){
       AppDispatcher.dispatch({
           type: ActionTypes.USER_SAVE,
           user: user
       });
-  }
-};
+    }
+}
+
+module.exports = UserActions;

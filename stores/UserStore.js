@@ -25,14 +25,14 @@ class UserProfileStore extends EventEmitter{
         switch(action.type) {
             case ActionTypes.USER_SAVE:
                 // save the profile
-                await this.save(action.user);
+                await this.saveAsync(action.user);
                 this.emit('change');
                 break;
             default:
                 // do nothing
         }
     }
-    async get(){
+    async getAsync(){
         try{
             var user = await AsyncStorage.getItem(STORAGE_KEY);
             if(user)
@@ -46,7 +46,7 @@ class UserProfileStore extends EventEmitter{
         }
     }
 
-    async save(user){
+    async saveAsync(user){
         try{
             await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(user));
         }
