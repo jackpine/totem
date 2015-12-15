@@ -17,6 +17,11 @@ var UserActions  = {
           type: ActionTypes.USER_SAVE,
           user: user
       });
+    },
+    signOut(){
+      AppDispatcher.dispatch({
+          type: ActionTypes.USER_DELETE,
+      });
     }
 }
 

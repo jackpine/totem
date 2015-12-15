@@ -24,14 +24,18 @@ class UserProfileStore extends EventEmitter{
     async processDispatch(action){
         switch(action.type) {
             case ActionTypes.USER_SAVE:
-                // save the profile
                 await this.saveAsync(action.user);
+                this.emit('change');
+                break;
+            case ActionTypes.USER_DELETE:
+                await this.deleteAsync();
                 this.emit('change');
                 break;
             default:
                 // do nothing
         }
     }
+
     async getAsync(){
         try{
             var user = await AsyncStorage.getItem(STORAGE_KEY);
@@ -41,7 +45,7 @@ class UserProfileStore extends EventEmitter{
         }
         catch(e){
             //TODO set up remote logging here
-            console.log(`Caught massive error ${e} trying to load the user profile`);
+            console.log(`Caught massive error ${e} trying to load the user`);
             throw(e);
         }
     }
@@ -52,7 +56,17 @@ class UserProfileStore extends EventEmitter{
         }
         catch(e) {
             //TODO set up remote logging here
-            console.log(`Caught error ${e} trying to save the user profile`);
+            console.log(`Caught error ${e} trying to save the user`);
+            throw(e);
+        }
+    }
+
+    async deleteAsync(){
+        try{
+            await AsyncStorage.removeItem(STORAGE_KEY);
+        }
+        catch(e) {
+            console.log(`Caught error ${e} trying to delete the user`);
             throw(e);
         }
     }

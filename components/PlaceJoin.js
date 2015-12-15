@@ -7,6 +7,8 @@ var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
 var { Icon } = require('react-native-icons');
 var GlobalStyles = require('../GlobalStyles');
+var UserActions = require('../actions/UserActions');
+
 var _ = require('underscore');
 
 var {
@@ -27,7 +29,16 @@ var PlaceJoin = React.createClass({
     },
     renderNavBar: function(){
         var self = this;
-        var leftButton = function(){};
+        var leftButton = function(){
+            return (
+                <TouchableHighlight 
+                    onPress={()=>self.handleSignOut()}
+                >
+                    <View>
+                        <Text>logout</Text>
+                    </View>
+                </TouchableHighlight>)
+        };
         var rightButton = function(){
             return (
                 <TouchableHighlight 
@@ -69,6 +80,10 @@ var PlaceJoin = React.createClass({
         .then(function(visit_json){
                 navigator.push({path: 'place', passProps:place});
             });
+    },
+    handleSignOut: function(){
+        debugger
+        UserActions.signOut();
     },
     renderTextInput(searchTextInputStyle: any) {
         return (
