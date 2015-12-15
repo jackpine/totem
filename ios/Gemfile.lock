@@ -38,6 +38,7 @@ GEM
     rack-protection (1.5.3)
       rack
     retriable (2.0.2)
+    rouge (1.10.1)
     run_loop (1.5.6)
       CFPropertyList (~> 2.2)
       awesome_print (~> 1.2)
@@ -55,12 +56,15 @@ GEM
       cucumber
     thor (0.19.1)
     tilt (2.0.1)
+    xcpretty (0.2.1)
+      rouge (~> 1.8)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   calabash-cucumber (>= 0.16, < 2.0)
+  xcpretty
 
 BUNDLED WITH
    1.10.6

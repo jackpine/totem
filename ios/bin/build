@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+BIN_DIR=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+
+CONFIG=$1
+POSSIBLE_CONFIGS="Debug AdHoc Release AppStore"
+if ! [[ $POSSIBLE_CONFIGS =~ $CONFIG ]]; then
+  echo "Your must specify a config in '$POSSIBLE_CONFIGS'"
+  exit 2
+fi
+
+cd ${BIN_DIR}/..
+xcodebuild -scheme Totem -configuration $CONFIG | bundle exec xcpretty
