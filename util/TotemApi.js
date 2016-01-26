@@ -4,6 +4,8 @@ var React = require('react-native');
 var NativeGlobals = React.NativeModules.TMGlobals;
 var Geo = require('./Geo')
 var urljoin = require('url-join');
+var jsrassign = require('jsrsasign');
+var UserStore = require('../stores/UserStore');
 
 var apiHost;
 switch(NativeGlobals.buildType){
@@ -24,46 +26,60 @@ var DEFAULT_HEADERS = {
 
 class TotemApi{
 
-    static placesNearby(lon, lat){
-        var params = `${lon},${lat}`;
-        return fetch(urljoin(apiHost, '/api/v1/places/nearby', `?location=${encodeURIComponent(params)}`))
-        .then((response) => response.json());
+    async placesNearby(lon, lat){
+        var params =  {lon: lon, lat: lat};
+        var encodedParams = await this._encodeJWT(params);
+        var response = await fetch(urljoin(apiHost, '/api/v1/places/nearby.json', `?jwt=${encodedParams}`));
+        return response.json();
     }
 
-    static placeCreate(name, category_id, lon, lat){
+    async placeCreate(name, category_id, lon, lat){
 
-        var location = Geo.jsonFromPoint(lon, lat);
-        var placeCreateOptions = {
-            method: 'POST',
-            headers: DEFAULT_HEADERS,
-            body:JSON.stringify({
-                location: location,
-                place: {
-                    name: name,
-                    category_id: category_id,
-            } }),
+        var placeCreateParams = {
+            location: Geo.jsonFromPoint(lon, lat),
+            place: {
+              name: name,
+              category_id: category_id}
         };
 
-        return fetch(urljoin(apiHost, '/api/v1/places'), placeCreateOptions)
-        .then((response) => response.json());
+        var response = await this._post('/api/v1/places.json', placeCreateParams);
+        return response.json();
     }
-    static visitCreate(place_id, lon, lat){
+    async visitCreate(place_id, lon, lat){
 
-        var location = Geo.jsonFromPoint(lon, lat);
-        var visitCreateOptions = {
-            method: 'POST',
-            headers: DEFAULT_HEADERS,
-            body:JSON.stringify({ visit: {place_id: place_id, location: location} }),
-        };
+        var visitCreateParams = { visit: {place_id: place_id, location: Geo.jsonFromPoint(lon, lat)} };
 
-        return fetch(urljoin(apiHost, '/api/v1/places', place_id, 'visits'), visitCreateOptions)
-        .then((response) => response.json());
+        var response = await this._post(urljoin('/api/v1/places', place_id, 'visits'), visitCreateParams);
+        return response.json();
     }
 
-    static userSessionUrl(){
+    userSessionUrl(){
         return urljoin(apiHost, '/users/sign_up')
     }
 
+    async _encodeJWT(params){
+
+        var user = await UserStore.getAsync();
+        params['public_token'] =  user.public_token;
+
+        var header = JSON.stringify({alg: 'HS256', typ: 'JWT'});
+        var payload = JSON.stringify(params);
+
+        return jsrassign.jws.JWS.sign('HS256', header, payload, user.private_token);
+    }
+
+    async _post(url, params){
+        var jwtToken = await this._encodeJWT(params);
+
+        var fetchOptions = {
+            method: 'POST',
+            headers: DEFAULT_HEADERS,
+            body: JSON.stringify({jwt: jwtToken})
+        };
+        return fetch(urljoin(apiHost, url), fetchOptions);
+    }
+
+
 }
 
-module.exports = TotemApi;
+module.exports = new TotemApi();

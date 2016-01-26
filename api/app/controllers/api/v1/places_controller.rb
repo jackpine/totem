@@ -19,9 +19,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
   def nearby
 
-    location = sanitize_nearby_params(nearby_params)
-    @places = Place.nearby(location[0], location[1], 0.125)
-
+    @places = Place.nearby(nearby_params.fetch('lon'), nearby_params.fetch('lat'), 0.125)
 
     respond_to do |format|
       format.json { render :index }
@@ -41,24 +39,8 @@ class Api::V1::PlacesController < Api::V1::BaseController
   end
 
   def nearby_params
-    params.require(:location)
+    params.permit([:lat, :lon])
   end
-
-  def sanitize_nearby_params(param)
-    if param.blank?
-      nearby_params = []
-    else
-      nearby_params = param.split(',').map {|v| v.to_f }
-    end
-
-    if nearby_params.length != 2
-      respond_to do |format|
-        format.json { render json: { error: "location param is formatted incorrectly" }, status: :bad_request }
-      end
-    end
-    nearby_params
-  end
-
 
 end
 

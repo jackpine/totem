@@ -2,7 +2,7 @@ require 'rgeo/geo_json'
 
 class Api::V1::VisitsController < Api::V1::BaseController
   def create
-    @place = Place.find(place_params)
+    @place = Place.find(place_params.fetch('place_id'))
     @visit = Visit.visit_place(@place, visit_params)
 
     respond_to do |format|
@@ -28,6 +28,6 @@ class Api::V1::VisitsController < Api::V1::BaseController
     tmp_params
   end
   def place_params
-    params.require(:place_id)
+    params.permit(:place_id)
   end
 end
