@@ -4,6 +4,7 @@ Feature: Place finding
 
 Scenario: Creating a place
   Given I am on the Welcome Screen
+  When I submit my proper credentials
   Then I wait to see "Place Create Icon"
   Then I touch "Place Create Icon"
   Then I wait to see "Create a New Place"
