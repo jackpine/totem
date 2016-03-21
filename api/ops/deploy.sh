@@ -7,7 +7,7 @@ TAG="totem-api"
 function usage {
   cat <<EOS
 Usage: ./deploy.sh <connection-string>
- e.g.: ./deploy.sh core@api-staging.totem-app.com
+ e.g.: ./deploy.sh root@api.totem-app.com
 EOS
 }
 
@@ -32,20 +32,16 @@ function provision {
     docker start totem-db
   else
     echo "Deploying new database container."
-    docker run --log-driver=journald --name totem-db -d mdillon/postgis:9.5
+    docker run --name totem-db -d mdillon/postgis:9.5
   fi
 
   echo "Removing any pre-existing api container."
   docker stop totem-api > /dev/null
   docker rm -f totem-api > /dev/null
 
-  echo "loading the latest api container."
-  $(cd /var/tmp/dist && tar -cf - * | docker load)
-
   echo "Starting new api container."
   docker run  \
     --name totem-api \
-    --log-driver=journald \
     --link totem-db:db \
     -e DB_URL=postgres://postgres@db/totem \
     -e RAILS_ENV=production \
