@@ -78,9 +78,9 @@ def main(argv):
         if "-alt" not in path:
             with open(path) as fd:
                 json_string = fd.read()
-                geojson = json.loads(json_string)
-                metadata = geojson['properties']
                 try:
+                    geojson = json.loads(json_string)
+                    metadata = geojson['properties']
 
                     if metadata['wof:placetype'] == "disputed":
                         # dont bother
