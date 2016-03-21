@@ -4,3 +4,13 @@
     | | | |  | | | |  |  __| | |\/| |
     | | | |__| | | |  | |____| |  | |
     |_|  \____/  |_|  |______|_|  |_|
+
+
+build the docker container:
+
+```
+./ops/build_docker.sh
+./ops/deploy.sh core@api.totem-app.com production
+```
+
+
