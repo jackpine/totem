@@ -16,6 +16,6 @@ fi
 
 # something like:
 # docker-machine create -d generic --generic-ip-address 159.203.68.122 --generic-ssh-user core totem-api
-eval $(docker-machine env totem-api)
+eval $(docker-machine env $MACHINE)
 docker build --tag="$TAG" $DIR/..
 
