@@ -3,3 +3,4 @@ log/
 tmp/
 ops/
 .git/
+database_tasks/.venv/
