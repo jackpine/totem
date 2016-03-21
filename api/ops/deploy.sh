@@ -32,7 +32,7 @@ function provision {
     docker start totem-db
   else
     echo "Deploying new database container."
-    docker run --name totem-db -d mdillon/postgis:9.5
+    docker run --name totem-db -p 127.0.0.1:5432:5432 -d mdillon/postgis:9.5
   fi
 
   echo "Removing any pre-existing api container."
