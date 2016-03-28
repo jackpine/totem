@@ -82,7 +82,6 @@ var PlaceJoin = React.createClass({
             });
     },
     handleSignOut: function(){
-        debugger
         UserActions.signOut();
     },
     renderTextInput(searchTextInputStyle: any) {

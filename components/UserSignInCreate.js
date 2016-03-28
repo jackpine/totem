@@ -47,13 +47,14 @@ var UserSignInCreate = React.createClass({
     },
     onNavigationStateChange: function(navState) {
 
-        console.log(`state change! `, navState);
+        console.log(`navigation state change! `, navState);
 
         if(new RegExp(/auth_token_pairs\/me/).test(navState.url)){
             var parsedUrl = url.parse(navState.url)
             var b64json = decodeURIComponent(parsedUrl.query.split('=')[1]);
             var buf = new Buffer(b64json, 'base64')
             var parsedUserDoc = JSON.parse(buf.toString('utf8'));
+            console.log('parsed user doc!')
             UserActions.save(parsedUserDoc)
         }
     },

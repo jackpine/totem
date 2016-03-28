@@ -71,6 +71,7 @@ var Totem = React.createClass({
             Component = AppLoading;
         }
         else if(!this.state.user){
+            console.log('no user is signed in')
             Component = UserSignInCreate
         }
         else{
@@ -141,13 +142,14 @@ var Totem = React.createClass({
         UserStore.getAsync().then(function(user){
             self.setState({userLoaded: true, user: user})
         }).catch(function(){
-            debugger
+          // TODO
         })
     },
     fetchNearbyPlaces: _.throttle(function(){
-        if(this.state.location){
+        if(this.state.location && !this.appIsLoading()){
             TotemApi.placesNearby(this.state.location.lon, this.state.location.lat)
             .then((nearbyPlacesList) => {
+                console.log('fetched!!', nearbyPlacesList)
                 this.setState({nearbyPlaces: nearbyPlacesList});
             })
             .catch(function(error){
