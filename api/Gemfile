@@ -8,6 +8,8 @@ gem 'devise'
 gem 'cancan'
 gem 'jwt'
 
+gem 'dotenv'
+
 # Use haml for markup
 gem 'haml-rails'
 

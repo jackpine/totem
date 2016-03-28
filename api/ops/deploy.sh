@@ -40,13 +40,21 @@ function provision {
   docker rm -f totem-api > /dev/null
 
   echo "Starting new api container."
+
   docker run  \
     --name totem-api \
     --link totem-db:db \
     -e DB_URL=postgres://postgres@db/totem \
     -e RAILS_ENV=production \
-    -d -p 3000:3000 \
+    -d -p 80:80 \
     totem-api
+
+  docker cp production_env totem-api:/home/app/totem-api/.env
+
+  echo "done."
+  echo ""
+  echo "run the admin tools like:"
+  echo "docker run --name totem-api -i -t -rm --link totem-db:db -e DB_URL=postgres://postgres@db/totem -e RAILS_ENV=production /bin/bash"
 
 ##  echo "Copying config."
 ##  docker exec -i totem bash -c "cat - > ~app/totem/.env" < ~/totem/ops/secrets/totem-$ENVIRONMENT-api.env
@@ -58,11 +66,13 @@ function provision {
 
 if [ "$#" == 1 ]
 then
-  HOST=$1
+  SSH_OPTS=$1
   ENVIRONMENT=production
 
-  echo "Remote deploying ${ENVIRONMENT} to ${HOST}."
-  ssh $1 "$(typeset -f); provision $ENVIRONMENT"
+  scp $DIR/production_env ${SSH_OPTS}:
+
+  echo "Remote deploying ${ENVIRONMENT} to ${SSH_OPTS}."
+  ssh $SSH_OPTS "$(typeset -f); provision $ENVIRONMENT"
 else
   usage
   exit 1

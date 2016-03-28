@@ -24,8 +24,11 @@ RUN bundle install
 
 ADD . /home/app/totem-api
 # Copy over template env file
-ADD .env-template /home/app/totem-api/.env
+# copying it in manually
+#ADD .env-template /home/app/totem-api/.env
 RUN chown -R app:app /home/app
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+
+WORKDIR /home/app/totem-api
