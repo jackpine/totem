@@ -4,6 +4,10 @@ totem-app quickstart
 There is a good quickstart doc on react's site, but here is an
 abbreviated version:
 
+I'm using:
+node 4.3
+npm 3
+
 install watchman to watch for file changes
 ------------------------------------------
 

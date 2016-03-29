@@ -656,83 +656,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22EF7EA61BD6C146004D064B /* ionicons.ttf in Resources */,
-				22EF7EA21BD6C086004D064B /* FontAwesome.otf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		226946A41C062E8C00344748 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				226946A51C062E8C00344748 /* ionicons.ttf in Resources */,
-				226946A61C062E8C00344748 /* FontAwesome.otf in Resources */,
-				226946A81C062E8C00344748 /* Images.xcassets in Resources */,
-				226946A91C062E8C00344748 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		222E666D1BE3C890008C5F5B /* ShellScript */ = {
+		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run e1262e56a471344a7330c726c2dbb7965c29983b de7ee2dc47d5b3feebc04d723f9739d667037f9cfdebb9489c9dcc54d06231a2";
-			showEnvVarsInLog = 0;
-		};
-		226946901C062E8C00344748 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" != \"Debug\" ]; then\n  echo '***************************'\n  echo \"Bundling and Minifying React-Native Javascript for ${CONFIGURATION}\"\n  cd $PROJECT_DIR/bin\n  echo `pwd`\n  $PROJECT_DIR/bin/react-bundle-minify\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		226946AA1C062E8C00344748 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run e1262e56a471344a7330c726c2dbb7965c29983b de7ee2dc47d5b3feebc04d723f9739d667037f9cfdebb9489c9dcc54d06231a2";
-			showEnvVarsInLog = 0;
-		};
-		2273F4531BE2B7DE00242E33 /* compile react js bundle and assets */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "compile react js bundle and assets";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ -f ~/.nvm/nvm.sh ]; then\n    . ~/.nvm/nvm.sh\nelse\n    echo \"I hope you have node v4 isntalled and react-native v0.14 globally installed\"\nfi\n\n\n./bin/react-bundle-minify\n\n\n";
-			showEnvVarsInLog = 0;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
+			showEnvVarsInLog = 1;
 		};
 /* End PBXShellScriptBuildPhase section */
 
