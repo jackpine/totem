@@ -85,9 +85,9 @@ def main(argv):
                     if metadata['wof:placetype'] == "disputed":
                         # dont bother
                         return
-                    if metadata['"wof:id"'] == 0
+                    if metadata['"wof:id"'] == 0:
                         # don't import the antipodal (180 degree long) 'Earth' place
-                        return 
+                        return
 
                     category_id = PLACE_CATEGORIES[metadata['wof:placetype']]
                     boundary = MultiPolygon([shape(geojson['geometry'])])
