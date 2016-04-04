@@ -68,8 +68,10 @@ var UserSignInCreate = React.createClass({
 
 var styles = StyleSheet.create({
     webView: {
-        backgroundColor: 'tomato',
-        height: 350,
+        backgroundColor: 'white',
+        height: 550,
+        flex: 1,
+        justifyContent: 'center'
     },
 });
 
