@@ -59,20 +59,17 @@ var Totem = React.createClass({
     assignDefaultSceneProps: function(){
 
     },
-    appIsLoading: function(){
-        return !(this.state.userLoaded && this.state.location)
-    },
     renderScene: function(route, nav){
 
         var Component;
         var routeProps;
 
-        if(this.appIsLoading()){
-            Component = AppLoading;
-        }
-        else if(!this.state.user){
-            console.log('no user is signed in')
+        if(!this.state.user){
             Component = UserSignInCreate
+            // TODO unregister location updates
+        }
+        else if(!this.state.location){
+            Component = AppLoading;
         }
         else{
         // when new scenes are pushed on, they can pass props to the next scene
@@ -146,10 +143,9 @@ var Totem = React.createClass({
         })
     },
     fetchNearbyPlaces: _.throttle(function(){
-        if(this.state.location && !this.appIsLoading()){
+        if(this.state.location && this.state.user){
             TotemApi.placesNearby(this.state.location.lon, this.state.location.lat)
             .then((nearbyPlacesList) => {
-                console.log('fetched!!', nearbyPlacesList)
                 this.setState({nearbyPlaces: nearbyPlacesList});
             })
             .catch(function(error){
