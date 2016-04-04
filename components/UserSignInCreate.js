@@ -35,12 +35,17 @@ var UserSignInCreate = React.createClass({
                 />
                 <Text>Hi! Welcome to totem. The first step is to create an account. This will let you explore places around you.</Text>
                 <WebView
-                    ref={WEBVIEW_REF}
-                    automaticallyAdjustContentInsets={false}
-                    style={styles.webView}
-                    url={TotemApi.userSessionUrl()}
-                    javaScriptEnabledAndroid={true}
-                    onNavigationStateChange={this.onNavigationStateChange}
+                  ref={WEBVIEW_REF}
+                  style={styles.webView}
+                  url={TotemApi.userSessionUrl()}
+                  javaScriptEnabled={true}
+                  decelerationRate="normal"
+                  onNavigationStateChange={this.onNavigationStateChange}
+                  startInLoadingState={true}
+                  scalesPageToFit={true}
+                  automaticallyAdjustCbnew
+                  ontentInsets={false}
+                  scalesPageToFit={false}
                 />
             </View>
         )
