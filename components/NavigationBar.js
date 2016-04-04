@@ -7,7 +7,7 @@ var {
     View,
     Text,
 } = React;
-var { Icon, } = require('react-native-icons');
+var Icon = require('react-native-vector-icons/Ionicons');
 
 var NavigationBar = React.createClass({
 
@@ -39,7 +39,7 @@ var NavigationBar = React.createClass({
                     >
                         <Icon
                             color={'#337ab7'}
-                            name={'ion|chevron-left'}
+                            name={'chevron-left'}
                             size={30}
                             style={styles.backChevron}
                         />
