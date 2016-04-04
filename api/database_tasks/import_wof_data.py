@@ -85,6 +85,9 @@ def main(argv):
                     if metadata['wof:placetype'] == "disputed":
                         # dont bother
                         return
+                    if metadata['"wof:id"'] == 0
+                        # don't import the antipodal (180 degree long) 'Earth' place
+                        return 
 
                     category_id = PLACE_CATEGORIES[metadata['wof:placetype']]
                     boundary = MultiPolygon([shape(geojson['geometry'])])
@@ -104,7 +107,7 @@ def main(argv):
                       "updated_at": now
                     }).execute()
                 except Exception, e:
-                    print "Skipping:", metadata['wof:id']
+                    print "Skipping:", path
                     print e
 
     walk_dir(argv[0], insert_record)
