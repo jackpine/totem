@@ -5,7 +5,7 @@ var DebugLocation = require('./DebugLocation');
 var PlaceList = require('./PlaceList');
 var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
-var { Icon } = require('react-native-icons');
+var Icon = require('react-native-vector-icons/FontAwesome');
 var GlobalStyles = require('../GlobalStyles');
 var UserActions = require('../actions/UserActions');
 
@@ -52,7 +52,7 @@ var PlaceJoin = React.createClass({
                     >
                         <Icon
                             color={'#337ab7'}
-                            name={'fontawesome|plus-circle'}
+                            name={'plus-circle'}
                             size={30}
                             style={styles.placeCreateIcon}
                         />
