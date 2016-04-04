@@ -85,7 +85,8 @@ def main(argv):
                     if metadata['wof:placetype'] == "disputed":
                         # dont bother
                         return
-                    if metadata['"wof:id"'] == 0:
+                    if metadata['wof:id'] == 0:
+                        print "skipping 'earth'"
                         # don't import the antipodal (180 degree long) 'Earth' place
                         return
 
