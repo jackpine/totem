@@ -67,6 +67,7 @@
 		227B116C1BEA98940025CA28 /* TMGlobals.m in Sources */ = {isa = PBXBuildFile; fileRef = 227B116A1BEA98940025CA28 /* TMGlobals.m */; };
 		229A3F661BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; };
 		229A3F671BBEB552007F76A5 /* TMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 229A3F651BBEB552007F76A5 /* TMLocationManager.m */; };
+		22EF42541CB54C6800CAF005 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 22EF42531CB54C6800CAF005 /* main.jsbundle */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
 
@@ -193,6 +194,7 @@
 		227B116A1BEA98940025CA28 /* TMGlobals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMGlobals.m; path = Totem/TMGlobals.m; sourceTree = "<group>"; };
 		229A3F641BBEB552007F76A5 /* TMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TMLocationManager.h; path = Managers/TMLocationManager.h; sourceTree = "<group>"; };
 		229A3F651BBEB552007F76A5 /* TMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TMLocationManager.m; path = Managers/TMLocationManager.m; sourceTree = "<group>"; };
+		22EF42531CB54C6800CAF005 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		22EF7E901BD6BECD004D064B /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "../node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				22EF42531CB54C6800CAF005 /* main.jsbundle */,
 				222DAAE41CB2E80A00A96843 /* Fonts */,
 				13B07FAE1A68108700A75B9A /* Totem */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -471,6 +474,8 @@
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
+				228C2A9C1CB53D690072B06B /* Build Javascript Bundle */,
+				22EF42521CB5467C00CAF005 /* increment build number */,
 			);
 			buildRules = (
 			);
@@ -488,6 +493,7 @@
 				226946911C062E8C00344748 /* Sources */,
 				226946961C062E8C00344748 /* Frameworks */,
 				222DAAD51CB2E6A100A96843 /* Resources */,
+				22CAF8B01CB540AB00C6CFEF /* Build Javascript Bundle */,
 			);
 			buildRules = (
 			);
@@ -512,6 +518,9 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 6GP7LY63TM;
+					};
+					2269468F1C062E8C00344748 = {
 						DevelopmentTeam = 6GP7LY63TM;
 					};
 				};
@@ -682,6 +691,7 @@
 				222DAB201CB2EAA500A96843 /* EvilIcons.ttf in Resources */,
 				222DAB261CB2EAA500A96843 /* Ionicons.ttf in Resources */,
 				222DAB241CB2EAA500A96843 /* Foundation.ttf in Resources */,
+				22EF42541CB54C6800CAF005 /* main.jsbundle in Resources */,
 				222DAB1E1CB2EAA500A96843 /* Entypo.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
@@ -705,6 +715,51 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		228C2A9C1CB53D690072B06B /* Build Javascript Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Javascript Bundle";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh $SRCROOT/bin/react-bundle-minify\n\n";
+		};
+		22CAF8B01CB540AB00C6CFEF /* Build Javascript Bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Javascript Bundle";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh $SRCROOT/bin/react-bundle-minify";
+		};
+		22EF42521CB5467C00CAF005 /* increment build number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "increment build number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\nif [ $CONFIGURATION == Release ]; then\n\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n\nfi\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		00E356EA1AD99517003FC87E /* Sources */ = {

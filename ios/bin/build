@@ -10,4 +10,4 @@ if ! [[ $POSSIBLE_CONFIGS =~ $CONFIG ]]; then
 fi
 
 cd ${BIN_DIR}/..
-xcodebuild -scheme Totem -configuration $CONFIG | bundle exec xcpretty
+xcodebuild -scheme Totem -configuration $CONFIG

@@ -10,6 +10,11 @@
 # This script is supposed to be invoked as part of Xcode build process
 # and relies on envoronment variables (including PWD) set by Xcode
 
+set -x
+set -e
+
+BIN_DIR=$(cd `dirname "${BASH_SOURCE[0]}"` && pwd)
+
 case "$CONFIGURATION" in
   Debug)
     exit 0
@@ -36,9 +41,15 @@ cd ..
 set -x
 DEST=$CONFIGURATION_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH
 
-react-native bundle \
-  --entry-file index.ios.js \
-  --platform ios \
-  --dev $DEV \
-  --bundle-output "$DEST/main.jsbundle" \
-  --assets-dest "$DEST"
+
+cd $BIN_DIR/../../
+echo `pwd`
+
+# hack to look up nvm node path
+echo "hope you have node via nvm!"
+NVM_PATH="$HOME/.nvm/versions/"
+
+echo "hope you have node v4 installed!"
+NODE_VERSION=$(ls -1 $NVM_PATH | grep v4 | sort | awk '/./{line=$0} END{print line}' )
+
+$NVM_PATH/$NODE_VERSION/bin/node ./node_modules/react-native-cli/index.js bundle --platform ios --bundle-output "$BIN_DIR/../main.jsbundle" --entry-file index.ios.js --dev $DEV
