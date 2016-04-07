@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   devise_for :users
 
   root to: "home#index"
+  get 'privacy', to: 'home#privacy'
+  get 'about', to: 'home#about'
 
   get "auth_token_pairs/me", to: "auth_token_pairs#me"
 
