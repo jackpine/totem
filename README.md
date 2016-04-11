@@ -16,16 +16,16 @@ Totem is a [React Native](https://facebook.github.io/react-native/releases/next/
 quickstart
 ==========
 
-For the Javascript side of things I'm using:
-- node 4 w/NVM: https://github.com/creationix/nvm
 
 First install nvm and make sure that you have a recent node.
 -----------------------------------------------------------
 
+For the Javascript side of things I'm using node 4 with [https://github.com/creationix/nvm](nvm)
+
     $ node --version
     v4.1.1
 
-Install the node deps. In this directory:
+Install the node deps. In the repo's root directory:
 
     $ npm install
 
@@ -35,17 +35,15 @@ starting out with npm3 (grr, npm!).
 install watchman to watch for file changes
 ------------------------------------------
 
+React native does hot code reloading, so to watch for changes in the
+files:
+
     $ brew install watchman
 
 or if you already have watchman installed:
 
     $ brew upgrade watchman
 
-
-install the cli react tool
---------------------------
-
-    $ npm install -g react-native-cli
 
 start the react packager
 -------------------------
@@ -56,7 +54,7 @@ Optionally, you can:
 
 This will start the react packager up. The packager is a service that
 provides the app (running on the device or simulator) with the JS code
-that provides the basic app functionality. This is used in development.
+for basic app functionality. This is used in development.
 For production releases, we take a snapshot of the JS, and [bundle and minify](https://github.com/jackpine/totem/blob/master/ios/main.jsbundle)
 it.
 
@@ -91,15 +89,8 @@ Develop and Debug the App
 Once the app has loaded, use ⌘R to reload and ⌘D to launch the
 debugger in Chrome (you may need to install an extension)
 
-totem-api
-=========
-
-make sure to seed the database with the example place data:
-
-    $ be rake totem:import_flickr_data
-
 tests
-=====
+-----
 
 right now, all we have are some rspecs in the api
 
@@ -109,20 +100,10 @@ and some jest unit tests:
 
     $ npm test
 
-Adhoc builds
-============
-
-Note that there is a new build phase script that bundles the react
-javascript when building for the Adhoc configuration. This is so that
-you don't forget to bundle the JS when distributing the app.  However,
-this script is working intermittently.
-
-In the case of building AdHoc configurations, make sure to `cd ios/bin;
-./react-bundle-minify` by hand first
-
+calabash end-to-end tests are WIP
 
 eslint for es6 and jsx in vim
-=============================
+-----------------------------
 
 To set up vim for linting, I've added the following to my janus
 vimrc.after:
