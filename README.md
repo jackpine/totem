@@ -1,17 +1,40 @@
-totem-app quickstart
-====================
+```
+  _______ ____ _______ ______ __  __
+ |__   __/ __ \__   __|  ____|  \/  |
+    | | | |  | | | |  | |__  | \  / |
+    | | | |  | | | |  |  __| | |\/| |
+    | | | |__| | | |  | |____| |  | |
+    |_|  \____/  |_|  |______|_|  |_|
+```
 
-There is a good quickstart doc on react's site, but here is an
-abbreviated version:
+introduction
+============
 
-I'm using:
-node 4.3
-npm 3
+Totem is a [React Native](https://facebook.github.io/react-native/releases/next/) app, a hybrid of ObjectiveC
+(iOS) and javascript (NodeJS).
+
+quickstart
+==========
+
+For the Javascript side of things I'm using:
+- node 4 w/NVM: https://github.com/creationix/nvm
+
+First install nvm and make sure that you have a recent node.
+-----------------------------------------------------------
+
+    $ node --version
+    v4.1.1
+
+Install the node deps. In this directory:
+
+    $ npm install
+
+I'm using node 4.1.1 (but anything recent-ish should work. And I'm just
+starting out with npm3 (grr, npm!).
 
 install watchman to watch for file changes
 ------------------------------------------
 
-    
     $ brew install watchman
 
 or if you already have watchman installed:
@@ -27,12 +50,40 @@ install the cli react tool
 start the react packager
 -------------------------
 
-    $ npm install
+Optionally, you can:
+
     $ npm start
 
-Run the App
+This will start the react packager up. The packager is a service that
+provides the app (running on the device or simulator) with the JS code
+that provides the basic app functionality. This is used in development.
+For production releases, we take a snapshot of the JS, and [bundle and minify](https://github.com/jackpine/totem/blob/master/ios/main.jsbundle)
+it.
+
+Note that XCode will start the packager automatically for you, so I'm noting this
+just so that you know this is an essential part of the application
+architecture.
+
+
+Build the App
 -----------
-In Xcode, punch ⌘R
+
+In Xcode, open the Totem.xcodeproj file from the ios directort. This
+opens the project up in apple's flagship IDE. There you can start the
+process of building (⌘ B) or running the app (⌘ R)
+
+
+The apple build system is a little arcane, so be aware of:
+
+- Target: influence linking and overall build process)
+- Scheme: collection of build parameters for a target
+- Build Configuration: Main parameter for branching build structure
+
+Run the App / API setup
+-----------------------
+
+OK, now we should be able to run the app. Look in `api/README` for
+information on how to set up the API.
 
 Develop and Debug the App
 -------------------------
