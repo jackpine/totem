@@ -37,7 +37,7 @@ var {
 var Totem = React.createClass({
     getInitialState: function(){
         return {
-            userLoaded: false,
+            userFetched: false,
             user: null,
             location: null,
             nearbyPlaces: []
@@ -64,7 +64,10 @@ var Totem = React.createClass({
         var Component;
         var routeProps;
 
-        if(!this.state.user){
+        if(!this.state.userFetched){
+            Component = AppLoading;
+        }
+        if(this.state.userFetched && !this.state.user){
             Component = UserSignInCreate
             // TODO unregister location updates
         }
@@ -137,7 +140,7 @@ var Totem = React.createClass({
     loadUser: function(){
         var self = this;
         UserStore.getAsync().then(function(user){
-            self.setState({userLoaded: true, user: user})
+            self.setState({userFetched: true, user: user})
         }).catch(function(){
           // TODO
         })
