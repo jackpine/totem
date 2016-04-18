@@ -10,6 +10,7 @@ var {
     ListView,
     PixelRatio,
     TouchableHighlight,
+    ActivityIndicatorIOS
 } = React;
 
 var PlaceList = React.createClass({
@@ -78,13 +79,10 @@ var PlaceList = React.createClass({
         this._filterPlaceRows(this.props.filterText || '', this.props.nearbyPlaces);
 
         var topView = this.props.renderAdditionalView &&
-            this.props.renderAdditionalView(this.renderRow, this.renderTextInput);
+        this.props.renderAdditionalView(this.renderRow, this.renderTextInput);
 
-
-        return (
-            <View style={styles.listContainer}>
-                {topView}
-                <ListView
+        if(this.props.nearbyPlaces.length > 0){
+            var listView = <ListView
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.dataSource}
                     keyboardDismissMode={'on-drag'}
@@ -93,6 +91,19 @@ var PlaceList = React.createClass({
                     renderSectionHeader={this._renderSectionHeader}
                     style={styles.list}
                 />
+        }
+        else{
+            var listView = <ActivityIndicatorIOS
+                animating={true}
+                style={[styles.centering, {height: 80}]}
+                size="large"
+            />
+         }
+
+        return (
+            <View style={styles.listContainer}>
+                {topView}
+                {listView}
             </View>)
     },
 
