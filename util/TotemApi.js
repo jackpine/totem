@@ -5,7 +5,6 @@ var NativeGlobals = React.NativeModules.TMGlobals;
 var Geo = require('./Geo')
 var urljoin = require('url-join');
 var jsrassign = require('jsrsasign');
-var UserStore = require('../stores/UserStore');
 
 var apiHost;
 switch(NativeGlobals.buildType){
@@ -26,9 +25,13 @@ var DEFAULT_HEADERS = {
 
 class TotemApi{
 
+    constructor(user){
+        this.user = user;
+    }
+
     async placesNearby(lon, lat){
         var params =  {lon: lon, lat: lat};
-        var encodedParams = await this._encodeJWT(params);
+        var encodedParams = this._encodeJWT(params);
         var response = await fetch(urljoin(apiHost, '/api/v1/places/nearby.json', `?jwt=${encodedParams}`));
         return response.json();
     }
@@ -53,23 +56,22 @@ class TotemApi{
         return response.json();
     }
 
-    userSessionUrl(){
+    static userSessionUrl(){
         return urljoin(apiHost, '/users/sign_up')
     }
 
-    async _encodeJWT(params){
+    _encodeJWT(params){
 
-        var user = await UserStore.getAsync();
-        params['public_token'] =  user.public_token;
+        params['public_token'] =  this.user.public_token;
 
         var header = JSON.stringify({alg: 'HS256', typ: 'JWT'});
         var payload = JSON.stringify(params);
 
-        return jsrassign.jws.JWS.sign('HS256', header, payload, user.private_token);
+        return jsrassign.jws.JWS.sign('HS256', header, payload, this.user.private_token);
     }
 
     async _post(url, params){
-        var jwtToken = await this._encodeJWT(params);
+        var jwtToken = this._encodeJWT(params);
 
         var fetchOptions = {
             method: 'POST',
@@ -82,4 +84,4 @@ class TotemApi{
 
 }
 
-module.exports = new TotemApi();
+module.exports = TotemApi;

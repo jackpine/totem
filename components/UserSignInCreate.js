@@ -1,9 +1,9 @@
 'use strict';
+import { ActionTypes } from '../constants/TotemConstants';
 
 var React = require('react-native');
 var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
-var UserActions = require('../actions/UserActions');
 var url = require('url');
 var Buffer = require('buffer').Buffer;
 
@@ -18,7 +18,9 @@ var WEBVIEW_REF = 'webview';
 
 
 var UserSignInCreate = React.createClass({
-
+    contextTypes:  {
+        store: React.PropTypes.object.isRequired
+    },
     getInitialState: function(){
         return {
           injectedJs: "$.post('/users/sign_out', {'_method':'delete'})"
@@ -61,7 +63,9 @@ var UserSignInCreate = React.createClass({
             var b64json = decodeURIComponent(parsedUrl.query.split('=')[1]);
             var buf = new Buffer(b64json, 'base64')
             var parsedUserDoc = JSON.parse(buf.toString('utf8'));
-            UserActions.save(parsedUserDoc)
+            this.context.store.dispatch({
+                type: ActionTypes.USER_SAVE,
+                user: parsedUserDoc});
         }
     },
 

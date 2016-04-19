@@ -1,4 +1,7 @@
 'use strict';
+import { ActionTypes } from '../constants/TotemConstants';
+import bindActions from "../actions";
+import { connect } from 'react-redux';
 
 var React = require('react-native');
 var DebugLocation = require('./DebugLocation');
@@ -7,7 +10,6 @@ var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
 var Icon = require('react-native-vector-icons/FontAwesome');
 var GlobalStyles = require('../GlobalStyles');
-var UserActions = require('../actions/UserActions');
 
 var _ = require('underscore');
 
@@ -21,7 +23,26 @@ var {
 } = React;
 
 
+function mapStateToProps(state) {
+    return {
+        location: state.location,
+        placesNearby: state.placesNearby
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    var actions = bindActions(dispatch);
+    return {
+        handleSignOut: function(){
+            dispatch(actions.userSignOut());
+        },
+    }
+}
+
 var PlaceJoin = React.createClass({
+    contextTypes:  {
+        store: React.PropTypes.object.isRequired
+    },
     getInitialState: function(){
         return {
             filterText: '',
@@ -32,7 +53,7 @@ var PlaceJoin = React.createClass({
         var leftButton = function(){
             return (
                 <TouchableHighlight 
-                    onPress={()=>self.handleSignOut()}
+                    onPress={()=>self.props.handleSignOut()}
                 >
                     <View>
                         <Text>logout</Text>
@@ -80,9 +101,6 @@ var PlaceJoin = React.createClass({
         .then(function(visit_json){
                 navigator.push({path: 'place', passProps:place});
             });
-    },
-    handleSignOut: function(){
-        UserActions.signOut();
     },
     renderTextInput(searchTextInputStyle: any) {
         return (
@@ -146,4 +164,4 @@ var styles = StyleSheet.create({
     }
 });
 
-module.exports = PlaceJoin;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(PlaceJoin);
