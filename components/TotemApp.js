@@ -70,12 +70,15 @@ var Totem = React.createClass({
         var Component;
         var routePassedProps;
 
-        if(!this.props.location){
+        if(!this.props.reduxStoreLoaded || (!this.props.location && this.props.user)){
             Component = AppLoading;
         }
-        if(this.props.location && !this.props.user){
+        else if(!this.props.user){
             Component = UserSignInCreate
             // TODO unregister location updates
+        }
+        else if(this.props.currentVisit){
+            Component = Place
         }
         else{
         // when new scenes are pushed on, they can pass props to the next scene

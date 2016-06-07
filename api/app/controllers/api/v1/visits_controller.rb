@@ -10,6 +10,7 @@ class Api::V1::VisitsController < Api::V1::BaseController
         format.json do
           visit_json = @visit.as_json
           visit_json["location"] = RGeo::GeoJSON.encode(@visit.location)
+          visit_json["place"] = @visit.place.as_json
           render json: visit_json, status: :created #, location: api_v1_visit_path(@place)
         end
       else

@@ -3,6 +3,7 @@ import { call, put } from 'redux-saga/effects'
 import TotemApi from '../util/TotemApi';
 import { ActionTypes } from '../constants/TotemConstants';
 import { placesNearbyRequested } from '../actions/PlaceActionCreators'
+import _ from 'underscore';
 
 
 function* fetchPlacesNearBy(action) {
@@ -24,6 +25,7 @@ function* createPlace(action){
     var { location, placeName, categoryId } = action;
     var { lon, lat } = location;
 
+    // WIP reduce this to a new list of nearby places
     try{
         var newPlace = yield call(()=>{ return api.placeCreate(placeName, categoryId, lon, lat) })
         yield put({type: ActionTypes.PLACE_CREATE_SUCCEEDED, newPlace: newPlace});
@@ -33,10 +35,29 @@ function* createPlace(action){
 
 }
 
+function* visitPlace(action){
+    var api = new TotemApi(action.user);
+    var { placeId, location} = action;
+    var { lon, lat } = location;
 
-export function* placesNearbyRequestedSaga() {
+    try{
+        var visit = yield call(()=>{ return api.visitCreate(placeId, lon, lat) })
+        // TODO reduce this to state, and "put" the user in their new place
+        yield put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: visit});
+    } catch(e) {
+        yield put({type: ActionTypes.ERROR, message: e.message});
+    }
+}
+
+
+export function* placeVisitSaga() {
+    yield* takeEvery(ActionTypes.PLACE_VISIT_REQUESTED, visitPlace);
+}
+
+export function* placesNearbySaga() {
     yield* takeEvery(ActionTypes.PLACES_NEARBY_REQUESTED, fetchPlacesNearBy);
 }
-export function* placeCreateRequestedSaga() {
+
+export function* placeCreateSaga() {
     yield* takeEvery(ActionTypes.PLACE_CREATE_REQUESTED, createPlace);
 }

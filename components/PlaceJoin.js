@@ -1,6 +1,5 @@
 'use strict';
 import { ActionTypes } from '../constants/TotemConstants';
-import bindActions from "../actions";
 import { connect } from 'react-redux';
 
 var React = require('react-native');
@@ -10,6 +9,9 @@ var NavigationBar = require('./NavigationBar');
 var TotemApi = require('../util/TotemApi');
 var Icon = require('react-native-vector-icons/FontAwesome');
 var GlobalStyles = require('../GlobalStyles');
+
+import { userSignOut } from '../actions/UserActionCreators';
+import { placeVisitRequested } from '../actions/PlaceActionCreators';
 
 var _ = require('underscore');
 
@@ -26,16 +28,15 @@ var {
 function mapStateToProps(state) {
     return {
         location: state.location,
-        placesNearby: state.placesNearby
+        placesNearby: state.placesNearby,
+        user: state.user,
     }
 }
 
 function mapDispatchToProps(dispatch){
-    var actions = bindActions(dispatch);
     return {
-        handleSignOut: function(){
-            dispatch(actions.userSignOut());
-        },
+        handleUserSignOut: (action)=>{ disptach(action) },
+        handlePlaceVisit: (action)=>{ dispatch(action) },
     }
 }
 
@@ -53,7 +54,7 @@ var PlaceJoin = React.createClass({
         var leftButton = function(){
             return (
                 <TouchableHighlight 
-                    onPress={()=>self.props.handleSignOut()}
+                    onPress={()=>self.props.handleSignOut(userSignOut())}
                 >
                     <View>
                         <Text>logout</Text>
@@ -96,11 +97,8 @@ var PlaceJoin = React.createClass({
     },
     handleRowPress: function(place){
         var navigator = this.props.navigator;
-
-        TotemApi.visitCreate(place.id, this.props.location.lon, this.props.location.lat)
-        .then(function(visit_json){
-                navigator.push({path: 'place', passProps:place});
-            });
+        var action = placeVisitRequested(place.id, this.props.location, this.props.user);
+        this.props.handlePlaceVisit(action);
     },
     renderTextInput(searchTextInputStyle: any) {
         return (
@@ -120,6 +118,7 @@ var PlaceJoin = React.createClass({
     },
     render: function() {
 
+        var self = this;
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
 
         return (
@@ -130,7 +129,7 @@ var PlaceJoin = React.createClass({
                 <PlaceList
                     filterText={this.state.filterText}
                     nearbyPlaces= {this.props.nearbyPlaces}
-                    onRowPress={this.handleRowPress}
+                    onRowPress={(place)=>{ self.handleRowPress(place) }}
                 />
             </View>
         );

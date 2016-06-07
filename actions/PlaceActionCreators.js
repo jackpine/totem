@@ -13,9 +13,24 @@ export function placeCreateRequested(placeName, categoryId, location, user){
         type: ActionTypes.PLACE_CREATE_REQUESTED,
         placeName,
         categoryId,
-        user,
         location,
         user
     }
 
+}
+
+export function placeVisitRequested(placeId, location, user){
+    return {
+        type: ActionTypes.PLACE_VISIT_REQUESTED,
+        placeId,
+        user,
+        location,
+    }
+}
+
+
+export function placeLeaveCurrentPlace(){
+    return {
+        type: ActionTypes.PLACE_LEAVE_CURRENT_PLACE,
+    }
 }

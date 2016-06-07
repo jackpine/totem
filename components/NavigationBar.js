@@ -20,16 +20,16 @@ var NavigationBar = React.createClass({
     render: function(){
         var leftButton = null;
         var rightButton;
+         var nav = this.props.navigator;
 
         if( typeof this.props.rightButton != 'undefined')
             rightButton = this.props.rightButton()
         if( typeof this.props.leftButton != 'undefined')
             leftButton = this.props.leftButton()
         else{
-            var nav = this.props.navigator;
             leftButton = (
                 <TouchableHighlight
-                    onPress={function(){ nav.pop() }}
+                    onPress={this.props.leftButtonHandler || function(){ nav.pop() }}
                     style={styles.defaultBackButton}
                     underlayColor={'white'}
                 >

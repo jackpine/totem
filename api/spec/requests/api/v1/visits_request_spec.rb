@@ -22,6 +22,7 @@ describe 'places requests' do
         expected_response = JSON.parse({
             location: { "type": "Point", "coordinates": [100.0, 0.0] },
             place_id: place.id,
+            place: {id: place.id, name: "place1", category_id: 6, category: "neighborhood"},
             id: Visit.last.id,
         }.to_json)
 

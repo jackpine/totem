@@ -1,5 +1,8 @@
 'use strict';
 
+import { connect } from 'react-redux';
+import { placeLeaveCurrentPlace } from '../actions/PlaceActionCreators';
+
 var React = require('react-native');
 var NavigationBar = require('./NavigationBar');
 
@@ -9,19 +12,32 @@ var {
     View,
 } = React;
 
+function mapStateToProps(state) {
+    return {
+        currentVisit: state.currentVisit,
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        handlePlaceLeave: (action)=>{ dispatch(action) },
+    }
+}
 
 var Place = React.createClass({
+    contextTypes:  {
+        store: React.PropTypes.object.isRequired
+    },
 
     propTypes: {
-        name: React.PropTypes.string.isRequired,
+        currentVisit: React.PropTypes.object.isRequired,
     },
     renderNavBar: function(){
-        var leftButton = function(){};
-        var rightButton = function(){};
+        var self = this;
         return (
             <NavigationBar
-                rightButton={rightButton}
-                title={'Congrats, You are in ' + this.props.name}
+                leftButtonHandler={()=>{self.props.handlePlaceLeave(placeLeaveCurrentPlace())}}
+                title={'Congrats, You are in ' + this.props.currentVisit.place.name}
                 navigator={this.props.navigator}
             />
         );
@@ -30,7 +46,7 @@ var Place = React.createClass({
         return (
             <View>
                 {this.renderNavBar()}
-                <Text>Hi welcome to {this.props.name}, there's a lot you can do in this place.</Text>
+                <Text>Hi welcome to {this.props.currentVisit.place.name}, there's a lot you can do in this place.</Text>
             </View>
         )
 
@@ -42,4 +58,4 @@ var styles = StyleSheet.create({
 
 });
 
-module.exports = Place;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(Place);
