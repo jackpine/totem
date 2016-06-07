@@ -21,6 +21,7 @@ var UserSignInCreate = React.createClass({
 
     getInitialState: function(){
         return {
+          injectedJs: "$.post('/users/sign_out', {'_method':'delete'})"
         }
     },
     componentDidMount: function(){
@@ -37,7 +38,7 @@ var UserSignInCreate = React.createClass({
                 <WebView
                   ref={WEBVIEW_REF}
                   style={styles.webView}
-                  url={TotemApi.userSessionUrl()}
+                  source={{uri: TotemApi.userSessionUrl()}}
                   javaScriptEnabled={true}
                   decelerationRate="normal"
                   onNavigationStateChange={this.onNavigationStateChange}
@@ -46,6 +47,7 @@ var UserSignInCreate = React.createClass({
                   automaticallyAdjustCbnew
                   ontentInsets={false}
                   scalesPageToFit={false}
+                  injectedJavaScript={this.state.injectedJs}
                 />
             </View>
         )
@@ -59,7 +61,6 @@ var UserSignInCreate = React.createClass({
             var b64json = decodeURIComponent(parsedUrl.query.split('=')[1]);
             var buf = new Buffer(b64json, 'base64')
             var parsedUserDoc = JSON.parse(buf.toString('utf8'));
-            console.log('parsed user doc!')
             UserActions.save(parsedUserDoc)
         }
     },

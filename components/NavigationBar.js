@@ -31,6 +31,7 @@ var NavigationBar = React.createClass({
                 <TouchableHighlight
                     onPress={function(){ nav.pop() }}
                     style={styles.defaultBackButton}
+                    underlayColor={'white'}
                 >
                     <View
                         accessibilityLabel={'Go Back Chevron'}
