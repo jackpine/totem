@@ -148,8 +148,10 @@ var Totem = React.createClass({
         });
         NativeAppEventEmitter.addListener(LocationManager.locationUpdatesEventChannel,
                                           (location)=>{
-                                              self.props.handleLocationUpdate(locationUpdate(location));
-                                              self.props.handlePlacesNearbyRequested(placesNearbyRequested(self.props.location, self.props.user));
+                                              if(self.props.user){
+                                                  self.props.handleLocationUpdate(locationUpdate(location));
+                                                  self.props.handlePlacesNearbyRequested(placesNearbyRequested(self.props.location, self.props.user));
+                                              }
                                           });
 
     },
