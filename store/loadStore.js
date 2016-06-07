@@ -3,15 +3,18 @@ import createLogger from 'redux-logger'
 import reducers from '../reducers/index';
 import * as storage from 'redux-storage';
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
+import filter from 'redux-storage-decorator-filter'
 import reducer from '../reducers';
 
 import createSagaMiddleware from 'redux-saga';
 import { placesNearbyRequestedSaga, placeCreateRequestedSaga } from '../sagas';
 
-
 export default function loadStore() {
 
-    const engine = createEngine('totem-app-state-tree');
+    const engine = filter(createEngine('totem-app-state-tree'), [], [
+        'blacklisted-key',
+        ['reduxStoreLoaded']
+    ]);
 
     const engineMiddleware = storage.createMiddleware(engine);
     const sagaMiddleware = createSagaMiddleware()

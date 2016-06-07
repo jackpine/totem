@@ -13,5 +13,12 @@ module.exports = {
         PLACES_NEARBY_REQUESTED: null,
         PLACE_CREATE_REQUESTED: null,
         PLACE_CREATE_SUCCEEDED: null,
+
+        PLACE_VISIT_REQUESTED: null,
+        PLACE_VISIT_SUCCEEDED: null,
+
+        PLACE_LEAVE_CURRENT_PLACE:null,
+
+        REDUX_STORAGE_LOAD: null, // from redux-storage
     })
 };

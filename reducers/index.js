@@ -2,12 +2,15 @@ import { combineReducers } from 'redux';
 
 import user from './user';
 import location from './location';
-import placesNearby from './places';
+import reduxStoreLoaded from './redux';
+import { placesNearby, placeVisit } from './places';
 
 const totemApp = combineReducers({
     user,
     location,
-    placesNearby
+    placesNearby,
+    reduxStoreLoaded,
+    currentVisit: placeVisit
 })
 
 module.exports = totemApp;
