@@ -17,7 +17,6 @@ import _ from 'underscore';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
-import AppDispatcher from '../dispatcher/AppDispatcher';
 import TotemConstants, { ActionTypes } from '../constants/TotemConstants';
 import TotemApi from '../util/TotemApi';
 
