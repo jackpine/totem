@@ -15,28 +15,10 @@ class TotemApi{
         this.user = user;
     }
 
-    apiHost(){
-        var React = require('react-native');
-        var NativeGlobals = React.NativeModules.TMGlobals;
-
-        var apiHost;
-        switch(NativeGlobals.buildType){
-            case 'adhoc':
-                apiHost = 'http://api-staging.totem-app.com';
-            break;
-            case 'appstore':
-                apiHost = 'http://api.totem-app.com';
-            break;
-            default:
-                apiHost = 'http://localhost:3000';
-        }
-        return apiHost;
-    }
-
     async placesNearby(lon, lat){
         var params =  {lon: lon, lat: lat};
         var encodedParams = this._encodeJWT(params);
-        var response = await fetch(urljoin(apiHost, '/api/v1/places/nearby.json', `?jwt=${encodedParams}`));
+        var response = await fetch(urljoin(TotemApi.apiHost(), '/api/v1/places/nearby.json', `?jwt=${encodedParams}`));
         return response.json();
     }
 
@@ -61,7 +43,25 @@ class TotemApi{
     }
 
     static userSessionUrl(){
-        return urljoin(apiHost, '/users/sign_up')
+        return urljoin(TotemApi.apiHost(), '/users/sign_up')
+    }
+
+    static apiHost(){
+        var ReactNative = require('react-native');
+        var NativeGlobals = ReactNative.NativeModules.TMGlobals;
+        var apiHost;
+        switch(NativeGlobals.buildType){
+            case 'adhoc':
+                apiHost = 'http://api-staging.totem-app.com';
+            break;
+            case 'appstore':
+                apiHost = 'http://api.totem-app.com';
+            break;
+            default:
+                apiHost = 'http://localhost:3000';
+        }
+        return apiHost;
+
     }
 
     _encodeJWT(params){
@@ -82,7 +82,7 @@ class TotemApi{
             headers: DEFAULT_HEADERS,
             body: JSON.stringify({jwt: jwtToken})
         };
-        return fetch(urljoin(apiHost, url), fetchOptions);
+        return fetch(urljoin(TotemApi.apiHost(), url), fetchOptions);
     }
 
 
