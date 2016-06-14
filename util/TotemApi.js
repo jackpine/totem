@@ -1,22 +1,8 @@
 'use strict'
-
-var React = require('react-native');
-var NativeGlobals = React.NativeModules.TMGlobals;
 var Geo = require('./Geo')
 var urljoin = require('url-join');
 var jsrassign = require('jsrsasign');
 
-var apiHost;
-switch(NativeGlobals.buildType){
-    case 'adhoc':
-        apiHost = 'http://api-staging.totem-app.com';
-        break;
-    case 'appstore':
-        apiHost = 'http://api.totem-app.com';
-        break;
-    default:
-        apiHost = 'http://localhost:3000';
-}
 
 var DEFAULT_HEADERS = {
     'Accept': 'application/json',
@@ -27,6 +13,24 @@ class TotemApi{
 
     constructor(user){
         this.user = user;
+    }
+
+    apiHost(){
+        var React = require('react-native');
+        var NativeGlobals = React.NativeModules.TMGlobals;
+
+        var apiHost;
+        switch(NativeGlobals.buildType){
+            case 'adhoc':
+                apiHost = 'http://api-staging.totem-app.com';
+            break;
+            case 'appstore':
+                apiHost = 'http://api.totem-app.com';
+            break;
+            default:
+                apiHost = 'http://localhost:3000';
+        }
+        return apiHost;
     }
 
     async placesNearby(lon, lat){
