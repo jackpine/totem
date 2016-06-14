@@ -35,7 +35,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
     return {
-        handleUserSignOut: (action)=>{ disptach(action) },
+        handleUserSignOut: (action)=>{ dispatch(action) },
         handlePlaceVisit: (action)=>{ dispatch(action) },
     }
 }
@@ -54,7 +54,7 @@ var PlaceJoin = React.createClass({
         var leftButton = function(){
             return (
                 <TouchableHighlight 
-                    onPress={()=>self.props.handleSignOut(userSignOut())}
+                    onPress={()=>self.props.handleUserSignOut(userSignOut())}
                 >
                     <View>
                         <Text>logout</Text>
