@@ -11,18 +11,14 @@ var DEFAULT_HEADERS = {
 
 class TotemApi{
 
-    constructor(user){
-        this.user = user;
-    }
-
-    async placesNearby(lon, lat){
+    static async placesNearby(user, lon, lat){
         var params =  {lon: lon, lat: lat};
-        var encodedParams = this._encodeJWT(params);
+        var encodedParams = TotemApi._encodeJWT(user, params);
         var response = await fetch(urljoin(TotemApi.apiHost(), '/api/v1/places/nearby.json', `?jwt=${encodedParams}`));
         return response.json();
     }
 
-    async placeCreate(name, category_id, lon, lat){
+    static async placeCreate(user, name, category_id, lon, lat){
 
         var placeCreateParams = {
             location: Geo.jsonFromPoint(lon, lat),
@@ -31,14 +27,17 @@ class TotemApi{
               category_id: category_id}
         };
 
-        var response = await this._post('/api/v1/places.json', placeCreateParams);
+        var jwtToken = TotemApi._encodeJWT(user, placeCreateParams);
+
+        var response = await TotemApi._post('/api/v1/places.json', jwtToken);
         return response.json();
     }
-    async visitCreate(place_id, lon, lat){
+    static async visitCreate(user, place_id, lon, lat){
 
         var visitCreateParams = { visit: {place_id: place_id, location: Geo.jsonFromPoint(lon, lat)} };
+        var jwtToken = TotemApi._encodeJWT(user, visitCreateParams);
 
-        var response = await this._post(urljoin('/api/v1/places', place_id, 'visits'), visitCreateParams);
+        var response = await TotemApi._post(urljoin('/api/v1/places', place_id, 'visits'), jwtToken);
         return response.json();
     }
 
@@ -64,19 +63,17 @@ class TotemApi{
 
     }
 
-    _encodeJWT(params){
+    static _encodeJWT(user, params){
 
-        params['public_token'] =  this.user.public_token;
+        params['public_token'] =  user.public_token;
 
         var header = JSON.stringify({alg: 'HS256', typ: 'JWT'});
         var payload = JSON.stringify(params);
 
-        return jsrassign.jws.JWS.sign('HS256', header, payload, this.user.private_token);
+        return jsrassign.jws.JWS.sign('HS256', header, payload, user.private_token);
     }
 
-    async _post(url, params){
-        var jwtToken = this._encodeJWT(params);
-
+    static async _post(url, jwtToken){
         var fetchOptions = {
             method: 'POST',
             headers: DEFAULT_HEADERS,
