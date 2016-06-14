@@ -37,7 +37,7 @@ var Place = React.createClass({
         return (
             <NavigationBar
                 leftButtonHandler={()=>{self.props.handlePlaceLeave(placeLeaveCurrentPlace())}}
-                title={'Congrats, You are in ' + this.props.currentVisit.place.name}
+                title={'Congrats, You are in ' + this.props.currentVisit.name}
                 navigator={this.props.navigator}
             />
         );
@@ -46,7 +46,7 @@ var Place = React.createClass({
         return (
             <View>
                 {this.renderNavBar()}
-                <Text>Hi welcome to {this.props.currentVisit.place.name}, there's a lot you can do in this place.</Text>
+                <Text>Hi welcome to {this.props.currentVisit.name}, there's a lot you can do in this place.</Text>
             </View>
         )
 

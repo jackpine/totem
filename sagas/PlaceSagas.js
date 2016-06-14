@@ -39,7 +39,7 @@ export function* visitPlace(action){
     try{
         var fetchedVisit = yield call(()=>api.visitCreate(placeId, lon, lat))
         // TODO reduce this to state, and "put" the user in their new place
-        yield put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: visit});
+        yield put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: fetchedVisit.place});
     } catch(e) {
         yield put({type: ActionTypes.ERROR, message: e.message});
     }
