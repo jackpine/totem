@@ -1,7 +1,8 @@
 'use strict'
 
-import React from 'react-native';
-var LocationManager = React.NativeModules.TMLocationManager;
+import React from 'react';
+import ReactNative from 'react-native'
+var LocationManager = ReactNative.NativeModules.TMLocationManager;
 
 var {
     StyleSheet,
@@ -11,7 +12,7 @@ var {
     View,
     Text,
     Navigator,
-} = React;
+} = ReactNative;
 
 import _ from 'underscore';
 import { connect } from 'react-redux';
@@ -42,7 +43,7 @@ function mapDispatchToProps(dispatch){
     }
 }
 
-var Totem = React.createClass({
+export var Totem = React.createClass({
     contextTypes:  {
         store: React.PropTypes.object.isRequired
     },
@@ -231,4 +232,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = connect(mapStateToProps, mapDispatchToProps)(Totem);
+export default connect(mapStateToProps, mapDispatchToProps)(Totem);

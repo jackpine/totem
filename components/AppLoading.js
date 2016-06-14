@@ -1,13 +1,13 @@
 'use strict';
 
-var React = require('react-native');
-var NavigationBar = require('./NavigationBar');
+import React from 'react';
+import NavigationBar from './NavigationBar';
 
-var {
+import {
     StyleSheet,
     Text,
     View,
-} = React;
+} from 'react-native';
 
 
 var Place = React.createClass({

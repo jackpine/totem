@@ -1,12 +1,12 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React from 'react';
+import {
     StyleSheet,
     TouchableHighlight,
     View,
     Text,
-} = React;
+} from 'react-native';
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var NavigationBar = React.createClass({
@@ -40,7 +40,7 @@ var NavigationBar = React.createClass({
                     >
                         <Icon
                             color={'#337ab7'}
-                            name={'chevron-left'}
+                            name={'ios-arrow-back'}
                             size={30}
                             style={styles.backChevron}
                         />

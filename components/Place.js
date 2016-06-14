@@ -3,14 +3,14 @@
 import { connect } from 'react-redux';
 import { placeLeaveCurrentPlace } from '../actions/PlaceActionCreators';
 
-var React = require('react-native');
-var NavigationBar = require('./NavigationBar');
+import React from 'react';
+import NavigationBar from './NavigationBar';
 
-var {
+import {
     StyleSheet,
     Text,
     View,
-} = React;
+} from 'react-native';
 
 function mapStateToProps(state) {
     return {

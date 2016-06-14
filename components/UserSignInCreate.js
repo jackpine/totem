@@ -1,18 +1,18 @@
 'use strict';
 import { ActionTypes } from '../constants/TotemConstants';
 
-var React = require('react-native');
-var NavigationBar = require('./NavigationBar');
-var TotemApi = require('../util/TotemApi');
-var url = require('url');
-var Buffer = require('buffer').Buffer;
+import React from 'react';
+import NavigationBar from './NavigationBar';
+import TotemApi from '../util/TotemApi';
+import url from 'url';
+import { Buffer } from 'buffer';
 
-var {
+import {
     StyleSheet,
     Text,
     View,
     WebView
-} = React;
+} from 'react-native';
 
 var WEBVIEW_REF = 'webview';
 

@@ -1,9 +1,9 @@
 'use strict';
 
-var React = require('react-native');
+import React from 'react';
 import { connect } from 'react-redux';
 
-var {
+import {
     StyleSheet,
     Text,
     TextInput,
@@ -12,7 +12,7 @@ var {
     PixelRatio,
     TouchableHighlight,
     ActivityIndicatorIOS
-} = React;
+} from 'react-native';
 
 function mapStateToProps(state) {
     return {

@@ -2,27 +2,27 @@
 import { ActionTypes } from '../constants/TotemConstants';
 import { connect } from 'react-redux';
 
-var React = require('react-native');
-var DebugLocation = require('./DebugLocation');
-var PlaceList = require('./PlaceList');
-var NavigationBar = require('./NavigationBar');
-var TotemApi = require('../util/TotemApi');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var GlobalStyles = require('../GlobalStyles');
+import React from 'react';
+import DebugLocation from './DebugLocation';
+import PlaceList from './PlaceList';
+import NavigationBar from './NavigationBar';
+import TotemApi from '../util/TotemApi';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import GlobalStyles from '../GlobalStyles';
 
 import { userSignOut } from '../actions/UserActionCreators';
 import { placeVisitRequested } from '../actions/PlaceActionCreators';
 
-var _ = require('underscore');
+import _ from 'underscore';
 
-var {
+import {
     StyleSheet,
     Text,
     TextInput,
     View,
     ListView,
     TouchableHighlight
-} = React;
+} from 'react-native';
 
 
 function mapStateToProps(state) {

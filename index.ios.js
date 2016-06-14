@@ -1,4 +1,5 @@
-import React, { Component, AppRegistry } from 'react-native';
+import React, { Component } from 'react';
+import ReactNative, { AppRegistry } from 'react-native';
 import Totem from './components/TotemApp';
 import { Provider } from 'react-redux';
 import loadStore from './store/loadStore';
@@ -15,6 +16,6 @@ class AppWrapper extends Component {
     }
 }
 
-React.AppRegistry.registerComponent('Totem', () => (
+ReactNative.AppRegistry.registerComponent('Totem', () => (
     AppWrapper
 ));

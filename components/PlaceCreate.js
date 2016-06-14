@@ -1,15 +1,16 @@
 'use strict';
 
 import { connect } from 'react-redux';
-var React = require('react-native');
-var Button = require('react-native-button');
-var DebugLocation = require('./DebugLocation');
-var PlaceList = require('./PlaceList');
-var NavigationBar = require('./NavigationBar');
-var GlobalStyles = require('../GlobalStyles');
-var TotemApi = require('../util/TotemApi');
+import React from 'react';
+import Button from 'react-native-button';
 
-var {
+import DebugLocation from './DebugLocation';
+import PlaceList from './PlaceList';
+import NavigationBar from './NavigationBar';
+import GlobalStyles from '../GlobalStyles';
+import TotemApi from '../util/TotemApi';
+
+import {
     StyleSheet,
     Text,
     TextInput,
@@ -17,7 +18,7 @@ var {
     View,
     ListView,
     TouchableHighlight,
-} = React;
+} from 'react-native';
 
 var PickerItemIOS = PickerIOS.Item
 
