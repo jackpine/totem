@@ -130,11 +130,11 @@ var styles = StyleSheet.create({
         backgroundColor: '#eeeeee',
     },
     sectionHeader: {
-        padding: 5,
     },
     sectionHeaderTitle: {
         fontWeight: '500',
         fontSize: 11,
+        padding: 5,
     },
     row: {
         backgroundColor: 'white',
