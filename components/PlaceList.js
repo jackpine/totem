@@ -10,8 +10,7 @@ import {
     View,
     ListView,
     PixelRatio,
-    TouchableHighlight,
-    ActivityIndicatorIOS
+    TouchableHighlight
 } from 'react-native';
 
 function mapStateToProps(state) {
@@ -93,7 +92,7 @@ var PlaceList = React.createClass({
         var topView = this.props.renderAdditionalView &&
         this.props.renderAdditionalView(this.renderRow, this.renderTextInput);
 
-        if(this.props.placesNearby.length > 0){
+        if(this.dataSource.getRowCount() > 0){
             var listView = <ListView
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.dataSource}
@@ -105,11 +104,9 @@ var PlaceList = React.createClass({
                 />
         }
         else{
-            var listView = <ActivityIndicatorIOS
-                animating={true}
-                style={[styles.centering, {height: 80}]}
-                size="large"
-            />
+            var listView = <Text style={styles.noResults}>
+                {'No results found!'}
+            </Text>
          }
 
         return (
@@ -157,6 +154,9 @@ var styles = StyleSheet.create({
         fontFamily: 'Courier',
         color: '#888888',
         lineHeight: 20,
+    },
+    noResults: {
+        padding: 20,
     },
 });
 
