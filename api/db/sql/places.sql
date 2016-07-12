@@ -26,7 +26,12 @@ BEGIN
                                             15),
                                   4326));
     ELSE
-      return ST_ConvexHull(visit_centroid);
+      -- union a 15 meter circle with the visits before the convex hull is calculated
+      -- so that we always have a non point polygon
+      return ST_Multi(ST_ConvexHull(ST_Union(visits, ST_Multi(ST_Transform(ST_Buffer(ST_Transform(visit_centroid,
+                                                         3857),
+                                            15),
+                                  4326)))));
     END IF;
   END IF;
 

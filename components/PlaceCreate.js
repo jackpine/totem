@@ -1,14 +1,16 @@
 'use strict';
 
-var React = require('react-native');
-var Button = require('react-native-button');
-var DebugLocation = require('./DebugLocation');
-var PlaceList = require('./PlaceList');
-var NavigationBar = require('./NavigationBar');
-var GlobalStyles = require('../GlobalStyles');
-var TotemApi = require('../util/TotemApi');
+import { connect } from 'react-redux';
+import React from 'react';
+import Button from 'react-native-button';
 
-var {
+import DebugLocation from './DebugLocation';
+import PlaceList from './PlaceList';
+import NavigationBar from './NavigationBar';
+import GlobalStyles from '../GlobalStyles';
+import TotemApi from '../util/TotemApi';
+
+import {
     StyleSheet,
     Text,
     TextInput,
@@ -16,9 +18,11 @@ var {
     View,
     ListView,
     TouchableHighlight,
-} = React;
+} from 'react-native';
 
 var PickerItemIOS = PickerIOS.Item
+
+import * as PlaceActionCreators from '../actions/PlaceActionCreators';
 
 var PLACE_CATEGORIES = {
     'continent': 1,
@@ -28,6 +32,22 @@ var PLACE_CATEGORIES = {
     'locality': 5,
     'neighborhood': 6,
 };
+
+function mapStateToProps(state) {
+    return {
+        location: state.location,
+        user: state.user,
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        handlePlaceCreate: function(action){
+            var action = action
+            dispatch(action);
+        },
+    }
+}
 
 var PlaceCreate = React.createClass({
     getInitialState: function() {
@@ -51,7 +71,6 @@ var PlaceCreate = React.createClass({
     },
     handleUserInput: function(newPlaceName){
         this.setState({placeName: newPlaceName});
-        console.log(this.state.placeName);
     },
     validate: function() {
         var errors = [];
@@ -67,14 +86,11 @@ var PlaceCreate = React.createClass({
     handleSubmitPress: function(){
 
         if(this.validate()) {
-            console.log('Submitting a place');
-            var navigator = this.props.navigator;
-            TotemApi.placeCreate(this.state.placeName,
-                                 this.state.placeCategoryId,
-                                 this.props.location.lon, this.props.location.lat)
-            .then(function(place_json){
-                navigator.replace({path: 'place', passProps:place_json});
-            });
+            var action = PlaceActionCreators.placeCreateRequested(this.state.placeName,
+                                         this.state.placeCategoryId,
+                                         this.props.location,
+                                         this.props.user)
+            this.props.handlePlaceCreate(action)
         } else {
             console.log('invalid!');
         }
@@ -142,4 +158,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = PlaceCreate;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(PlaceCreate);

@@ -2,6 +2,8 @@ class Visit < ActiveRecord::Base
   validates :place_id, presence: true
   validates :location, presence: true
 
+  belongs_to :place
+
   def self.visit_place(place, visit_params)
 
     visit = Visit.create(visit_params);

@@ -1,11 +1,7 @@
 'use strict';
 
-var React = require('react-native');
-
-var {
-    StyleSheet,
-    Text,
-} = React;
+import React from 'react';
+import {StyleSheet, Text } from 'react-native';
 
 module.exports = React.createClass({
 

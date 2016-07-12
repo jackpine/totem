@@ -1,10 +1,21 @@
-'use strict';
+import React, { Component } from 'react';
+import ReactNative, { AppRegistry } from 'react-native';
+import Totem from './components/TotemApp';
+import { Provider } from 'react-redux';
+import loadStore from './store/loadStore';
 
-var React = require('react-native');
-var Totem = require('./components/TotemApp');
+var store = loadStore();
 
-var {
-  AppRegistry,
-} = React;
+class AppWrapper extends Component {
+    render(){
+        return (
+            <Provider store={store}>
+                <Totem />
+            </Provider>
+        );
+    }
+}
 
-AppRegistry.registerComponent('Totem', () => Totem);
+ReactNative.AppRegistry.registerComponent('Totem', () => (
+    AppWrapper
+));

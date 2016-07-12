@@ -1,12 +1,12 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React from 'react';
+import {
     StyleSheet,
     TouchableHighlight,
     View,
     Text,
-} = React;
+} from 'react-native';
 var Icon = require('react-native-vector-icons/Ionicons');
 
 var NavigationBar = React.createClass({
@@ -20,16 +20,16 @@ var NavigationBar = React.createClass({
     render: function(){
         var leftButton = null;
         var rightButton;
+         var nav = this.props.navigator;
 
         if( typeof this.props.rightButton != 'undefined')
             rightButton = this.props.rightButton()
         if( typeof this.props.leftButton != 'undefined')
             leftButton = this.props.leftButton()
         else{
-            var nav = this.props.navigator;
             leftButton = (
                 <TouchableHighlight
-                    onPress={function(){ nav.pop() }}
+                    onPress={this.props.leftButtonHandler || function(){ nav.pop() }}
                     style={styles.defaultBackButton}
                     underlayColor={'white'}
                 >
@@ -40,7 +40,7 @@ var NavigationBar = React.createClass({
                     >
                         <Icon
                             color={'#337ab7'}
-                            name={'chevron-left'}
+                            name={'ios-arrow-back'}
                             size={30}
                             style={styles.backChevron}
                         />

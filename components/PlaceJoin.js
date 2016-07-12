@@ -1,27 +1,49 @@
 'use strict';
+import { ActionTypes } from '../constants/TotemConstants';
+import { connect } from 'react-redux';
 
-var React = require('react-native');
-var DebugLocation = require('./DebugLocation');
-var PlaceList = require('./PlaceList');
-var NavigationBar = require('./NavigationBar');
-var TotemApi = require('../util/TotemApi');
-var Icon = require('react-native-vector-icons/FontAwesome');
-var GlobalStyles = require('../GlobalStyles');
-var UserActions = require('../actions/UserActions');
+import React from 'react';
+import DebugLocation from './DebugLocation';
+import PlaceList from './PlaceList';
+import NavigationBar from './NavigationBar';
+import TotemApi from '../util/TotemApi';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import GlobalStyles from '../GlobalStyles';
 
-var _ = require('underscore');
+import { userSignOut } from '../actions/UserActionCreators';
+import { placeVisitRequested } from '../actions/PlaceActionCreators';
 
-var {
+import _ from 'underscore';
+
+import {
     StyleSheet,
     Text,
     TextInput,
     View,
     ListView,
     TouchableHighlight
-} = React;
+} from 'react-native';
 
+
+function mapStateToProps(state) {
+    return {
+        location: state.location,
+        placesNearby: state.placesNearby,
+        user: state.user,
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        handleUserSignOut: (action)=>{ dispatch(action) },
+        handlePlaceVisit: (action)=>{ dispatch(action) },
+    }
+}
 
 var PlaceJoin = React.createClass({
+    contextTypes:  {
+        store: React.PropTypes.object.isRequired
+    },
     getInitialState: function(){
         return {
             filterText: '',
@@ -32,7 +54,7 @@ var PlaceJoin = React.createClass({
         var leftButton = function(){
             return (
                 <TouchableHighlight 
-                    onPress={()=>self.handleSignOut()}
+                    onPress={()=>self.props.handleUserSignOut(userSignOut())}
                 >
                     <View>
                         <Text>logout</Text>
@@ -75,14 +97,8 @@ var PlaceJoin = React.createClass({
     },
     handleRowPress: function(place){
         var navigator = this.props.navigator;
-
-        TotemApi.visitCreate(place.id, this.props.location.lon, this.props.location.lat)
-        .then(function(visit_json){
-                navigator.push({path: 'place', passProps:place});
-            });
-    },
-    handleSignOut: function(){
-        UserActions.signOut();
+        var action = placeVisitRequested(place.id, this.props.location, this.props.user);
+        this.props.handlePlaceVisit(action);
     },
     renderTextInput(searchTextInputStyle: any) {
         return (
@@ -102,6 +118,7 @@ var PlaceJoin = React.createClass({
     },
     render: function() {
 
+        var self = this;
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
 
         return (
@@ -112,7 +129,7 @@ var PlaceJoin = React.createClass({
                 <PlaceList
                     filterText={this.state.filterText}
                     nearbyPlaces= {this.props.nearbyPlaces}
-                    onRowPress={this.handleRowPress}
+                    onRowPress={(place)=>{ self.handleRowPress(place) }}
                 />
             </View>
         );
@@ -146,4 +163,4 @@ var styles = StyleSheet.create({
     }
 });
 
-module.exports = PlaceJoin;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(PlaceJoin);

@@ -1,28 +1,8 @@
 'use strict'
 
-var React = require('react-native');
-var LocationManager = React.NativeModules.TMLocationManager;
-var _ = require('underscore');
-
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var TotemConstants = require('../constants/TotemConstants');
-var TotemApi = require('../util/TotemApi');
-
-// Stores
-var LocationStore = require('../stores/LocationStore');
-var UserStore = require('../stores/UserStore');
-
-// Actions
-var LocationUpdateAction = require('../actions/LocationUpdateAction');
-
-// Components
-var PlaceCreate = require('./PlaceCreate');
-var PlaceJoin = require('./PlaceJoin');
-var Place = require('./Place');
-var AppLoading = require('./AppLoading');
-var UserSignInCreate = require('./UserSignInCreate');
-
-var ActionTypes = TotemConstants.ActionTypes;
+import React from 'react';
+import ReactNative from 'react-native'
+var LocationManager = ReactNative.NativeModules.TMLocationManager;
 
 var {
     StyleSheet,
@@ -32,9 +12,41 @@ var {
     View,
     Text,
     Navigator,
-} = React;
+} = ReactNative;
 
-var Totem = React.createClass({
+import _ from 'underscore';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+
+import TotemConstants, { ActionTypes } from '../constants/TotemConstants';
+import TotemApi from '../util/TotemApi';
+
+import PlaceCreate from './PlaceCreate';
+import PlaceJoin from './PlaceJoin';
+import Place from './Place';
+import AppLoading from './AppLoading';
+import UserSignInCreate from './UserSignInCreate';
+
+import { locationUpdate } from '../actions/LocationActionCreators';
+import { placesNearbyRequested } from '../actions/PlaceActionCreators';
+
+function mapStateToProps(state) {
+    // special case for our Totem container
+    // map all the state to this component
+    return state
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+        handleLocationUpdate: (action)=>{ dispatch(action) },
+        handlePlacesNearbyRequested: (action) => { dispatch(action) }
+    }
+}
+
+export var Totem = React.createClass({
+    contextTypes:  {
+        store: React.PropTypes.object.isRequired
+    },
     getInitialState: function(){
         return {
             userFetched: false,
@@ -44,13 +56,7 @@ var Totem = React.createClass({
         }
     },
     componentDidMount: function(){
-        LocationStore.addListener('change', this.onLocationChange);
-        LocationManager.startLocationUpdates({}, function(err, response){
-            console.log(`${response}`)
-        });
-
-        UserStore.addListener('change', this.onUserChange);
-        this.loadUser();
+        this.listenForLocationUpdates();
 
     },
     componentWillUnmount: function() {
@@ -62,28 +68,26 @@ var Totem = React.createClass({
     renderScene: function(route, nav){
 
         var Component;
-        var routeProps;
+        var routePassedProps;
 
-        if(!this.state.userFetched){
+        if(!this.props.reduxStoreLoaded || (!this.props.location && this.props.user)){
             Component = AppLoading;
         }
-        if(this.state.userFetched && !this.state.user){
+        else if(!this.props.user){
             Component = UserSignInCreate
             // TODO unregister location updates
         }
-        else if(!this.state.location){
-            Component = AppLoading;
+        else if(this.props.currentVisit){
+            Component = Place
         }
         else{
         // when new scenes are pushed on, they can pass props to the next scene
-            routeProps = route.passProps || {};
+            routePassedProps = route.passProps || {};
             Component = this.lookupSceneByPath(route.path);
         }
 
-        var componentProps = Object.assign({}, routeProps, {
-            location: this.state.location,
+        var componentProps = Object.assign({}, routePassedProps, {
             navigator: nav,
-            nearbyPlaces: this.state.nearbyPlaces
         });
 
         return (
@@ -137,41 +141,19 @@ var Totem = React.createClass({
             }
         }
     },
-    loadUser: function(){
+    listenForLocationUpdates: function(){
         var self = this;
-        UserStore.getAsync().then(function(user){
-            self.setState({userFetched: true, user: user})
-        }).catch(function(){
-          // TODO
-        })
-    },
-    fetchNearbyPlaces: _.throttle(function(){
-        if(this.state.location && this.state.user){
-            TotemApi.placesNearby(this.state.location.lon, this.state.location.lat)
-            .then((nearbyPlacesList) => {
-                this.setState({nearbyPlaces: nearbyPlacesList});
-            })
-            .catch(function(error){
-                console.log('connecting to the api failed!', error)
-            })
-            .done();
-        }
-    }, 30000),
-    onLocationChange: function(){
-        var self = this;
+        LocationManager.startLocationUpdates({}, function(err, response){
+            console.log(`${response}`)
+        });
+        NativeAppEventEmitter.addListener(LocationManager.locationUpdatesEventChannel,
+                                          (location)=>{
+                                              if(self.props.user){
+                                                  self.props.handleLocationUpdate(locationUpdate(location));
+                                                  self.props.handlePlacesNearbyRequested(placesNearbyRequested(self.props.location, self.props.user));
+                                              }
+                                          });
 
-        LocationStore.getLatestAsync().then(function(latestLocation){
-            self.setState({location: latestLocation});
-        }).catch(function(e){
-            console.log('TotemApp: caught massive error from location store:', e)
-        })
-
-        if(this.state.location){
-            this.fetchNearbyPlaces();
-        }
-    },
-    onUserChange: function(){
-        this.loadUser();
     },
     render: function() {
         return (
@@ -250,4 +232,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = Totem;
+export default connect(mapStateToProps, mapDispatchToProps)(Totem);

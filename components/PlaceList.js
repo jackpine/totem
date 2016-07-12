@@ -1,8 +1,9 @@
 'use strict';
 
-var React = require('react-native');
+import React from 'react';
+import { connect } from 'react-redux';
 
-var {
+import {
     StyleSheet,
     Text,
     TextInput,
@@ -11,7 +12,18 @@ var {
     PixelRatio,
     TouchableHighlight,
     ActivityIndicatorIOS
-} = React;
+} from 'react-native';
+
+function mapStateToProps(state) {
+    return {
+        placesNearby: state.placesNearby || []
+    }
+}
+
+function mapDispatchToProps(dispatch){
+    return {
+    }
+}
 
 var PlaceList = React.createClass({
 
@@ -76,12 +88,12 @@ var PlaceList = React.createClass({
     },
     render: function() {
 
-        this._filterPlaceRows(this.props.filterText || '', this.props.nearbyPlaces);
+        this._filterPlaceRows(this.props.filterText || '', this.props.placesNearby);
 
         var topView = this.props.renderAdditionalView &&
         this.props.renderAdditionalView(this.renderRow, this.renderTextInput);
 
-        if(this.props.nearbyPlaces.length > 0){
+        if(this.props.placesNearby.length > 0){
             var listView = <ListView
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.dataSource}
@@ -148,4 +160,4 @@ var styles = StyleSheet.create({
     },
 });
 
-module.exports = PlaceList;
+module.exports = connect(mapStateToProps, mapDispatchToProps)(PlaceList);
