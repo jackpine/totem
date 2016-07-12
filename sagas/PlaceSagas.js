@@ -37,7 +37,7 @@ export function* visitPlace(action){
     try{
         var fetchedVisit = yield call(TotemApi.visitCreate, action.user, placeId, lon, lat)
         // TODO reduce this to state, and "put" the user in their new place
-        yield put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: fetchedVisit.place});
+        yield put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: fetchedVisit});
     } catch(e) {
         yield put({type: ActionTypes.ERROR, message: e});
     }
