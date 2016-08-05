@@ -194,6 +194,38 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: messages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE messages (
+    id integer NOT NULL,
+    place_id integer,
+    user_id integer,
+    body text,
+    flagged_count integer DEFAULT 0
+);
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE messages_id_seq OWNED BY messages.id;
+
+
+--
 -- Name: places; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -317,6 +349,13 @@ ALTER SEQUENCE visits_id_seq OWNED BY visits.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
 
 
@@ -332,6 +371,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY visits ALTER COLUMN id SET DEFAULT nextval('visits_id_seq'::regclass);
+
+
+--
+-- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
 --
@@ -453,4 +500,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151203175150');
 INSERT INTO schema_migrations (version) VALUES ('20151203183249');
 
 INSERT INTO schema_migrations (version) VALUES ('20160614192525');
+
+INSERT INTO schema_migrations (version) VALUES ('20160805155451');
 
