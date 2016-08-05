@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
-    "test": "mocha --compilers js:babel/register --require react-native-mock/mock.js --recursive __tests__/**/*.js"
+    "test": "mocha --compilers js:babel-core/register --require regenerator-runtime/runtime --require react-native-mock/mock.js --recursive __tests__/**/*.js"
   },
   "dependencies": {
     "buffer": "^3.5.4",
