@@ -201,8 +201,12 @@ CREATE TABLE messages (
     id integer NOT NULL,
     place_id integer,
     user_id integer,
+    subject character varying,
     body text,
-    flagged_count integer DEFAULT 0
+    flagged_count integer DEFAULT 0,
+    location geometry(Point,4326) NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 

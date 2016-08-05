@@ -16,6 +16,7 @@ class Place < ActiveRecord::Base
   validates :import_metadata, presence: true, if: :imported?
 
   has_many :visits
+  has_many :messages
 
   def self.nearby(lon, lat, radius_dregrees)
     my_loca_sql = "ST_GeomFromText('POINT(#{lon} #{lat})', 4326)"

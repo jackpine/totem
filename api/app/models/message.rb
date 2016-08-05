@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
 
-  validates :body, :user, :place, presence: true
+  validates :subject, :body, :user, :place, :location, presence: true
 
   belongs_to :user
   belongs_to :place

@@ -2,7 +2,7 @@ require 'rgeo/geo_json'
 
 class Api::V1::VisitsController < Api::V1::BaseController
   def create
-    @place = Place.find(place_params.fetch('place_id'))
+    @place = Place.find(params.require(:place_id))
     @visit = Visit.visit_place(@place, visit_params)
 
     respond_to do |format|
@@ -28,7 +28,5 @@ class Api::V1::VisitsController < Api::V1::BaseController
     tmp_params.merge!({location: RGeo::GeoJSON.decode(tmp_params['location']).as_text}) unless tmp_params[:location].blank?
     tmp_params
   end
-  def place_params
-    params.permit(:place_id)
-  end
+
 end

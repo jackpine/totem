@@ -1,7 +1,9 @@
 class Api::V1::PlacesController < Api::V1::BaseController
 
+  include Location
+
   def create
-    @place = Place.create_at_location(place_params, location_params)
+    @place = Place.create_at_location(place_params, location_params(params))
 
     respond_to do |format|
       if @place.persisted?
@@ -28,11 +30,6 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
   private
 
-  def location_params
-    tmp_params = params.require(:location).permit([:type,{:coordinates => []}])
-    {location: RGeo::GeoJSON.decode(tmp_params).as_text}
-
-  end
   def place_params
     params.require(:place).permit([:name,
                                    :category_id])

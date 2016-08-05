@@ -8,5 +8,7 @@ describe Message, type: :model do
   it { should validate_presence_of :user}
   it { should validate_presence_of :place}
   it { should validate_presence_of :body}
+  it { should validate_presence_of :location}
+  it { should validate_presence_of :subject}
 
 end
