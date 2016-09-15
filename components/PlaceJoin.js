@@ -137,15 +137,6 @@ var PlaceJoin = React.createClass({
 });
 
 var styles = StyleSheet.create({
-    searchTextInput: {
-        backgroundColor: 'white',
-        borderColor: '#cccccc',
-        borderRadius: 3,
-        borderWidth: 1,
-        paddingLeft: 8,
-        margin: 8,
-        height:40,
-    },
     headerContainer: {
       flexDirection: 'row',
     },

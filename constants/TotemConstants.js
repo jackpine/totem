@@ -19,7 +19,10 @@ module.exports = {
         PLACE_VISIT_REQUESTED: null,
         PLACE_VISIT_SUCCEEDED: null,
 
-        PLACE_LEAVE_CURRENT_PLACE:null,
+        PLACE_LEAVE_CURRENT_PLACE: null,
+
+        MESSAGE_COMPOSE_INITIATED: null,
+        MESSAGE_COMPOSE_COMPLETED: null,
 
         REDUX_STORAGE_LOAD: null, // from redux-storage
     })

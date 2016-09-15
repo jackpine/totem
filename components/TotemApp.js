@@ -177,59 +177,6 @@ var styles = StyleSheet.create({
     navigator: {
         flex: 1,
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 80,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    messageText: {
-        fontSize: 17,
-        fontWeight: '500',
-        padding: 15,
-        marginTop: 50,
-        marginLeft: 15,
-    },
-    button: {
-        backgroundColor: 'white',
-        padding: 15,
-        borderBottomWidth: 1 / PixelRatio.get(),
-        borderBottomColor: '#CDCDCD',
-    },
-    buttonText: {
-        fontSize: 17,
-        fontWeight: '500',
-    },
-    navBar: {
-        backgroundColor: 'white',
-    },
-    navBarText: {
-        fontSize: 16,
-        marginVertical: 10,
-    },
-    navBarTitleText: {
-        color: 'blue',
-        fontWeight: '500',
-        marginVertical: 9,
-    },
-    navBarLeftButton: {
-        paddingLeft: 10,
-    },
-    navBarRightButton: {
-        paddingRight: 10,
-    },
-    navBarButtonText: {
-        color: 'blue',
-    },
-    scene: {
-        flex: 1,
-        paddingTop: 20,
-        backgroundColor: '#EAEAEA',
-    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Totem);
