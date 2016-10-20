@@ -1,15 +1,21 @@
 import { ActionTypes } from '../constants/TotemConstants';
 
-export function initiateMessageCompose(messageText, contentHeight){
+export function messageComposeInitiated(subjectText, bodyText,  contentHeight){
     return {
         type: ActionTypes.MESSAGE_COMPOSE_INITIATED,
-        message: {text: messageText, contentHeight: contentHeight}
+        message: {body: bodyText, subject: subjectText, contentHeight: contentHeight}
     }
 }
 
-export function messageComposeCompleted(messageText, contentHeight){
+export function messageComposeCompleted(){
     return {
         type: ActionTypes.MESSAGE_COMPOSE_COMPLETED,
+    }
+}
+
+export function messageComposeCanceled(){
+    return {
+        type: ActionTypes.MESSAGE_COMPOSE_CANCELED,
     }
 }
 

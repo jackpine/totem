@@ -16,7 +16,6 @@ export function placeCreateRequested(placeName, categoryId, location, user){
         location,
         user
     }
-
 }
 
 export function placeVisitRequested(placeId, location, user){
@@ -27,7 +26,6 @@ export function placeVisitRequested(placeId, location, user){
         location,
     }
 }
-
 
 export function placeLeaveCurrentPlace(){
     return {

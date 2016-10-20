@@ -23,7 +23,15 @@ module.exports = {
 
         MESSAGE_COMPOSE_INITIATED: null,
         MESSAGE_COMPOSE_COMPLETED: null,
+        MESSAGE_COMPOSE_CANCELED: null,
+
+        MESSAGE_CREATE_REQUESTED: null,
+        MESSAGE_CREATE_SUCCEEDED: null,
+        MESSAGE_CREATE_FAILED: null,
 
         REDUX_STORAGE_LOAD: null, // from redux-storage
+    }),
+    Paths: keyMirror({
+        MESSAGE_COMPOSE: null,
     })
 };

@@ -13,6 +13,7 @@ export const placeVisit = (state = null, action) => {
   switch(action.type) {
     case ActionTypes.PLACE_VISIT_SUCCEEDED:
         return Object.assign({}, action.visit);
+    // XXX FIXME, this should return a visit
     case ActionTypes.PLACE_CREATE_SUCCEEDED:
         return Object.assign({}, action.newPlace);
     case ActionTypes.PLACE_LEAVE_CURRENT_PLACE:

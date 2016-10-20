@@ -3,7 +3,8 @@ import { takeEvery, takeLatest } from 'redux-saga'
 import TotemApi from '../util/TotemApi';
 import _ from 'underscore';
 
-import * as placeSagas from './PlaceSagas'
+import * as placeSagas from './PlaceSagas';
+import * as messageSagas from './MessageSagas';
 import { ActionTypes } from '../constants/TotemConstants';
 
 export function* placeVisitSaga() {
