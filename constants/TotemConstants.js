@@ -21,7 +21,7 @@ module.exports = {
 
         PLACE_LEAVE_CURRENT_PLACE: null,
 
-        MESSAGE_COMPOSE_INITIATED: null,
+        MESSAGE_COMPOSE_IN_PROCESS: null,
         MESSAGE_COMPOSE_COMPLETED: null,
         MESSAGE_COMPOSE_CANCELED: null,
 

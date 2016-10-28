@@ -18,3 +18,7 @@ export function* placesNearbySaga() {
 export function* placeCreateSaga() {
     yield* takeEvery(ActionTypes.PLACE_CREATE_REQUESTED, placeSagas.createPlace);
 }
+
+export function* messageCreateSaga(){
+    yield* takeEvery(ActionTypes.MESSAGE_COMPOSE_COMPLETED, messageSagas.createMessage);
+}

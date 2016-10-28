@@ -1,17 +1,27 @@
 import { call, put } from 'redux-saga/effects';
 import TotemApi from '../util/TotemApi';
 import { ActionTypes } from '../constants/TotemConstants';
+import { messageCreateRequested, messageCreateSucceeded } from '../actions/MessageActionCreators';
 
 export function* createMessage(action){
-    var { currentVisit, message, user } = action
+    var { place, visit, user, subject, body, location } = action.message
 
-    // WIP reduce this to a new list of nearby places
+    console.log('action in createMessage', messageCreateRequested(subject, body, user, visit, place, location))
+    yield put(messageCreateRequested(subject, body, user, visit, place, location))
+
     try{
-        var newPlace = yield call(TotemApi.placeMessage, user, message, currentVisit);
-        yield put({type: ActionTypes.MESSAGE_CREATE_SUCCEEDED, newPlace: newPlace});
-    } catch(e) {
+        var newMessage = yield call(TotemApi.messageCreate, user, subject, body, place.id, visit.id, location.lon, location.lat)
+        yield put(messageCreateSucceeded(newMessage.subject,
+                                         newMessage.body,
+                                         newMessage.user,
+                                         newMessage.visit,
+                                         newMessage.place,
+                                         newMessage.location))
+    }
+    catch(e){
         yield put({type: ActionTypes.ERROR, message: e.message});
     }
+
 
 }
 

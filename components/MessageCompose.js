@@ -6,6 +6,7 @@ import { messageComposeInitiated, messageComposeCompleted, messageComposeCancele
 import React  from 'react';
 import NavigationBar from './NavigationBar';
 import GlobalStyles from '../GlobalStyles';
+import { ActionTypes } from '../constants/TotemConstants';
 
 import {
     Text,
@@ -20,8 +21,9 @@ var DEFAULT_MESSAGE_HEIGHT = 40
 function mapStateToProps(state) {
     var message = state.message;
     return {
+        user: state.user,
+        location: state.location,
         currentVisit: state.currentVisit,
-        place: state.currentVisit,
         ...message
     }
 }
@@ -47,7 +49,6 @@ var MessageCompose = React.createClass({
 
     renderNavBar: function(){
         var self = this;
-        console.log(this.props)
         return (
             <NavigationBar
                 leftButtonHandler={()=>{self.handleAbortMessage()}}
@@ -61,13 +62,13 @@ var MessageCompose = React.createClass({
         return {
             subject: '',
             body: '',
+            messageComposeState: null,
             contentHeight: DEFAULT_MESSAGE_HEIGHT, // per global styles
         }
     },
     render: function(){
-        return (
-            <View >
-                {this.renderNavBar()}
+        var composeView = (
+            <View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
                     <Text>
                         Subject:
@@ -91,11 +92,24 @@ var MessageCompose = React.createClass({
                         testID="message_compose_text"
                         onContentSizeChange={ this.handleSizeChange }
                     />
-                    <View style={ { flexDirection: 'column', justifyContent:'center', alignContent: 'center', paddingTop: 15 } }>
+                    <View style={ { flexDirection: 'column', justifyContent:'center', paddingTop: 15 } }>
                         <TouchableHighlight onPress={this.handleMessageSubmitTouch}>
                             <Text style={ {fontSize: 18, color: 'gray'}} >Send</Text>
                         </TouchableHighlight>
                     </View>
+            </View>
+        )
+        if(this.props.messageCreateState == ActionTypes.MESSAGE_CREATE_REQUESTED){
+            composeView = (<Text style={ {fontSize: 18, color: 'gray'}}>Posting message!</Text>)
+        }else if(this.props.messageCreateState == ActionTypes.MESSAGE_CREATE_SUCCEEDED) {
+           composeView = null;
+           this.props.handleMessageComposeInitiated(messageComposeCanceled());
+           this.props.navigator.pop();
+        }
+        return (
+            <View >
+                {this.renderNavBar()}
+                {composeView}
             </View>
         )
     },
@@ -105,7 +119,7 @@ var MessageCompose = React.createClass({
     },
     handleUserSubjectInput: function(updatedSubjectText){
         this.props.handleMessageComposeInitiated(messageComposeInitiated(updatedSubjectText,
-                                                                         this.props.text,
+                                                                         this.props.body,
                                                                         this.props.contentHeight));
     },
     handleUserTextInput: function(updatedMessageText){
@@ -121,11 +135,15 @@ var MessageCompose = React.createClass({
         }
 
         this.props.handleMessageComposeInitiated(messageComposeInitiated(this.props.subject,
-                                                                         this.props.text,
+                                                                         this.props.body,
                                                                         height));
     },
     handleMessageSubmitTouch: function(){
-        this.props.handleMessageComposeCompleted(messageComposeCompleted());
+        this.props.handleMessageComposeCompleted(messageComposeCompleted(this.props.subject,
+                                                                         this.props.body,
+                                                                         this.props.user,
+                                                                         this.props.currentVisit,
+                                                                         this.props.location));
     }
 
 });

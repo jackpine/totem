@@ -32,6 +32,24 @@ class TotemApi{
         var response = await TotemApi._post('/api/v1/places.json', jwtToken);
         return response.json();
     }
+
+    static async messageCreate(user, subject, body, place_id, visit_id, lon, lat){
+        var messageCreateParams = {
+            message:{
+                location: Geo.jsonFromPoint(lon, lat),
+                subject: subject,
+                body: body,
+                place_id: place_id,
+                visit_id: visit_id,
+            }
+        };
+
+        var jwtToken = TotemApi._encodeJWT(user, messageCreateParams);
+
+        var response = await TotemApi._post(`/api/v1/places/${place_id}/messages.json`, jwtToken);
+        return response.json();
+    }
+
     static async visitCreate(user, place_id, lon, lat){
 
         var visitCreateParams = { visit: {place_id: place_id, location: Geo.jsonFromPoint(lon, lat)} };
