@@ -30,10 +30,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
     return {
-        handleMessageComposeInitiated: (action)=>{ dispatch(action) },
-        handleMessageComposeCompleted: (action)=>{ dispatch(action) },
-        handleMessageComposeCancel:    (action)=>{ dispatch(action) },
-        handleMessageSizeChange:       (action)=>{ dispatch(action) },
+        handleMessageAction: (action)=>{ dispatch(action) },
     }
 }
 
@@ -103,7 +100,7 @@ var MessageCompose = React.createClass({
             composeView = (<Text style={ {fontSize: 18, color: 'gray'}}>Posting message!</Text>)
         }else if(this.props.messageCreateState == ActionTypes.MESSAGE_CREATE_SUCCEEDED) {
            composeView = null;
-           this.props.handleMessageComposeInitiated(messageComposeCanceled());
+           this.props.handleMessageAction(messageComposeCanceled());
            this.props.navigator.pop();
         }
         return (
@@ -115,15 +112,15 @@ var MessageCompose = React.createClass({
     },
     handleAbortMessage: function(){
         this.props.navigator.pop();
-        this.props.handleMessageComposeCancel(messageComposeCanceled());
+        this.props.handleMessageAction(messageComposeCanceled());
     },
     handleUserSubjectInput: function(updatedSubjectText){
-        this.props.handleMessageComposeInitiated(messageComposeInitiated(updatedSubjectText,
+        this.props.handleMessageAction(messageComposeInitiated(updatedSubjectText,
                                                                          this.props.body,
                                                                         this.props.contentHeight));
     },
     handleUserTextInput: function(updatedMessageText){
-        this.props.handleMessageComposeInitiated(messageComposeInitiated(this.props.subject,
+        this.props.handleMessageAction(messageComposeInitiated(this.props.subject,
                                                                          updatedMessageText,
                                                                         this.props.contentHeight));
     },
@@ -134,12 +131,12 @@ var MessageCompose = React.createClass({
             height = event.nativeEvent.contentSize.height;
         }
 
-        this.props.handleMessageComposeInitiated(messageComposeInitiated(this.props.subject,
+        this.props.handleMessageAction(messageComposeInitiated(this.props.subject,
                                                                          this.props.body,
                                                                         height));
     },
     handleMessageSubmitTouch: function(){
-        this.props.handleMessageComposeCompleted(messageComposeCompleted(this.props.subject,
+        this.props.handleMessageAction(messageComposeCompleted(this.props.subject,
                                                                          this.props.body,
                                                                          this.props.user,
                                                                          this.props.currentVisit,
