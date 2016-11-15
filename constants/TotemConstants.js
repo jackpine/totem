@@ -18,6 +18,7 @@ module.exports = {
 
         PLACE_VISIT_REQUESTED: null,
         PLACE_VISIT_SUCCEEDED: null,
+        PLACE_VISIT_FAILED: null,
 
         PLACE_LEAVE_CURRENT_PLACE: null,
 
@@ -28,6 +29,8 @@ module.exports = {
         MESSAGE_CREATE_REQUESTED: null,
         MESSAGE_CREATE_SUCCEEDED: null,
         MESSAGE_CREATE_FAILED: null,
+
+        MESSAGES_REQUESTED: null,
 
         REDUX_STORAGE_LOAD: null, // from redux-storage
     }),
