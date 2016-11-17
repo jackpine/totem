@@ -15,6 +15,10 @@ export function* placesNearbySaga() {
     yield* takeEvery(ActionTypes.PLACES_NEARBY_REQUESTED, placeSagas.fetchPlacesNearBy);
 }
 
+export function* fetchPlaceVisitMessagesSaga(){
+    yield* takeEvery(ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED, placeSagas.fetchPlaceVisitMessages);
+}
+
 export function* placeCreateSaga() {
     yield* takeEvery(ActionTypes.PLACE_CREATE_REQUESTED, placeSagas.createPlace);
 }

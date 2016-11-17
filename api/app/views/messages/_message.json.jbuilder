@@ -1,4 +1,5 @@
 json.id message.id
+json.subject message.subject
 json.body message.body
 json.user_id message.user_id
 json.location RGeo::GeoJSON.encode(message.location)

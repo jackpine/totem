@@ -50,6 +50,18 @@ class TotemApi{
         return response.json();
     }
 
+    static async placeMessages(user, place_id){
+        var placeMessageParams = {
+            place_id: place_id
+        };
+
+        var jwtToken = TotemApi._encodeJWT(user, placeMessageParams);
+
+        console.log('in place messages!')
+        var response = await TotemApi._get(`/api/v1/places/${place_id}/messages.json`, jwtToken);
+        return response.json();
+    }
+
     static async visitCreate(user, place_id, lon, lat){
 
         var visitCreateParams = { visit: {place_id: place_id, location: Geo.jsonFromPoint(lon, lat)} };
@@ -99,6 +111,16 @@ class TotemApi{
         };
         return fetch(urljoin(TotemApi.apiHost(), url), fetchOptions);
     }
+
+    static async _get(url, jwtToken){
+        var fetchOptions = {
+            method: 'GET',
+            headers: DEFAULT_HEADERS,
+        };
+        url = url + '?jwt=' + encodeURIComponent(jwtToken);
+        return fetch(urljoin(TotemApi.apiHost(), url), fetchOptions);
+    }
+
 
 
 }

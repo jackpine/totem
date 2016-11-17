@@ -43,9 +43,7 @@ describe 'messages requests' do
       let!(:message1){ FactoryGirl.create(:message, place: place, user: user) }
       let!(:message2){ FactoryGirl.create(:message, place: place, user: user) }
 
-      let(:jwt) { JWT.encode({message: {location: {"type": "Point", "coordinates": [100.0, 0.0]},
-                                        visit_id: visit.id,
-                                        place_id: place.id}, public_token: 'some-public-token'}, "some-private-token") }
+      let(:jwt) { JWT.encode({place_id: place.id, public_token: 'some-public-token'}, "some-private-token") }
 
       it 'returns a list of messages for that place' do
 

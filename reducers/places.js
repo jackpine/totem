@@ -22,3 +22,14 @@ export const placeVisit = (state = null, action) => {
         return state;
   }
 }
+
+export const placeVisitMessages = (state = null, action) => {
+  switch(action.type) {
+    case ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED_SUCCEEDED:
+        return action.messages.slice();
+    case ActionTypes.PLACE_LEAVE_CURRENT_PLACE:
+        return null;
+    default:
+        return state;
+  }
+}

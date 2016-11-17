@@ -1,6 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 import TotemApi from '../util/TotemApi';
 import { ActionTypes } from '../constants/TotemConstants';
+import * as placeActionCreators from '../actions/PlaceActionCreators';
 
 export function* fetchPlacesNearBy(action) {
     var location = action.location;
@@ -35,9 +36,22 @@ export function* visitPlace(action){
     try{
         var fetchedVisit = yield call(TotemApi.visitCreate, action.user, placeId, lon, lat)
         yield put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: fetchedVisit});
-        yield put({type: ActionTypes.MESSAGES_REQUESTED, place: fetchedVisit.place, user: user});
+        yield put(placeActionCreators.placeVisitMessagesRequested(user, fetchedVisit.place));
     } catch(e) {
         yield put({type: ActionTypes.PLACE_VISIT_FAILED, message: e});
+        yield put({type: ActionTypes.ERROR, message: e});
+    }
+}
+
+export function* fetchPlaceVisitMessages(action){
+    var { place, user } = action;
+    var api = new TotemApi(user);
+
+    try{
+        var placeMessages = yield call(TotemApi.placeMessages, action.user, action.place.id)
+        yield put(placeActionCreators.placeVisitMessagesRequestedSucceeded(placeMessages));
+    } catch(e) {
+        yield put({type: ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED_FAILED, message: e});
         yield put({type: ActionTypes.ERROR, message: e});
     }
 }
@@ -47,4 +61,5 @@ export default {
     fetchPlacesNearBy,
     createPlace,
     visitPlace,
+    fetchPlaceVisitMessages,
 }

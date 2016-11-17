@@ -37,7 +37,7 @@ describe('visitPlace', () => {
 
         expect(generator.next({some: 'visit', place: {place_id: 1}}).value).deep.equal(put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: {some: 'visit', place: {place_id: 1}}}));
 
-        expect(generator.next().value).deep.equal(put({type: ActionTypes.MESSAGES_REQUESTED, place: {place_id: 1}, user: {user_id: 4}}));
+        expect(generator.next().value).deep.equal(put({type: ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED, place: {place_id: 1}, user: {user_id: 4}}));
         expect(generator.next().done).to.be.true;
     });
 
@@ -52,4 +52,21 @@ describe('visitPlace', () => {
     });
 
 });
+
+describe('fetchMessagesForPlace', () => {
+    it('should invoke the Totem Api with a user, place', ()=>{
+
+        var user = {id: 4};
+        var place = {id: 5};
+        const generator = placeSagas.fetchPlaceVisitMessages(placeActionCreators.placeVisitMessagesRequested(user, place))
+        expect(generator.next().value).deep.equal(call(TotemApi.placeMessages, {id: 4}, 5))
+
+        //expect(generator.next({some: 'visit', place: {place_id: 1}}).value).deep.equal(put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: {some: 'visit', place: {place_id: 1}}}));
+
+        //expect(generator.next().value).deep.equal(put({type: ActionTypes.MESSAGES_REQUESTED, place: {place_id: 1}, user: {user_id: 4}}));
+        //expect(generator.next().done).to.be.true;
+    });
+
+});
+
 

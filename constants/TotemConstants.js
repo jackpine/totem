@@ -30,7 +30,9 @@ module.exports = {
         MESSAGE_CREATE_SUCCEEDED: null,
         MESSAGE_CREATE_FAILED: null,
 
-        MESSAGES_REQUESTED: null,
+        PLACE_VISIT_MESSAGES_REQUESTED: null,
+        PLACE_VISIT_MESSAGES_REQUESTED_SUCCEEDED: null,
+        PLACE_VISIT_MESSAGES_REQUESTED_FAILED: null,
 
         REDUX_STORAGE_LOAD: null, // from redux-storage
     }),

@@ -6,7 +6,6 @@ import { messageCreateRequested, messageCreateSucceeded } from '../actions/Messa
 export function* createMessage(action){
     var { place, visit, user, subject, body, location } = action.message
 
-    console.log('action in createMessage', messageCreateRequested(subject, body, user, visit, place, location))
     yield put(messageCreateRequested(subject, body, user, visit, place, location))
 
     try{

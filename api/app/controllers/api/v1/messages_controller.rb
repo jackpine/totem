@@ -1,11 +1,11 @@
 class Api::V1::MessagesController < Api::V1::BaseController
 
-  before_filter :find_param_instances
+  before_filter :find_place
 
   include Location
 
   def index
-    @messages = @place.messages
+    @messages = @place.messages.order('created_at DESC')
     respond_to do |format|
       format.json do
         render 'messages/index', status: :ok
@@ -32,19 +32,19 @@ class Api::V1::MessagesController < Api::V1::BaseController
 
   private
 
-  def find_param_instances
+  def find_place
     @place = Place.find(params.require(:place_id))
-    @visit = Visit.find(params.require(:message).require(:visit_id))
   end
 
   def new_message_params
+    visit = Visit.find(params.require(:message).require(:visit_id))
     new_message_params = params.require(:message)
       .permit(:subject, :body, :place_id, :visit_id, location: [:type, coordinates: []])
     new_message_params
       .merge(location_params(new_message_params))
       .merge({place: @place,
               user: current_user,
-              visit: @visit
+              visit: visit
              })
   end
 

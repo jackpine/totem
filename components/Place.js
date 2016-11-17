@@ -8,6 +8,8 @@ import React  from 'react';
 import NavigationBar from './NavigationBar';
 import GlobalStyles from '../GlobalStyles';
 
+import MessageCardList from './MessageCardList';
+
 import {
     StyleSheet,
     Text,
@@ -24,6 +26,7 @@ var DEFAULT_MESSAGE_HEIGHT = 40
 function mapStateToProps(state) {
     return {
         currentVisit: state.currentVisit,
+        currentVisitMessages: state.currentVisitMessages,
     }
 }
 
@@ -59,18 +62,32 @@ var Place = React.createClass({
             contentHeight: DEFAULT_MESSAGE_HEIGHT, // per global styles
         }
     },
+    messageCount: function(){
+        if(this.props.currentVisitMessages){
+            return this.props.currentVisitMessages.length;
+        }
+        else{
+            return 0;
+        }
+
+
+    },
     render: function(){
         return (
             <View >
                 {this.renderNavBar()}
                 <ScrollView style={{flex:1}}>
-                    <Text>Hi welcome to {this.props.currentVisit.place.name}, there's a lot you can do in this place.</Text>
+                    <Text>Hi welcome to {this.props.currentVisit.place.name}, { this.messageCount() } messages here.</Text>
                 </ScrollView>
+                <MessageCardList 
+                    messages={this.props.currentVisitMessages}
+                />
             </View>
         )
     },
     composeButton: function(){
         var self = this;
+
         return (
             <TouchableHighlight
                 onPress={ () => self.props.navigator.push({path: Paths.MESSAGE_COMPOSE }) }

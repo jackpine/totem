@@ -32,3 +32,19 @@ export function placeLeaveCurrentPlace(){
         type: ActionTypes.PLACE_LEAVE_CURRENT_PLACE,
     }
 }
+
+export function placeVisitMessagesRequested(user, place){
+    return {
+        type: ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED,
+        place: place,
+        user: user,
+    }
+}
+
+
+export function placeVisitMessagesRequestedSucceeded(messages){
+    return {
+        type: ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED_SUCCEEDED,
+        messages: messages,
+    }
+}
