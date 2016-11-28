@@ -2,6 +2,7 @@ import { call, put } from 'redux-saga/effects';
 import TotemApi from '../util/TotemApi';
 import { ActionTypes } from '../constants/TotemConstants';
 import { messageCreateRequested, messageCreateSucceeded } from '../actions/MessageActionCreators';
+import { placeVisitMessagesRequested } from '../actions/PlaceActionCreators';
 
 export function* createMessage(action){
     var { place, visit, user, subject, body, location } = action.message
@@ -15,7 +16,8 @@ export function* createMessage(action){
                                          newMessage.user,
                                          newMessage.visit,
                                          newMessage.place,
-                                         newMessage.location))
+                                         newMessage.location));
+        yield put(placeVisitMessagesRequested(user, place))
     }
     catch(e){
         yield put({type: ActionTypes.ERROR, message: e.message});
