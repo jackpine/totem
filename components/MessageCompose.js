@@ -79,8 +79,10 @@ var MessageCompose = React.createClass({
                         onContentSizeChange={ this.handleSizeChange }
                     />
                 </View>
-                <View>
-                </View>
+                <View style={{marginTop:30, flex: 1, flexDirection: 'row'}}>
+                    <Text>
+                        Message Body:
+                    </Text>
                     <TextInput
                         clearButtonMode="always"
                         onChangeText={this.handleUserTextInput}
@@ -89,11 +91,12 @@ var MessageCompose = React.createClass({
                         testID="message_compose_text"
                         onContentSizeChange={ this.handleSizeChange }
                     />
-                    <View style={ { flexDirection: 'column', justifyContent:'center', paddingTop: 15 } }>
-                        <TouchableHighlight onPress={this.handleMessageSubmitTouch}>
-                            <Text style={ {fontSize: 18, color: 'gray'}} >Send</Text>
-                        </TouchableHighlight>
-                    </View>
+                </View>
+                <View style={ { flexDirection: 'column', justifyContent:'center', paddingTop: 15 } }>
+                    <TouchableHighlight onPress={this.handleMessageSubmitTouch}>
+                        <Text style={ {fontSize: 18, color: 'gray'}} >Send</Text>
+                    </TouchableHighlight>
+                </View>
             </View>
         )
         if(this.props.messageCreateState == ActionTypes.MESSAGE_CREATE_REQUESTED){

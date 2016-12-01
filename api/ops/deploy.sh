@@ -53,8 +53,7 @@ function provision {
 
   echo "done."
   echo ""
-  echo "run the admin tools like:"
-  echo "docker run --name totem-api -i -t -rm --link totem-db:db -e DB_URL=postgres://postgres@db/totem -e RAILS_ENV=production /bin/bash"
+  echo "run the admin shell: './run-admin.sh' "
 
 ##  echo "Copying config."
 ##  docker exec -i totem bash -c "cat - > ~app/totem/.env" < ~/totem/ops/secrets/totem-$ENVIRONMENT-api.env
