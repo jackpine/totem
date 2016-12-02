@@ -15,6 +15,7 @@ Rails.application.routes.draw do
           get 'nearby', action: :nearby
         end
         resources :visits, only: [:create]
+        resources :messages, only: [:index, :create]
       end
     end
   end

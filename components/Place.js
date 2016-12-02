@@ -2,25 +2,37 @@
 
 import { connect } from 'react-redux';
 import { placeLeaveCurrentPlace } from '../actions/PlaceActionCreators';
+import { Paths } from '../constants/TotemConstants'
 
-import React from 'react';
+import React  from 'react';
 import NavigationBar from './NavigationBar';
+import GlobalStyles from '../GlobalStyles';
+
+import MessageCardList from './MessageCardList';
 
 import {
     StyleSheet,
     Text,
+    ScrollView,
+    TextInput,
     View,
+    TouchableHighlight,
 } from 'react-native';
+
+var Icon = require('react-native-vector-icons/Ionicons');
+
+var DEFAULT_MESSAGE_HEIGHT = 40
 
 function mapStateToProps(state) {
     return {
         currentVisit: state.currentVisit,
+        currentVisitMessages: state.currentVisitMessages,
     }
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        handlePlaceLeave: (action)=>{ dispatch(action) },
+        handlePlaceLeave:              (action)=>{ dispatch(action) },
     }
 }
 
@@ -34,27 +46,67 @@ var Place = React.createClass({
     },
     renderNavBar: function(){
         var self = this;
+
         return (
             <NavigationBar
                 leftButtonHandler={()=>{self.props.handlePlaceLeave(placeLeaveCurrentPlace())}}
+                rightButton = { ()=>{ return self.composeButton()}  }
                 title={'Congrats, You are in ' + this.props.currentVisit.place.name}
                 navigator={this.props.navigator}
             />
         );
     },
+    getDefaultProps: function(){
+        return {
+            text: '',
+            contentHeight: DEFAULT_MESSAGE_HEIGHT, // per global styles
+        }
+    },
+    messageCount: function(){
+        if(this.props.currentVisitMessages){
+            return this.props.currentVisitMessages.length;
+        }
+        else{
+            return 0;
+        }
+
+
+    },
     render: function(){
         return (
-            <View>
+            <View >
                 {this.renderNavBar()}
-                <Text>Hi welcome to {this.props.currentVisit.place.name}, there's a lot you can do in this place.</Text>
+                <ScrollView style={{flex:1}}>
+                    <Text>Hi welcome to {this.props.currentVisit.place.name}, { this.messageCount() } messages here.</Text>
+                </ScrollView>
+                <MessageCardList 
+                    messages={this.props.currentVisitMessages}
+                />
             </View>
         )
+    },
+    composeButton: function(){
+        var self = this;
 
-    }
-});
+        return (
+            <TouchableHighlight
+                onPress={ () => self.props.navigator.push({path: Paths.MESSAGE_COMPOSE }) }
+                    underlayColor={'white'}
+                >
+                    <View
+                        accessibilityLabel={'Compose message'}
+                        accessible
+                    >
+                        <Icon
+                            color={'#337ab7'}
+                            name={'ios-create-outline'}
+                            size={30}
+                        />
+                    </View>
+                </TouchableHighlight>
+        );
 
-var styles = StyleSheet.create({
-
+    },
 
 });
 

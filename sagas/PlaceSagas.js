@@ -1,9 +1,9 @@
 import { call, put } from 'redux-saga/effects';
 import TotemApi from '../util/TotemApi';
 import { ActionTypes } from '../constants/TotemConstants';
+import * as placeActionCreators from '../actions/PlaceActionCreators';
 
 export function* fetchPlacesNearBy(action) {
-    console.log('inside fetch places nearby')
     var location = action.location;
     try {
         var places = yield call(TotemApi.placesNearby, action.user, location.lon, location.lat);
@@ -29,16 +29,29 @@ export function* createPlace(action){
 }
 
 export function* visitPlace(action){
-    console.log('inside visit place')
-    var { placeId, location} = action;
+    var { placeId, location, user} = action;
     var { lon, lat } = location;
-    var api = new TotemApi(action.user);
+    var api = new TotemApi(user);
 
     try{
         var fetchedVisit = yield call(TotemApi.visitCreate, action.user, placeId, lon, lat)
-        // TODO reduce this to state, and "put" the user in their new place
         yield put({type: ActionTypes.PLACE_VISIT_SUCCEEDED, visit: fetchedVisit});
+        yield put(placeActionCreators.placeVisitMessagesRequested(user, fetchedVisit.place));
     } catch(e) {
+        yield put({type: ActionTypes.PLACE_VISIT_FAILED, message: e});
+        yield put({type: ActionTypes.ERROR, message: e});
+    }
+}
+
+export function* fetchPlaceVisitMessages(action){
+    var { place, user } = action;
+    var api = new TotemApi(user);
+
+    try{
+        var placeMessages = yield call(TotemApi.placeMessages, action.user, action.place.id)
+        yield put(placeActionCreators.placeVisitMessagesRequestedSucceeded(placeMessages));
+    } catch(e) {
+        yield put({type: ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED_FAILED, message: e});
         yield put({type: ActionTypes.ERROR, message: e});
     }
 }
@@ -48,4 +61,5 @@ export default {
     fetchPlacesNearBy,
     createPlace,
     visitPlace,
+    fetchPlaceVisitMessages,
 }

@@ -18,9 +18,25 @@ module.exports = {
 
         PLACE_VISIT_REQUESTED: null,
         PLACE_VISIT_SUCCEEDED: null,
+        PLACE_VISIT_FAILED: null,
 
-        PLACE_LEAVE_CURRENT_PLACE:null,
+        PLACE_LEAVE_CURRENT_PLACE: null,
+
+        MESSAGE_COMPOSE_IN_PROCESS: null,
+        MESSAGE_COMPOSE_COMPLETED: null,
+        MESSAGE_COMPOSE_CANCELED: null,
+
+        MESSAGE_CREATE_REQUESTED: null,
+        MESSAGE_CREATE_SUCCEEDED: null,
+        MESSAGE_CREATE_FAILED: null,
+
+        PLACE_VISIT_MESSAGES_REQUESTED: null,
+        PLACE_VISIT_MESSAGES_REQUESTED_SUCCEEDED: null,
+        PLACE_VISIT_MESSAGES_REQUESTED_FAILED: null,
 
         REDUX_STORAGE_LOAD: null, // from redux-storage
+    }),
+    Paths: keyMirror({
+        MESSAGE_COMPOSE: null,
     })
 };

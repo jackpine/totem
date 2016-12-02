@@ -6,12 +6,12 @@ describe 'places requests' do
   let(:place){ FactoryGirl.create(:place, name: 'place1', is_authoritative: false, category: :neighborhood) }
   let!(:user) { FactoryGirl.create(:user, public_token: "some-public-token", private_token: "some-private-token") }
 
-  describe 'POST /api/v1/places/:id/visits' do
+  describe 'POST /api/v1/places/:place_id/visits' do
     context 'when valid' do
       let(:valid_params){ {jwt: jwt} }
 
       let(:jwt) { JWT.encode({visit: {location: {"type": "Point", "coordinates": [100.0, 0.0]},
-                              place_id:place.id}, public_token: 'some-public-token'}, "some-private-token") }
+                                      place_id:place.id}, public_token: 'some-public-token'}, "some-private-token") }
 
       it 'creates a new visit' do
 

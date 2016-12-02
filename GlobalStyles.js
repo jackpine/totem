@@ -14,6 +14,9 @@ var GlobalStyles = StyleSheet.create({
         borderWidth: 1,
         paddingLeft: 8,
         margin: 8,
+        marginTop: 7,
+        padding: 10,
+        fontSize: 16,
         height:40,
     },
 });

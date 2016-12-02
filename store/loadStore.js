@@ -7,7 +7,7 @@ import filter from 'redux-storage-decorator-filter'
 import reducer from '../reducers';
 
 import createSagaMiddleware from 'redux-saga';
-import { placesNearbySaga, placeCreateSaga, placeVisitSaga } from '../sagas';
+import { placesNearbySaga, placeCreateSaga, placeVisitSaga, messageCreateSaga, fetchPlaceVisitMessagesSaga } from '../sagas';
 
 export default function loadStore() {
 
@@ -36,6 +36,8 @@ export default function loadStore() {
     sagaMiddleware.run(placesNearbySaga);
     sagaMiddleware.run(placeCreateSaga);
     sagaMiddleware.run(placeVisitSaga);
+    sagaMiddleware.run(messageCreateSaga);
+    sagaMiddleware.run(fetchPlaceVisitMessagesSaga);
 
     load(store).then((newState) => console.log('Loaded state:', newState))
         .catch(() => console.log('Failed to load previous state'));

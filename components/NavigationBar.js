@@ -24,6 +24,7 @@ var NavigationBar = React.createClass({
 
         if( typeof this.props.rightButton != 'undefined')
             rightButton = this.props.rightButton()
+
         if( typeof this.props.leftButton != 'undefined')
             leftButton = this.props.leftButton()
         else{

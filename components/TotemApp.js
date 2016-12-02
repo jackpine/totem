@@ -18,7 +18,7 @@ import _ from 'underscore';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
-import TotemConstants, { ActionTypes } from '../constants/TotemConstants';
+import TotemConstants, { ActionTypes, Paths } from '../constants/TotemConstants';
 import TotemApi from '../util/TotemApi';
 
 import PlaceCreate from './PlaceCreate';
@@ -26,6 +26,7 @@ import PlaceJoin from './PlaceJoin';
 import Place from './Place';
 import AppLoading from './AppLoading';
 import UserSignInCreate from './UserSignInCreate';
+import MessageCompose from './MessageCompose';
 
 import { locationUpdate } from '../actions/LocationActionCreators';
 import { placesNearbyRequested } from '../actions/PlaceActionCreators';
@@ -78,10 +79,10 @@ export var Totem = React.createClass({
             // TODO unregister location updates
         }
         else if(this.props.currentVisit){
-            Component = Place
+            Component = this.lookupCurrentVisitPath(route.path)
         }
         else{
-        // when new scenes are pushed on, they can pass props to the next scene
+            // when new scenes are pushed on, they can pass props to the next scene
             routePassedProps = route.passProps || {};
             Component = this.lookupSceneByPath(route.path);
         }
@@ -96,22 +97,38 @@ export var Totem = React.createClass({
             </View>
         );
     },
+
+    lookupCurrentVisitPath(path){
+        var Component;
+        switch(path){
+            case Paths.MESSAGE_COMPOSE:
+                Component = MessageCompose;
+                break;
+            default:
+                Component = Place
+        }
+        return Component;
+    },
+
     lookupSceneByPath(path){
         var Component;
         switch(path){
             case 'place_create':
                 Component = PlaceCreate;
-            break;
+                break;
             case 'place_join':
                 Component = PlaceJoin;
-            break;
+                break;
             case 'place':
                 Component = Place;
-            break;
+                break;
+            case 'message_compose':
+                Component = MessageCompose;
+                break;
             default:
                 Component = React.createClass({
                 render: function(){
-                    return <Text>Sorry, there was a routing error with: {route.path}</Text>
+                    return <Text>Sorry, there was a routing error with: {path}</Text>
                 }
             });
         }
@@ -176,59 +193,6 @@ var styles = StyleSheet.create({
     },
     navigator: {
         flex: 1,
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 80,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-    messageText: {
-        fontSize: 17,
-        fontWeight: '500',
-        padding: 15,
-        marginTop: 50,
-        marginLeft: 15,
-    },
-    button: {
-        backgroundColor: 'white',
-        padding: 15,
-        borderBottomWidth: 1 / PixelRatio.get(),
-        borderBottomColor: '#CDCDCD',
-    },
-    buttonText: {
-        fontSize: 17,
-        fontWeight: '500',
-    },
-    navBar: {
-        backgroundColor: 'white',
-    },
-    navBarText: {
-        fontSize: 16,
-        marginVertical: 10,
-    },
-    navBarTitleText: {
-        color: 'blue',
-        fontWeight: '500',
-        marginVertical: 9,
-    },
-    navBarLeftButton: {
-        paddingLeft: 10,
-    },
-    navBarRightButton: {
-        paddingRight: 10,
-    },
-    navBarButtonText: {
-        color: 'blue',
-    },
-    scene: {
-        flex: 1,
-        paddingTop: 20,
-        backgroundColor: '#EAEAEA',
     },
 });
 

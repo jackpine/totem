@@ -13,8 +13,20 @@ export const placeVisit = (state = null, action) => {
   switch(action.type) {
     case ActionTypes.PLACE_VISIT_SUCCEEDED:
         return Object.assign({}, action.visit);
+    // XXX FIXME, this should return a visit
     case ActionTypes.PLACE_CREATE_SUCCEEDED:
         return Object.assign({}, action.newPlace);
+    case ActionTypes.PLACE_LEAVE_CURRENT_PLACE:
+        return null;
+    default:
+        return state;
+  }
+}
+
+export const placeVisitMessages = (state = null, action) => {
+  switch(action.type) {
+    case ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED_SUCCEEDED:
+        return action.messages.slice();
     case ActionTypes.PLACE_LEAVE_CURRENT_PLACE:
         return null;
     default:
