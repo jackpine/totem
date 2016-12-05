@@ -1,4 +1,4 @@
-module Location
+module AcceptsLocationParams
   extend ActiveSupport::Concern
 
   def location_params(root_params)

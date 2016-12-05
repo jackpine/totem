@@ -1,6 +1,6 @@
 class Api::V1::PlacesController < Api::V1::BaseController
 
-  include Location
+  include AcceptsLocationParams
 
   def create
     @place = Place.create_at_location(place_params, location_params(params))

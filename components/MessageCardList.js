@@ -83,7 +83,6 @@ var MessageCardList = React.createClass({
         this.updateDataSource();
 
         var listView =  (<Text>Nothing</Text>);
-        console.log(this.dataSource.getRowCount())
         if(this.dataSource.getRowCount() > 0){
             listView =  (
                 <ListView

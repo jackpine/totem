@@ -1,5 +1,6 @@
 'use strict';
 
+import pluralize from 'pluralize';
 import { connect } from 'react-redux';
 import { placeLeaveCurrentPlace } from '../actions/PlaceActionCreators';
 import { Paths } from '../constants/TotemConstants'
@@ -77,7 +78,7 @@ var Place = React.createClass({
             <View >
                 {this.renderNavBar()}
                 <ScrollView style={{flex:1}}>
-                    <Text>Hi welcome to {this.props.currentVisit.place.name}, { this.messageCount() } messages here.</Text>
+                    <Text>Hi welcome to {this.props.currentVisit.place.name}, { this.messageCount() } {pluralize('message', this.messageCount())} here.</Text>
                 </ScrollView>
                 <MessageCardList 
                     messages={this.props.currentVisitMessages}
