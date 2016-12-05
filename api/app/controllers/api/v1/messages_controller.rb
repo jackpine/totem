@@ -5,7 +5,7 @@ class Api::V1::MessagesController < Api::V1::BaseController
   include AcceptsLocationParams
 
   def index
-    @messages = @place.messages.order('created_at DESC')
+    @messages = @place.messages.order('id DESC')
     respond_to do |format|
       format.json do
         render 'messages/index', status: :ok
