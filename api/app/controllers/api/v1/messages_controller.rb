@@ -2,7 +2,7 @@ class Api::V1::MessagesController < Api::V1::BaseController
 
   before_filter :find_place
 
-  include Location
+  include AcceptsLocationParams
 
   def index
     @messages = @place.messages.order('created_at DESC')
