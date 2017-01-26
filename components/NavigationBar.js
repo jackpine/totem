@@ -39,8 +39,9 @@ var NavigationBar = React.createClass({
                         accessible
                         style={styles.defaultBackButton}
                     >
-                        <Icon
+                        <Icon.Button
                             color={'#337ab7'}
+                            backgroundColor={'white'}
                             name={'ios-arrow-back'}
                             size={30}
                             style={styles.backChevron}
