@@ -31,7 +31,7 @@ var UserSignInCreate = React.createClass({
     },
     render: function(){
         return (
-            <View>
+            <View style={styles.container}>
                 <NavigationBar
                     title={'Welcome to Totem - Create an Account'}
                     navigator={this.props.navigator}
@@ -72,6 +72,9 @@ var UserSignInCreate = React.createClass({
 });
 
 var styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
     webView: {
         backgroundColor: 'white',
         height: 550,
