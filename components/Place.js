@@ -81,7 +81,7 @@ var Place = React.createClass({
                     <Text>Hi welcome to {this.props.currentVisit.place.name}, { this.messageCount() } {pluralize('message', this.messageCount())} here.</Text>
                 </ScrollView>
                 <MessageCardList 
-                    messages={this.props.currentVisitMessages}
+                    messages={this.props.currentVisitMessages || [] }
                 />
             </View>
         )
