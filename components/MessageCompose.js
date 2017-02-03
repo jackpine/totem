@@ -65,34 +65,29 @@ var MessageCompose = React.createClass({
     },
     render: function(){
         var composeView = (
-            <View>
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <Text>
-                        Subject:
-                    </Text>
-                    <TextInput
-                        clearButtonMode="always"
-                        onChangeText={this.handleUserSubjectInput}
-                        multiline={true}
-                        style={[GlobalStyles.textInput, { flex: 1}]}
-                        testID="message_compose_subject"
-                        onContentSizeChange={ this.handleSizeChange }
-                    />
-                </View>
-                <View style={{marginTop:30, flex: 1, flexDirection: 'row'}}>
-                    <Text>
-                        Message Body:
-                    </Text>
-                    <TextInput
-                        clearButtonMode="always"
-                        onChangeText={this.handleUserTextInput}
-                        multiline={true}
-                        style={[GlobalStyles.textInput, { flex: 1, height: this.props.contentHeight }]}
-                        testID="message_compose_text"
-                        onContentSizeChange={ this.handleSizeChange }
-                    />
-                </View>
-                <View style={ { flexDirection: 'column', justifyContent:'center', paddingTop: 15 } }>
+            <View style={styles.messageComposeWrapper}>
+                <Text style={styles.label}>
+                    Subject:
+                </Text>
+                <TextInput
+                    clearButtonMode="always"
+                    onChangeText={this.handleUserSubjectInput}
+                    multiline={true}
+                    style={GlobalStyles.textInput}
+                    testID="message_compose_subject"
+                />
+                <Text style={styles.label}>
+                    Message Body:
+                </Text>
+                <TextInput
+                    clearButtonMode="always"
+                    onChangeText={this.handleUserTextInput}
+                    multiline={true}
+                    style={[GlobalStyles.textInput, { flex: 1, height: this.props.contentHeight }]}
+                    testID="message_compose_text"
+                    onContentSizeChange={ this.handleSizeChange }
+                />
+                <View style={ styles.submitButtonWrapper }>
                     <TouchableHighlight onPress={this.handleMessageSubmitTouch}>
                         <Text style={ {fontSize: 18, color: 'gray'}} >Send</Text>
                     </TouchableHighlight>
@@ -123,6 +118,7 @@ var MessageCompose = React.createClass({
                                                                         this.props.contentHeight));
     },
     handleUserTextInput: function(updatedMessageText){
+
         this.props.handleMessageAction(messageComposeInitiated(this.props.subject,
                                                                          updatedMessageText,
                                                                         this.props.contentHeight));
@@ -149,3 +145,20 @@ var MessageCompose = React.createClass({
 });
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(MessageCompose);
+
+var styles = {
+    messageComposeWrapper: {
+        flex: 1,
+        flexDirection: 'column'
+    },
+    label: {
+        height: 18,
+    },
+    messageSubjectWrapper: {
+    },
+    messageBodyWrapper: {
+    },
+    submitButtonWrapper: { 
+        height: 60
+    },
+}
