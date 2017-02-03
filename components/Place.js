@@ -20,7 +20,7 @@ import {
     TouchableHighlight,
 } from 'react-native';
 
-var Icon = require('react-native-vector-icons/Ionicons');
+import Icon from 'react-native-vector-icons/Ionicons';
 
 var DEFAULT_MESSAGE_HEIGHT = 40
 
@@ -81,7 +81,7 @@ var Place = React.createClass({
                     <Text>Hi welcome to {this.props.currentVisit.place.name}, { this.messageCount() } {pluralize('message', this.messageCount())} here.</Text>
                 </ScrollView>
                 <MessageCardList 
-                    messages={this.props.currentVisitMessages}
+                    messages={this.props.currentVisitMessages || [] }
                 />
             </View>
         )

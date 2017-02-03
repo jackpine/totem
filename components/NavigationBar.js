@@ -7,7 +7,7 @@ import {
     View,
     Text,
 } from 'react-native';
-var Icon = require('react-native-vector-icons/Ionicons');
+import Icon from 'react-native-vector-icons/Ionicons';
 
 var NavigationBar = React.createClass({
 
@@ -41,6 +41,7 @@ var NavigationBar = React.createClass({
                     >
                         <Icon
                             color={'#337ab7'}
+                            backgroundColor={'white'}
                             name={'ios-arrow-back'}
                             size={30}
                             style={styles.backChevron}
