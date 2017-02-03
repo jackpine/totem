@@ -22,6 +22,7 @@ export function* createPlace(action){
     try{
         var newPlace = yield call(TotemApi.placeCreate, action.user, placeName, categoryId, lon, lat);
         yield put({type: ActionTypes.PLACE_CREATE_SUCCEEDED, newPlace: newPlace});
+        yield put(placeActionCreators.placeVisitRequested(newPlace.id, location, action.user));
     } catch(e) {
         yield put({type: ActionTypes.ERROR, message: e.message});
     }
