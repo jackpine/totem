@@ -9,6 +9,16 @@ export const placesNearby = (state = null, action) => {
   }
 };
 
+export const places = (state = null, action) => {
+
+  switch(action.type) {
+    case ActionTypes.PLACE_CREATE_SUCCEEDED:
+        return state;
+    default:
+        return state;
+  }
+}
+
 export const placeVisit = (state = null, action) => {
   switch(action.type) {
     case ActionTypes.PLACE_VISIT_SUCCEEDED:
