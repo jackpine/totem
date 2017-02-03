@@ -83,7 +83,7 @@ var MessageCompose = React.createClass({
                     clearButtonMode="always"
                     onChangeText={this.handleUserTextInput}
                     multiline={true}
-                    style={[GlobalStyles.textInput, { flex: 1, height: this.props.contentHeight }]}
+                    style={[GlobalStyles.textInput, { height: this.props.contentHeight }]}
                     testID="message_compose_text"
                     onContentSizeChange={ this.handleSizeChange }
                 />
