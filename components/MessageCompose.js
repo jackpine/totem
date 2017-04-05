@@ -1,7 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { messageComposeInitiated, messageComposeCompleted, messageComposeCanceled } from '../actions/MessageActionCreators';
+import { messageComposeInProcess, messageComposeCompleted, messageComposeCanceled } from '../actions/MessageActionCreators';
 
 import React  from 'react';
 import NavigationBar from './NavigationBar';
@@ -35,13 +35,9 @@ function mapDispatchToProps(dispatch){
 }
 
 var MessageCompose = React.createClass({
-    contextTypes:  {
-        currentVisit: React.PropTypes.object.isRequired,
-        message: React.PropTypes.object.isRequired
-    },
-
     propTypes: {
         currentVisit: React.PropTypes.object.isRequired,
+        message: React.PropTypes.object.isRequired
     },
 
     renderNavBar: function(){
@@ -83,7 +79,7 @@ var MessageCompose = React.createClass({
                     clearButtonMode="always"
                     onChangeText={this.handleUserTextInput}
                     multiline={true}
-                    style={[GlobalStyles.textInput, { flex: 1, height: this.props.contentHeight }]}
+                    style={[GlobalStyles.textInput, { height: this.props.contentHeight }]}
                     testID="message_compose_text"
                     onContentSizeChange={ this.handleSizeChange }
                 />
@@ -113,13 +109,13 @@ var MessageCompose = React.createClass({
         this.props.handleMessageAction(messageComposeCanceled());
     },
     handleUserSubjectInput: function(updatedSubjectText){
-        this.props.handleMessageAction(messageComposeInitiated(updatedSubjectText,
+        this.props.handleMessageAction(messageComposeInProcess(updatedSubjectText,
                                                                          this.props.body,
                                                                         this.props.contentHeight));
     },
     handleUserTextInput: function(updatedMessageText){
 
-        this.props.handleMessageAction(messageComposeInitiated(this.props.subject,
+        this.props.handleMessageAction(messageComposeInProcess(this.props.subject,
                                                                          updatedMessageText,
                                                                         this.props.contentHeight));
     },
@@ -130,7 +126,7 @@ var MessageCompose = React.createClass({
             height = event.nativeEvent.contentSize.height;
         }
 
-        this.props.handleMessageAction(messageComposeInitiated(this.props.subject,
+        this.props.handleMessageAction(messageComposeInProcess(this.props.subject,
                                                                          this.props.body,
                                                                         height));
     },

@@ -1,5 +1,5 @@
 'use strict';
-import { ActionTypes } from '../constants/TotemConstants';
+import TotemConstants, { ActionTypes, Paths } from '../constants/TotemConstants';
 import { connect } from 'react-redux';
 
 import React from 'react';
@@ -64,7 +64,7 @@ var PlaceJoin = React.createClass({
         var rightButton = function(){
             return (
                 <TouchableHighlight 
-                    onPress={(place)=>self.props.navigator.push({path: 'place_create'})}
+                    onPress={(place)=>self.props.navigator.push({path: Paths.PLACE_CREATE})}
                     style={styles.placeCreateButton}
                 >
                     <View

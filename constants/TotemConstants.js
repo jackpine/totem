@@ -38,5 +38,9 @@ module.exports = {
     }),
     Paths: keyMirror({
         MESSAGE_COMPOSE: null,
+        PLACE_VISIT: null,
+        PLACE_CREATE: null,
+        PLACE: null,
+        PLACE_JOIN: null,
     })
 };

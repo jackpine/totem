@@ -1,6 +1,6 @@
 import { ActionTypes } from '../constants/TotemConstants';
 
-export function messageComposeInitiated(subject, body,  contentHeight){
+export function messageComposeInProcess(subject, body,  contentHeight){
     return {
         type: ActionTypes.MESSAGE_COMPOSE_IN_PROCESS,
         message: {body: body, subject: subject, contentHeight: contentHeight}

@@ -79,6 +79,17 @@ export var Totem = React.createClass({
             // TODO unregister location updates
         }
         else if(this.props.currentVisit){
+            var currRoutes = nav.getCurrentRoutes();
+            if(currRoutes.length > 0 && currRoutes[currRoutes.length - 1].path == 'place_create'){
+                // There is a mix of state based routing and path based routing here.
+                // `place visit` routing is under the auspices of state-based routing
+                // but if we are coming from `place_create`, we don't want to go
+                // back to creating a place
+                nav.immediatelyResetRouteStack([
+                    {path: Paths.PLACE_JOIN},
+                    {path: Paths.PLACE_VISIT}
+                ])
+            }
             Component = this.lookupCurrentVisitPath(route.path)
         }
         else{
@@ -113,19 +124,17 @@ export var Totem = React.createClass({
     lookupSceneByPath(path){
         var Component;
         switch(path){
-            case 'place_create':
+            case Paths.PLACE_CREATE:
                 Component = PlaceCreate;
                 break;
-            case 'place_join':
+            case Paths.PLACE_JOIN:
                 Component = PlaceJoin;
                 break;
-            case 'place':
+            case Paths.PLACE:
                 Component = Place;
                 break;
-            case 'message_compose':
-                Component = MessageCompose;
-                break;
             default:
+                debugger
                 Component = React.createClass({
                 render: function(){
                     return <Text>Sorry, there was a routing error with: {path}</Text>
@@ -176,7 +185,7 @@ export var Totem = React.createClass({
         return (
             <Navigator
                 initialRoute={{
-                    path: 'place_join',
+                    path: Paths.PLACE_JOIN,
                 }}
                 ref={this._setNavigatorRef}
                 renderScene={this.renderScene}
