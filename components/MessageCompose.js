@@ -35,13 +35,9 @@ function mapDispatchToProps(dispatch){
 }
 
 var MessageCompose = React.createClass({
-    contextTypes:  {
-        currentVisit: React.PropTypes.object.isRequired,
-        message: React.PropTypes.object.isRequired
-    },
-
     propTypes: {
         currentVisit: React.PropTypes.object.isRequired,
+        message: React.PropTypes.object.isRequired
     },
 
     renderNavBar: function(){
