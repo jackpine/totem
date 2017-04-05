@@ -1,7 +1,7 @@
 'use strict';
 
 import { connect } from 'react-redux';
-import { messageComposeInitiated, messageComposeCompleted, messageComposeCanceled } from '../actions/MessageActionCreators';
+import { messageComposeInProcess, messageComposeCompleted, messageComposeCanceled } from '../actions/MessageActionCreators';
 
 import React  from 'react';
 import NavigationBar from './NavigationBar';
@@ -113,13 +113,13 @@ var MessageCompose = React.createClass({
         this.props.handleMessageAction(messageComposeCanceled());
     },
     handleUserSubjectInput: function(updatedSubjectText){
-        this.props.handleMessageAction(messageComposeInitiated(updatedSubjectText,
+        this.props.handleMessageAction(messageComposeInProcess(updatedSubjectText,
                                                                          this.props.body,
                                                                         this.props.contentHeight));
     },
     handleUserTextInput: function(updatedMessageText){
 
-        this.props.handleMessageAction(messageComposeInitiated(this.props.subject,
+        this.props.handleMessageAction(messageComposeInProcess(this.props.subject,
                                                                          updatedMessageText,
                                                                         this.props.contentHeight));
     },
@@ -130,7 +130,7 @@ var MessageCompose = React.createClass({
             height = event.nativeEvent.contentSize.height;
         }
 
-        this.props.handleMessageAction(messageComposeInitiated(this.props.subject,
+        this.props.handleMessageAction(messageComposeInProcess(this.props.subject,
                                                                          this.props.body,
                                                                         height));
     },
