@@ -2,11 +2,13 @@
 
 import { connect } from 'react-redux';
 import { messageComposeInProcess, messageComposeCompleted, messageComposeCanceled } from '../actions/MessageActionCreators';
+import MessageValidator from '../services/MessageValidator';
 
 import React  from 'react';
 import NavigationBar from './NavigationBar';
 import GlobalStyles from '../GlobalStyles';
 import { ActionTypes } from '../constants/TotemConstants';
+import _ from 'underscore';
 
 import {
     Text,
@@ -60,6 +62,9 @@ var MessageCompose = React.createClass({
         }
     },
     render: function(){
+        if(this.props.errors){
+            var formattedErrors = _(this.props.errors).map((error) => <Text style={GlobalStyles.errorText}>{error}</Text>);
+        }
         var composeView = (
             <View style={styles.messageComposeWrapper}>
                 <Text style={styles.label}>
@@ -84,6 +89,7 @@ var MessageCompose = React.createClass({
                     onContentSizeChange={ this.handleSizeChange }
                 />
                 <View style={ styles.submitButtonWrapper }>
+                {formattedErrors}
                     <TouchableHighlight onPress={this.handleMessageSubmitTouch}>
                         <Text style={ {fontSize: 18, color: 'gray'}} >Send</Text>
                     </TouchableHighlight>
@@ -111,13 +117,19 @@ var MessageCompose = React.createClass({
     handleUserSubjectInput: function(updatedSubjectText){
         this.props.handleMessageAction(messageComposeInProcess(updatedSubjectText,
                                                                          this.props.body,
-                                                                        this.props.contentHeight));
+                                                                         this.props.contentHeight,
+                                                                         []
+                                                              )
+                                      );
     },
     handleUserTextInput: function(updatedMessageText){
 
         this.props.handleMessageAction(messageComposeInProcess(this.props.subject,
                                                                          updatedMessageText,
-                                                                        this.props.contentHeight));
+                                                                         this.props.contentHeight,
+                                                                         []
+                                                              )
+                                      );
     },
     handleSizeChange: function(event){
         var height = this.props.contentHeight;
@@ -131,11 +143,22 @@ var MessageCompose = React.createClass({
                                                                         height));
     },
     handleMessageSubmitTouch: function(){
-        this.props.handleMessageAction(messageComposeCompleted(this.props.subject,
-                                                                         this.props.body,
-                                                                         this.props.user,
-                                                                         this.props.currentVisit,
-                                                                         this.props.location));
+        var messageValidator = new MessageValidator(this.props.subject, this.props.body);
+
+        if(messageValidator.validate()){
+            this.props.handleMessageAction(messageComposeCompleted(this.props.subject,
+                                                                             this.props.body,
+                                                                             this.props.user,
+                                                                             this.props.currentVisit,
+                                                                             this.props.location));
+        }
+        else{
+            this.props.handleMessageAction(messageComposeInProcess(this.props.subject,
+                                                               this.props.body,
+                                                               this.props.contentHeight,
+                                                               messageValidator.errors)
+                                      );
+        }
     }
 
 });

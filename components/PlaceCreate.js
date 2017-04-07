@@ -100,7 +100,7 @@ var PlaceCreate = React.createClass({
         var locationDebugInfo = <DebugLocation location={this.props.location}/>
 
         var errorComponents =this.state.errors.map((error) => (
-            <Text style={{padding: 12, color: 'white', backgroundColor: 'tomato'}}>{error}</Text>
+            <Text style={GlobalStyles.errorText}>{error}</Text>
         ));
 
         return (
