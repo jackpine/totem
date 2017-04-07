@@ -19,6 +19,9 @@ var GlobalStyles = StyleSheet.create({
         fontSize: 16,
         height:40,
     },
+    errorText: {
+        padding: 12, color: 'white', backgroundColor: 'tomato'
+    }
 });
 
 module.exports = GlobalStyles;
