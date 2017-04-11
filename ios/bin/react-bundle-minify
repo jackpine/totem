@@ -52,4 +52,4 @@ NVM_PATH="$HOME/.nvm/versions/"
 echo "hope you have node v4 installed!"
 NODE_VERSION=$(ls -1 $NVM_PATH | grep v4 | sort | awk '/./{line=$0} END{print line}' )
 
-$NVM_PATH/$NODE_VERSION/bin/node ./node_modules/react-native-cli/index.js bundle --platform ios --bundle-output "$BIN_DIR/../main.jsbundle" --entry-file index.ios.js --dev $DEV
+$NVM_PATH/$NODE_VERSION/bin/node ./node_modules/react-native/local-cli/cli.js  bundle --platform ios --bundle-output "$BIN_DIR/../main.jsbundle" --entry-file index.ios.js --dev $DEV
