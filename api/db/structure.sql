@@ -2,11 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.1
--- Dumped by pg_dump version 9.5.1
+-- Dumped from database version 9.6.2
+-- Dumped by pg_dump version 9.6.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -65,6 +66,8 @@ BEGIN
   WHEN 5 THEN -- locality
     relevance := 1;
   WHEN 6 THEN -- neighborhood
+    relevance := 1;
+  WHEN 7 THEN -- neighborhood
     relevance := 1;
   ELSE
     raise EXCEPTION 'unknown place category: %', category;
@@ -206,7 +209,8 @@ CREATE TABLE messages (
     flagged_count integer DEFAULT 0,
     location geometry(Point,4326) NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    visit_id integer
 );
 
 
@@ -350,35 +354,35 @@ ALTER SEQUENCE visits_id_seq OWNED BY visits.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages ALTER COLUMN id SET DEFAULT nextval('messages_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: places id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: visits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY visits ALTER COLUMN id SET DEFAULT nextval('visits_id_seq'::regclass);
 
 
 --
--- Name: messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY messages
@@ -386,7 +390,7 @@ ALTER TABLE ONLY messages
 
 
 --
--- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: places places_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY places
@@ -394,7 +398,7 @@ ALTER TABLE ONLY places
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -402,7 +406,7 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: visits visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY visits
@@ -506,4 +510,8 @@ INSERT INTO schema_migrations (version) VALUES ('20151203183249');
 INSERT INTO schema_migrations (version) VALUES ('20160614192525');
 
 INSERT INTO schema_migrations (version) VALUES ('20160805155451');
+
+INSERT INTO schema_migrations (version) VALUES ('20161028174301');
+
+INSERT INTO schema_migrations (version) VALUES ('20170411035121');
 

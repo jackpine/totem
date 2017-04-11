@@ -15,6 +15,8 @@ BEGIN
     relevance := 1;
   WHEN 6 THEN -- neighborhood
     relevance := 1;
+  WHEN 7 THEN -- user defined
+    relevance := 1;
   ELSE
     raise EXCEPTION 'unknown place category: %', category;
   END CASE;
