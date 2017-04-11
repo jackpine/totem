@@ -206,7 +206,8 @@ CREATE TABLE messages (
     flagged_count integer DEFAULT 0,
     location geometry(Point,4326) NOT NULL,
     created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    updated_at timestamp without time zone,
+    visit_id integer
 );
 
 
