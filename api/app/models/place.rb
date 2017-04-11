@@ -5,6 +5,7 @@ PLACE_CATEGORIES =   ActiveSupport::HashWithIndifferentAccess.new({
   county: 4,
   locality: 5,
   neighborhood: 6,
+  spot: 7,
 })
 
 class Place < ActiveRecord::Base

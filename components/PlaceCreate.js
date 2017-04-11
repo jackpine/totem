@@ -31,6 +31,7 @@ var PLACE_CATEGORIES = {
     'county': 4,
     'locality': 5,
     'neighborhood': 6,
+    'user_defined_place': 7,
 };
 
 function mapStateToProps(state) {
@@ -53,7 +54,6 @@ var PlaceCreate = React.createClass({
     getInitialState: function() {
         return {
             placeName: '',
-            placeCategoryId: 3,
             errors: []
         };
     },
@@ -87,7 +87,7 @@ var PlaceCreate = React.createClass({
 
         if(this.validate()) {
             var action = PlaceActionCreators.placeCreateRequested(this.state.placeName,
-                                         this.state.placeCategoryId,
+                                         PLACE_CATEGORIES['user_defined_place'],
                                          this.props.location,
                                          this.props.user)
             this.props.handlePlaceCreate(action)
@@ -119,24 +119,7 @@ var PlaceCreate = React.createClass({
                     value={this.state.placeName}
                 />
                 {errorComponents}
-                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-                    <PickerIOS
-                        onValueChange={(placeCategoryId) => this.setState({placeCategoryId: placeCategoryId}) }
-                        selectedValue={this.state.placeCategoryId}
-                        style={{flex: 1, alignSelf: 'center'}}
-                        >
-                        {Object.keys(PLACE_CATEGORIES).map(function(placeCategoryId) {
-                            return (
-                                <PickerItemIOS
-                                    key={placeCategoryId}
-                                    label={placeCategoryId} 
-                                    value={PLACE_CATEGORIES[placeCategoryId]}
-                                />)
-                        })}
-                    </PickerIOS>
-                </View>
-
-                <View 
+                <View
                     accessibilityLabel={'Place Create Submit'}
                     accessible
                 >
