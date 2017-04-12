@@ -33,7 +33,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch){
     return {
-        handlePlaceLeave:              (action)=>{ dispatch(action) },
+        actionDispatch:              (action)=>{ dispatch(action) },
     }
 }
 
@@ -50,7 +50,7 @@ var Place = React.createClass({
 
         return (
             <NavigationBar
-                leftButtonHandler={()=>{self.props.handlePlaceLeave(placeLeaveCurrentPlace())}}
+                leftButtonHandler={()=>{this.handleLeavePlace()}}
                 rightButton = { ()=>{ return self.composeButton()}  }
                 title={'Congrats, You are in ' + this.props.currentVisit.place.name}
                 navigator={this.props.navigator}
@@ -72,6 +72,21 @@ var Place = React.createClass({
         }
 
 
+    },
+    handleLeavePlace: function(){
+        var nav = this.props.navigator;
+        var currRoutes = nav.getCurrentRoutes();
+        if(currRoutes.length > 0 && currRoutes[currRoutes.length - 1].path == Paths.PLACE_CREATE){
+            // There is a mix of state based routing and path based routing here.
+            // `place visit` routing is under the auspices of state-based routing
+            // but if we are coming from `place_create`, we don't want to go
+            // back to creating a place
+            nav.immediatelyResetRouteStack([
+                {path: Paths.PLACE_JOIN}
+            ])
+        }
+        // clear out the visit from the state
+        this.props.actionDispatch(placeLeaveCurrentPlace())
     },
     render: function(){
         return (

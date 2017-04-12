@@ -53,7 +53,7 @@ function provision {
 
   echo "done."
   echo ""
-  echo "run the admin shell: './run-admin.sh' "
+  echo "run the admin shell: './run_admin.sh root@api.totem-app.com' "
 
 ##  echo "Copying config."
 ##  docker exec -i totem bash -c "cat - > ~app/totem/.env" < ~/totem/ops/secrets/totem-$ENVIRONMENT-api.env

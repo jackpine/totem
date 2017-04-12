@@ -79,17 +79,6 @@ export var Totem = React.createClass({
             // TODO unregister location updates
         }
         else if(this.props.currentVisit){
-            var currRoutes = nav.getCurrentRoutes();
-            if(currRoutes.length > 0 && currRoutes[currRoutes.length - 1].path == 'place_create'){
-                // There is a mix of state based routing and path based routing here.
-                // `place visit` routing is under the auspices of state-based routing
-                // but if we are coming from `place_create`, we don't want to go
-                // back to creating a place
-                nav.immediatelyResetRouteStack([
-                    {path: Paths.PLACE_JOIN},
-                    {path: Paths.PLACE_VISIT}
-                ])
-            }
             Component = this.lookupCurrentVisitPath(route.path)
         }
         else{
