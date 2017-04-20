@@ -39,7 +39,11 @@ function mapDispatchToProps(dispatch){
 var MessageCompose = React.createClass({
     propTypes: {
         currentVisit: React.PropTypes.object.isRequired,
-        message: React.PropTypes.object.isRequired
+        location: React.PropTypes.object.isRequired,
+        user: React.PropTypes.object.isRequired,
+        body: React.PropTypes.string.isRequired,
+        subject: React.PropTypes.string.isRequired,
+        contentHeight: React.PropTypes.number.isRequired,
     },
 
     renderNavBar: function(){
@@ -59,6 +63,12 @@ var MessageCompose = React.createClass({
             body: '',
             messageComposeState: null,
             contentHeight: DEFAULT_MESSAGE_HEIGHT, // per global styles
+        }
+    },
+    componentDidUpdate: function(){
+        if(this.props.messageCreateState == ActionTypes.MESSAGE_CREATE_SUCCEEDED) {
+            this.props.handleMessageAction(messageComposeCanceled());
+            this.props.navigator.pop();
         }
     },
     render: function(){
@@ -100,8 +110,6 @@ var MessageCompose = React.createClass({
             composeView = (<Text style={ {fontSize: 18, color: 'gray'}}>Posting message!</Text>)
         }else if(this.props.messageCreateState == ActionTypes.MESSAGE_CREATE_SUCCEEDED) {
            composeView = null;
-           this.props.handleMessageAction(messageComposeCanceled());
-           this.props.navigator.pop();
         }
         return (
             <View >
