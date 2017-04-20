@@ -20,7 +20,7 @@ case "$CONFIGURATION" in
     exit 0
     ;;
   AdHoc)
-    DEV=true
+    DEV=false
     ;;
   Release)
     DEV=false

@@ -100,22 +100,6 @@ var PlaceJoin = React.createClass({
         var action = placeVisitRequested(place.id, this.props.location, this.props.user);
         this.props.handlePlaceVisit(action);
     },
-    renderTextInput(searchTextInputStyle: any) {
-        return (
-            <View style={styles.searchRow}>
-                <TextInput
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    clearButtonMode="always"
-                    onChangeText={this.handleUserInput}
-                    placeholder="Search..."
-                    style={GlobalStyles.textInput}
-                    testID="place_search"
-                    value={this.state.searchText}
-                />
-            </View>
-        );
-    },
     render: function() {
 
         var self = this;
@@ -124,7 +108,18 @@ var PlaceJoin = React.createClass({
         return (
             <View style={styles.listWrapper}>
                 {this.renderNavBar()}
-                {this.renderTextInput()}
+                <View style={styles.searchRow}>
+                    <TextInput
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        clearButtonMode="always"
+                        onChangeText={this.handleUserInput}
+                        placeholder="Search..."
+                        style={GlobalStyles.textInput}
+                        testID="place_search"
+                        value={this.state.searchText}
+                    />
+                </View>
                 {locationDebugInfo}
                 <PlaceList
                     filterText={this.state.filterText}
