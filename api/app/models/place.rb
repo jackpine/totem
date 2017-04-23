@@ -77,6 +77,10 @@ SQL
     super(only: [:name, :id, :category_id], methods: [:category])
   end
 
+  def non_authoritative?
+    !is_authoritative?
+  end
+
   def authoritative?
     !!is_authoritative
   end
@@ -84,4 +88,22 @@ SQL
   def imported?
     !import_source.blank?
   end
+
+  def update_boundary_by_visits
+      query = <<EOF
+      UPDATE places
+      SET boundary=place_calculate_boundary(subquery.authoritative_boundary, visits)
+      FROM (
+          SELECT places.authoritative_boundary, visits.place_id, ST_Collect(visits.location) as visits
+          FROM visits
+          LEFT JOIN places
+          ON places.id=visits.place_id
+          WHERE visits.place_id = #{self.id}
+          GROUP BY visits.location, places.authoritative_boundary, visits.place_id
+         ) AS subquery
+      WHERE places.id = #{self.id}
+EOF
+      Place.connection.execute(query)
+  end
+
 end
