@@ -64,9 +64,9 @@ BEGIN
   WHEN 4 THEN -- county
     relevance := 0.5;
   WHEN 5 THEN -- locality
-    relevance := 1;
+    relevance := 0.9;
   WHEN 6 THEN -- neighborhood
-    relevance := 1;
+    relevance := 0.9;
   WHEN 7 THEN -- user defined
     relevance := 1;
   ELSE
@@ -86,17 +86,33 @@ CREATE FUNCTION distance_relevance(distance double precision, place_diameter dou
     LANGUAGE plpgsql
     AS $$
 DECLARE
+
 relevance float;
+peek_ahead float;
+
 BEGIN
-  IF distance BETWEEN 0 and place_diameter THEN
-    relevance := 2 / (exp(50*(distance/place_diameter)) + 1);
+  IF place_diameter <= 25 THEN
+    peek_ahead := 10.0;
+  ELSIF place_diameter <= 250 THEN
+    peek_ahead := 2.0;
+  ELSIF place_diameter <= 2500 THEN
+    peek_ahead := 0.5;
+  ELSE
+    peek_ahead := 0.0;
+  END IF;
+
+  IF distance = 0.0 THEN
+    relevance := 1;
+  ELSIF (place_diameter * peek_ahead) = 0.0  THEN
+    relevance := 0;
+  ELSIF distance BETWEEN 0 AND (place_diameter * peek_ahead) THEN
+    relevance := (-1/(place_diameter * peek_ahead)) * (distance - peek_ahead) + 1;
   ELSE
     relevance := 0;
   END IF;
 
   return relevance;
 END
-
 $$;
 
 
@@ -514,4 +530,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160805155451');
 INSERT INTO schema_migrations (version) VALUES ('20161028174301');
 
 INSERT INTO schema_migrations (version) VALUES ('20170411035121');
+
+INSERT INTO schema_migrations (version) VALUES ('20170423203349');
+
+INSERT INTO schema_migrations (version) VALUES ('20170423215902');
 

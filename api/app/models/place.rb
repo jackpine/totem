@@ -35,6 +35,7 @@ EOL
     Place
       .select(select_sql)
       .where(within_sql)
+      .group("places.id")
       .order("relevance DESC, category_id DESC, name ASC");
 
   end
@@ -78,7 +79,7 @@ SQL
   end
 
   def non_authoritative?
-    !is_authoritative?
+    !authoritative?
   end
 
   def authoritative?

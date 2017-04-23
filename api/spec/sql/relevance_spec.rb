@@ -66,11 +66,16 @@ describe "totem relevance models" do
 
     context "locality" do
       let(:category){ 5 } 
-      it{ expect(subject).to be(1.0) }
+      it{ expect(subject).to be(0.9) }
     end
 
     context "neighborhood" do
       let(:category){ 6 } 
+      it{ expect(subject).to be(0.9) }
+    end
+
+    context "user defined" do
+      let(:category){ 7 } 
       it{ expect(subject).to be(1.0) }
     end
   end
