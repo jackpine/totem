@@ -4,6 +4,20 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy import create_engine, Table, MetaData, Column
 from geoalchemy2 import Geometry
 
+PLACE_CATEGORIES =   {
+    'empire': 1,
+    'continent': 1,
+    'country': 2,
+    'region': 3,
+    'localadmin': 4,
+    'county': 4,
+    'locality': 5,
+    'neighbourhood': 6,
+    'campus': 6,
+    'neighborhood': 6,
+    'microhood': 6,
+}
+
 
 def get_db_engine():
     host = os.environ['DB_HOST']
