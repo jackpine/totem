@@ -53,15 +53,50 @@ to 'find places' near you.
 
 OPS
 ---
-
-build the docker container:
-
+There are a set of tools for managing the running api. First you should
 ```
-./ops/build_docker.sh totem-app
-./ops/deploy.sh core@api.totem-app.com production
+$ cd ops/
 ```
 
-I'm hacking docker machine, using it as a way to _distrubute_ docker
-images. It's a little backwards, but what the hey!
+Then build the docker container:
 
+```
+ ./ops/build_docker.sh
+```
+
+Then use docker machine to bring the containers up:
+
+```
+# in the case of local development, just keep this as the 'default'
+# machine
+$ eval $(dock-machine env totem-api)
+
+# ensure that the containers are present and proper aliases are created
+ ./ops/pull
+
+
+ docker-compose up
+```
+
+Once the machine is up you can access the admin shell as follow:
+
+```
+ ./run_admin.sh <user>@<host>
+```
+
+For new api hosts, at this point you can set up the systemd service
+files to ensure that the services are brought up on boot
+
+```
+  cp docker-container@.service /etc/systemd/system
+
+  systemctl --system daemon-reload
+
+  systemctl start docker-container@totem-db.service
+  systemctl start docker-container@totem-api.service
+
+  systemctl enable docker-container@totem-db.service
+  systemctl enable docker-container@totem-api.service
+
+```
 

@@ -13,6 +13,7 @@ set -x
     --link totem-db:db \
     -e DB_URL=postgres://postgres@db/totem \
     -e RAILS_ENV=production \
+    --network="ops_default" \
     -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
     -v /root:/root/work_dir \
     totem-admin /bin/bash
