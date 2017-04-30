@@ -14,8 +14,11 @@ aptitude \
 postgresql-client-9.5 && \
 apt-get clean
 
+WORKDIR /root
+
+ADD ./database_tasks/requirements.txt /tmp/requirements.txt
+RUN virtualenv /root/venv
+RUN ./venv/bin/pip install -r /tmp/requirements.txt
 
 ADD . /root/totem-api
-
-WORKDIR /root
 
