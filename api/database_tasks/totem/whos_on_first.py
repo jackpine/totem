@@ -2,6 +2,8 @@ import sys
 import os
 import datetime
 import json
+import codecs
+
 from . import PLACE_CATEGORIES
 
 from shapely.geometry import shape
@@ -38,7 +40,7 @@ def walk_dir(path_to_search, callback):
 
             joined_path = os.path.join(path, filename)
             if not should_skip(joined_path):
-                with open(joined_path) as fd:
+                with codecs.open(joined_path, "r", "utf-8") as fd:
                     geojson = json.loads(fd.read())
                     callback(geojson, joined_path)
 
@@ -47,18 +49,15 @@ def totem_data_from_wof(geojson):
 
     metadata = geojson['properties']
 
-    if metadata['wof:placetype'] == "disputed":
-        # dont bother
-        return
     if metadata['wof:id'] == 0:
-        print "skipping 'earth'"
-        # don't import the antipodal (180 degree long) 'Earth' place
-        return
+        raise RuntimeError("Ignoring antipodal earth")
 
     category_id = PLACE_CATEGORIES[metadata['wof:placetype']]
     geometry_shape = shape(geojson['geometry'])
     if geometry_shape.__class__ == Point:
         boundary = MultiPolygon([geometry_shape.buffer(0.000001)])
+    elif geometry_shape.__class__ == MultiPolygon:
+        boundary = geometry_shape
     else:
         boundary = MultiPolygon([geometry_shape])
 
@@ -67,7 +66,7 @@ def totem_data_from_wof(geojson):
 
     now = datetime.datetime.now()
 
-    return {"name": name,
+    data = {"name": name,
             "category_id": category_id,
             "is_authoritative": True,
             "authoritative_boundary": from_shape(boundary, srid=4326),
@@ -77,3 +76,8 @@ def totem_data_from_wof(geojson):
             "created_at": now,
             "updated_at": now
     }
+    for key in data.keys():
+        if data[key] is None:
+            raise RuntimeError("key is blank:{}".format(key ))
+
+    return data

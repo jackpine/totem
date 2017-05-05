@@ -19,10 +19,11 @@ def main(argv):
             data = totem_data_from_wof(wof_json)
             places.insert(data).execute()
         except Exception, e:
-            print "Skipping:", path, wof_json["properties"]["wof:name"]
+            print "  Skipping:", path
+            if wof_json["properties"]["wof:name"]:
+                print "  Name: ", wof_json["properties"]["wof:name"].encode('utf-8')
             print e
 
     walk_dir(argv[0], insert_record)
 if __name__ == '__main__':
-    print "wowowow"
     main(sys.argv[1:])
