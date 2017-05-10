@@ -72,7 +72,7 @@ def totem_data_from_wof(geojson):
             "authoritative_boundary": from_shape(boundary, srid=4326),
             "boundary": from_shape(boundary, srid=4326),
             "import_source": "whosonfirst",
-            "import_metadata": json.dumps(metadata),
+            "import_metadata": metadata,
             "created_at": now,
             "updated_at": now
     }

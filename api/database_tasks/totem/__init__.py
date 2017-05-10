@@ -2,6 +2,7 @@ import os
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy import create_engine, Table, MetaData, Column
+from sqlalchemy.dialects.postgresql import JSONB
 from geoalchemy2 import Geometry
 
 PLACE_CATEGORIES =   {
@@ -46,6 +47,7 @@ def get_places_table():
     places = Table('places',
             meta,
             Column('authoritative_boundary', Geometry('MULTIPOLYGON')),
+            Column('import_metadata', JSONB),
             autoload=True,
             autoload_with=engine,
             extend_existing=True);
