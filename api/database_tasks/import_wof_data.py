@@ -15,12 +15,13 @@ def main(argv):
     places = get_places_table()
 
     def insert_record(wof_json, path):
+        assert wof_json["properties"]["wof:id"] >= 0
         try:
             data = totem_data_from_wof(wof_json)
             places.insert(data).execute()
         except Exception, e:
             print "  Skipping:", path
-            if wof_json["properties"]["wof:name"]:
+            if "wof:name" in wof_json["properties"] and wof_json["properties"]["wof:name"]:
                 print "  Name: ", wof_json["properties"]["wof:name"].encode('utf-8')
             print e
 
