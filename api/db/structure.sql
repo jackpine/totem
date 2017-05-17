@@ -29,20 +29,6 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
--- Name: btree_gin; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS btree_gin WITH SCHEMA public;
-
-
---
--- Name: EXTENSION btree_gin; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION btree_gin IS 'support for indexing common datatypes in GIN';
-
-
---
 -- Name: postgis; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -496,7 +482,7 @@ CREATE INDEX index_visits_on_place_id ON visits USING btree (place_id);
 -- Name: index_wof_id_on_places; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_wof_id_on_places ON places USING gin ((((import_metadata ->> 'wof:id'::text))::integer));
+CREATE UNIQUE INDEX index_wof_id_on_places ON places USING btree ((((import_metadata ->> 'wof:id'::text))::integer));
 
 
 --

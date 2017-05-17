@@ -14,8 +14,7 @@ class UndoDoubleEncodedJson < ActiveRecord::Migration
     ActiveRecord::Base.connection.execute("UPDATE places SET import_metadata = (CONCAT('[', import_metadata::text, ']')::json ->> 0)::json;")
 
     puts "setting up index on the import metadata wof:id"
-    ActiveRecord::Base.connection.execute("CREATE EXTENSION btree_gin;")
-    ActiveRecord::Base.connection.execute("CREATE INDEX index_wof_id_on_places ON places USING gin (((import_metadata->>'wof:id')::int));")
+    ActiveRecord::Base.connection.execute("CREATE UNIQUE INDEX index_wof_id_on_places ON places (((import_metadata->>'wof:id')::int));")
   end
 
   def down

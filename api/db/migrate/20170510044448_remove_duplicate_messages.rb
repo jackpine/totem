@@ -3,7 +3,7 @@ class RemoveDuplicateMessages < ActiveRecord::Migration
 
     (1..13).each do |i|
 
-      # ensure there is a primary key on the messages
+      # remove the duped messages
       ActiveRecord::Base.connection.execute("Delete from messages where id in ( select id from messages where id=#{i} limit 1) ;")
 
     end
