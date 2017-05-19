@@ -9,7 +9,7 @@ namespace :totem do
 
     if data_path && File.exist?(data_path)
       puts "Begin database task,  **ensure you have git lfs installed and all files checked out**"
-      DatabaseTask.exec('import_wof_data', [data_path])
+      DatabaseTask.exec('upsert', [data_path])
     else
       puts 'set `WOF=/path/to/whos-on-first/data/` '
     end

@@ -26,6 +26,7 @@ describe 'messages requests' do
         expected_response = JSON.parse({
             location: { "type": "Point", "coordinates": [100.0, 0.0] },
             place_id: place.id,
+            subject: "another fine subject",
             user_id: user.id,
             body: 'Foo',
             place: {id: place.id, name: "place1", category_id: 6, category: "neighborhood"},
@@ -51,7 +52,7 @@ describe 'messages requests' do
 
         expect(response).to be_success
 
-        expect(JSON.parse(response.body).map{|msg| msg['id'] }).to eq([message1.id, message2.id])
+        expect(JSON.parse(response.body).map{|msg| msg['id'] }).to eq([message2.id, message1.id])
       end
     end
   end

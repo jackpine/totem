@@ -1,4 +1,4 @@
-FROM phusion/passenger-ruby22:latest
+FROM phusion/passenger-ruby22:0.9.19
 MAINTAINER Sam Vevang <sam.vevang@gmail.com>
 
 ENV HOME /root
@@ -23,9 +23,6 @@ ADD Gemfile.lock /tmp/Gemfile.lock
 RUN bundle install
 
 ADD . /home/app/totem-api
-# Copy over template env file
-# copying it in manually
-#ADD .env-template /home/app/totem-api/.env
 RUN chown -R app:app /home/app
 
 # Clean up APT when done.

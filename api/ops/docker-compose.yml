@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  totem-db:
+    container_name: totem-db
+    image: mdillon/postgis:9.5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+
+  totem-api:
+    container_name: totem-api
+    image: totem-api
+    links:
+      - totem-db
+    environment:
+      - DB_URL=postgres://postgres@db/totem
+      - RAILS_ENV=production
+    env_file:
+      - ./production_env
+    ports:
+      - "80:80"
+
+volumes:
+  pgdata:
