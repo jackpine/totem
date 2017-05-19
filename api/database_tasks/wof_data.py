@@ -51,17 +51,16 @@ def upsert_record(wof_json, path):
     assert wof_json["properties"]["wof:id"] >= 0
     try:
         data = totem_data_from_wof(wof_json)
-        # find existing record and update
-        # else
-        # insert
-        #places.insert(data).execute()
+        if len(data['import_metadata']['wof:superseded_by']) > 0:
+            raise RuntimeError('Superceded')
         stmt = insert(places).values(data).on_conflict_do_update(index_elements=[cast(places.c.import_metadata["wof:id"].astext, Integer)], set_=data)
         stmt.execute()
     except Exception, e:
-        print "  Skipping:", path
         if "wof:name" in wof_json["properties"] and wof_json["properties"]["wof:name"]:
-            print "  Name: ", wof_json["properties"]["wof:name"].encode('utf-8')
-        print e
+            name = wof_json["properties"]["wof:name"].encode('utf-8')
+        else:
+            name = ''
+        print "  Skipping: {0}:{1}:{2}".format(path, name, e)
 
 
 def main(argv):
