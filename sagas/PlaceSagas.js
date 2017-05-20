@@ -44,6 +44,10 @@ export function* visitPlace(action){
     }
 }
 
+export function* leavePlace(action){
+    yield put(placeActionCreators.placeLeaveCurrentPlace());
+}
+
 export function* fetchPlaceVisitMessages(action){
     var { place, user } = action;
     var api = new TotemApi(user);
@@ -62,5 +66,6 @@ export default {
     fetchPlacesNearBy,
     createPlace,
     visitPlace,
+    leavePlace,
     fetchPlaceVisitMessages,
 }

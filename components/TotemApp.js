@@ -52,7 +52,6 @@ export class Totem extends React.Component {
             location: null,
             nearbyPlaces: [],
         };
-
     }
     static contextTypes = () => {
        return {

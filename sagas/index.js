@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest } from 'redux-saga'
+import { takeEvery } from 'redux-saga/effects'
 
 import TotemApi from '../util/TotemApi';
 import _ from 'underscore';
@@ -9,6 +9,7 @@ import { ActionTypes } from '../constants/TotemConstants';
 
 export default function* rootSaga(){
 
+    yield takeEvery(ActionTypes.REDUX_STORAGE_LOADED, placeSagas.leavePlace);
 
     yield takeEvery(ActionTypes.PLACE_VISIT_REQUESTED, placeSagas.visitPlace );
     yield takeEvery(ActionTypes.PLACES_NEARBY_REQUESTED, placeSagas.fetchPlacesNearBy);

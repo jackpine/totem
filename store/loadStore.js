@@ -5,9 +5,10 @@ import * as storage from 'redux-storage';
 import createEngine from 'redux-storage-engine-reactnativeasyncstorage';
 import filter from 'redux-storage-decorator-filter'
 import reducer from '../reducers';
+import { ActionTypes } from '../constants/TotemConstants';
 
 import createSagaMiddleware from 'redux-saga';
-import rootSaga  from '../sagas';
+import rootSaga from '../sagas';
 
 export default function loadStore() {
 
@@ -33,10 +34,13 @@ export default function loadStore() {
 
     const load = storage.createLoader(engine);
 
-    sagaMiddleware.run(rootSaga);
+    sagaMiddleware.run(rootSaga).done.catch((error) => console.warn(error));;
 
-    load(store).then((newState) => console.log('Loaded state:', newState))
-        .catch(() => console.log('Failed to load previous state'));
+    load(store).then((newState) => {
+        console.log('Loaded state:', newState);
+        store.dispatch({type: ActionTypes.REDUX_STORAGE_LOADED});
+    }).catch(() => console.log('Failed to load previous state'));
+
 
     return store;
 
