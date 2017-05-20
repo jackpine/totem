@@ -69,7 +69,7 @@ Then use docker machine to bring the containers up:
 ```
 # in the case of local development, just keep this as the 'default'
 # machine
-$ eval $(dock-machine env totem-api)
+$ eval $(docker-machine env totem-api)
 
 # ensure that the containers are present and proper aliases are created
  ./ops/pull
