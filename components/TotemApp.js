@@ -29,47 +29,51 @@ import UserSignInCreate from './UserSignInCreate';
 import MessageCompose from './MessageCompose';
 
 import { locationUpdate } from '../actions/LocationActionCreators';
-import { placesNearbyRequested } from '../actions/PlaceActionCreators';
+import { placesNearbyRequested, placeLeaveCurrentPlace } from '../actions/PlaceActionCreators';
 
 function mapStateToProps(state) {
     // special case for our Totem container
     // map all the state to this component
-    return state
+    return state;
 }
 
 function mapDispatchToProps(dispatch){
     return {
-        handleLocationUpdate: (action)=>{ dispatch(action) },
-        handlePlacesNearbyRequested: (action) => { dispatch(action) }
+        handleAction: (action)=>{ dispatch(action) },
     }
 }
 
-export var Totem = React.createClass({
-    contextTypes:  {
-        store: React.PropTypes.object.isRequired
-    },
-    getInitialState: function(){
-        return {
+export class Totem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             userFetched: false,
             user: null,
             location: null,
-            nearbyPlaces: []
-        }
-    },
-    componentDidMount: function(){
+            nearbyPlaces: [],
+        };
+
+    }
+    static contextTypes = () => {
+       return {
+           store: React.PropTypes.object.isRequired
+       }
+    }
+    componentDidMount = () => {
         this.listenForLocationUpdates();
 
-    },
-    componentWillUnmount: function() {
+    }
+    componentWillUnmount = () => {
         this._listeners && this._listeners.forEach(listener => listener.remove());
-    },
-    assignDefaultSceneProps: function(){
+    }
+    assignDefaultSceneProps = () => {
 
-    },
-    renderScene: function(route, nav){
+    }
+    renderScene = (route, nav) => {
 
         var Component;
         var routePassedProps;
+
 
         if(!this.props.reduxStoreLoaded || (!this.props.location && this.props.user)){
             Component = AppLoading;
@@ -96,9 +100,9 @@ export var Totem = React.createClass({
                 <Component {...componentProps} />
             </View>
         );
-    },
+    }
 
-    lookupCurrentVisitPath(path){
+    lookupCurrentVisitPath = (path) => {
         var Component;
         switch(path){
             case Paths.MESSAGE_COMPOSE:
@@ -108,9 +112,9 @@ export var Totem = React.createClass({
                 Component = Place
         }
         return Component;
-    },
+    }
 
-    lookupSceneByPath(path){
+    lookupSceneByPath = (path) => {
         var Component;
         switch(path){
             case Paths.PLACE_CREATE:
@@ -131,8 +135,8 @@ export var Totem = React.createClass({
             });
         }
         return Component;
-    },
-    _setNavigatorRef: function(navigator) {
+    }
+    _setNavigatorRef = (navigator) => {
 
         if (navigator !== this._navigator) {
             this._navigator = navigator;
@@ -155,8 +159,8 @@ export var Totem = React.createClass({
                 ];
             }
         }
-    },
-    listenForLocationUpdates: function(){
+    }
+    listenForLocationUpdates = () => {
         var self = this;
         LocationManager.startLocationUpdates({}, function(err, response){
             console.log(`${response}`)
@@ -164,13 +168,13 @@ export var Totem = React.createClass({
         NativeAppEventEmitter.addListener(LocationManager.locationUpdatesEventChannel,
                                           (location)=>{
                                               if(self.props.user){
-                                                  self.props.handleLocationUpdate(locationUpdate(location));
-                                                  self.props.handlePlacesNearbyRequested(placesNearbyRequested(self.props.location, self.props.user));
+                                                  self.props.handleAction(locationUpdate(location));
+                                                  self.props.handleAction(placesNearbyRequested(self.props.location, self.props.user));
                                               }
                                           });
 
-    },
-    render: function() {
+    }
+    render = () => {
         return (
             <Navigator
                 initialRoute={{
@@ -181,9 +185,8 @@ export var Totem = React.createClass({
                 style={styles.container}
             />
         );
-    },
-
-});
+    }
+}
 
 var styles = StyleSheet.create({
     container: {
