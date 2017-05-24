@@ -4,17 +4,17 @@ relevance float;
 BEGIN
   CASE category
   WHEN 1 THEN -- continent
-    relevance := 0.35;
+    relevance := 0.25;
   WHEN 2 THEN -- country
-    relevance := 0.45;
+    relevance := 0.35;
   WHEN 3 THEN -- region
-    relevance := 0.45;
+    relevance := 0.35;
   WHEN 4 THEN -- county
-    relevance := 0.5;
+    relevance := 0.4;
   WHEN 5 THEN -- locality
-    relevance := 0.9;
+    relevance := 0.8;
   WHEN 6 THEN -- neighborhood
-    relevance := 0.9;
+    relevance := 0.8;
   WHEN 7 THEN -- user defined
     relevance := 1;
   ELSE
@@ -23,7 +23,7 @@ BEGIN
 
   return relevance;
 END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql STABLE;
 
 CREATE OR REPLACE FUNCTION distance_relevance(distance float, place_diameter float) RETURNS float as $$
 DECLARE
@@ -32,16 +32,20 @@ relevance float;
 peek_ahead float;
 
 BEGIN
-  IF place_diameter <= 25 THEN
-    peek_ahead := 10.0;
-  ELSIF place_diameter <= 200 THEN
-    peek_ahead := 2.0;
+  IF place_diameter <= 50 THEN
+    peek_ahead := 4.662;
+  ELSIF place_diameter <= 100 THEN
+    peek_ahead := 3.1;
   ELSIF place_diameter <= 1000 THEN
-    peek_ahead := 0.5;
+    peek_ahead := 0.155;
   ELSIF place_diameter <= 10000 THEN
-    peek_ahead := 0.15;
+    peek_ahead := 0.155;
+  ELSIF place_diameter <= 100000 THEN
+    peek_ahead := 0.01;
+  ELSIF place_diameter <= 1000000 THEN
+    peek_ahead := 0.0155;
   ELSE
-    peek_ahead := 0.0;
+    peek_ahead := 0.003105;
   END IF;
 
   IF distance = 0.0 THEN
@@ -57,7 +61,7 @@ BEGIN
 
   return relevance;
 END
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql STABLE;
 
 
 
@@ -72,4 +76,4 @@ BEGIN
     + category_relevance_weight * category_relevance(category));
 END
 
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql IMMUTABLE;
