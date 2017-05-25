@@ -21,7 +21,7 @@ class Api::V1::PlacesController < Api::V1::BaseController
 
   def nearby
 
-    @places = Place.nearby(nearby_params.fetch('lon'), nearby_params.fetch('lat'), 0.125)
+    @places = Place.relevant_nearby(nearby_params.fetch('lon'), nearby_params.fetch('lat'))
 
     respond_to do |format|
       format.json { render :index }

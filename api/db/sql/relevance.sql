@@ -34,10 +34,12 @@ peek_ahead float;
 BEGIN
   IF place_diameter <= 25 THEN
     peek_ahead := 10.0;
-  ELSIF place_diameter <= 250 THEN
+  ELSIF place_diameter <= 200 THEN
     peek_ahead := 2.0;
-  ELSIF place_diameter <= 2500 THEN
+  ELSIF place_diameter <= 1000 THEN
     peek_ahead := 0.5;
+  ELSIF place_diameter <= 10000 THEN
+    peek_ahead := 0.15;
   ELSE
     peek_ahead := 0.0;
   END IF;
@@ -47,7 +49,8 @@ BEGIN
   ELSIF (place_diameter * peek_ahead) = 0.0  THEN
     relevance := 0;
   ELSIF distance BETWEEN 0 AND (place_diameter * peek_ahead) THEN
-    relevance := (-1/(place_diameter * peek_ahead)) * (distance - peek_ahead) + 1;
+    -- based on a butterworth lowpass filter
+    relevance := (1 / (sqrt( (4/9.0) + ((distance + (place_diameter * peek_ahead) / 6) / (place_diameter * peek_ahead) ) ^ 8 ))) - 0.5;
   ELSE
     relevance := 0;
   END IF;

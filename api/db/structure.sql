@@ -49,24 +49,24 @@ SET search_path = public, pg_catalog;
 --
 
 CREATE FUNCTION category_relevance(category integer) RETURNS double precision
-    LANGUAGE plpgsql
+    LANGUAGE plpgsql IMMUTABLE
     AS $$
 DECLARE
 relevance float;
 BEGIN
   CASE category
   WHEN 1 THEN -- continent
-    relevance := 0.35;
+    relevance := 0.25;
   WHEN 2 THEN -- country
-    relevance := 0.45;
+    relevance := 0.35;
   WHEN 3 THEN -- region
-    relevance := 0.45;
+    relevance := 0.35;
   WHEN 4 THEN -- county
-    relevance := 0.5;
+    relevance := 0.4;
   WHEN 5 THEN -- locality
-    relevance := 0.9;
+    relevance := 0.8;
   WHEN 6 THEN -- neighborhood
-    relevance := 0.9;
+    relevance := 0.8;
   WHEN 7 THEN -- user defined
     relevance := 1;
   ELSE
@@ -91,14 +91,14 @@ relevance float;
 peek_ahead float;
 
 BEGIN
-  IF place_diameter <= 25 THEN
+  IF place_diameter <= 50 THEN
     peek_ahead := 10.0;
   ELSIF place_diameter <= 250 THEN
     peek_ahead := 2.0;
   ELSIF place_diameter <= 2500 THEN
     peek_ahead := 0.5;
   ELSE
-    peek_ahead := 0.0;
+    peek_ahead := 0.25;
   END IF;
 
   IF distance = 0.0 THEN
@@ -437,6 +437,13 @@ CREATE INDEX index_places_on_boundary ON places USING gist (boundary);
 
 
 --
+-- Name: index_places_on_boundary_width; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_places_on_boundary_width ON places USING btree (st_length(st_longestline(boundary, boundary)));
+
+
+--
 -- Name: index_places_on_is_authoritative; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -448,6 +455,20 @@ CREATE INDEX index_places_on_is_authoritative ON places USING btree (is_authorit
 --
 
 CREATE INDEX index_places_on_name ON places USING btree (name);
+
+
+--
+-- Name: index_places_on_simplified_boundary; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_places_on_simplified_boundary ON places USING gist (st_simplify(boundary, (0.01)::double precision, true));
+
+
+--
+-- Name: index_places_on_simplified_boundary_geography; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_places_on_simplified_boundary_geography ON places USING gist (((st_simplify(boundary, (0.01)::double precision, true))::geography));
 
 
 --
@@ -547,4 +568,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170505135258');
 INSERT INTO schema_migrations (version) VALUES ('20170510044448');
 
 INSERT INTO schema_migrations (version) VALUES ('20170518034531');
+
+INSERT INTO schema_migrations (version) VALUES ('20170523150916');
 

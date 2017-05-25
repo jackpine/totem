@@ -17,13 +17,13 @@ describe "totem relevance models" do
 
     context "relevance varies as diameter/distance" do
       context "a large diamter place" do
-        let(:diameter){ 100000 }
-        let(:distance){ diameter / 100.0 }
+        let(:diameter){ 100_000 }
+        let(:distance){ 1_000 }
         it{ expect(subject).to be_within(0.001).of(0.755) }
       end
       context "a small diameter place" do
         let(:diameter){ 50 }
-        let(:distance){ diameter / 100.0 }
+        let(:distance){ 0.5 }
         it{ expect(subject).to be_within(0.001).of(0.755) }
       end
     end

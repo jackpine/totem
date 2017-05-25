@@ -19,25 +19,30 @@ class Place < ActiveRecord::Base
   has_many :visits
   has_many :messages
 
-  def self.nearby(lon, lat, radius_dregrees)
-    my_loca_sql = "ST_GeomFromText('POINT(#{lon} #{lat})', 4326)"
-    distance_sql = "ST_Distance(boundary, #{my_loca_sql}, true)"
-    within_sql = "ST_DWithin(#{my_loca_sql}, boundary, #{radius_dregrees})"
-    width_sql = "ST_Length(ST_LongestLine(boundary, boundary), true)"
+  ST_SIMPLIFY_FACTOR = 0.01
 
-    select_sql = <<EOL
-    id, name, category_id, boundary,
-    #{distance_sql} as distance,
-    #{width_sql} as max_width,
-    relevance(#{distance_sql}, category_id, #{width_sql}) as relevance
-EOL
+  def self.relevant_nearby(lon, lat)
 
-    Place
-      .select(select_sql)
-      .where(within_sql)
-      .group("places.id")
-      .order("relevance DESC, category_id DESC, name ASC");
+    simplified_boundary_sql = "ST_Simplify(boundary, #{ST_SIMPLIFY_FACTOR}, true)"
 
+    Place.find_by_sql(<<SQL
+
+    SELECT id, name, distance, category_id, max_width,
+      -- category_relevance(category_id),
+      -- distance_relevance(distance, max_width),
+      relevance(distance, category_id, max_width)
+    FROM  (
+      SELECT  id, name, category_id,
+      ST_Distance(#{simplified_boundary_sql}::geography, ST_GeomFromText('POINT(#{lon} #{lat})', 4326)::geography , true) as distance,
+      ST_Length(ST_LongestLine(#{simplified_boundary_sql}, #{simplified_boundary_sql})::geography) as max_width
+
+      FROM "places"
+      WHERE ST_Buffer(ST_GeomFromText('POINT(#{lon} #{lat})', 4326), 0.1) && #{simplified_boundary_sql}
+    ) q1
+    order by relevance desc
+    ;
+SQL
+)
   end
 
   def self.create_at_location(place_params, location_params)

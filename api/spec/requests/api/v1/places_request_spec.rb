@@ -104,10 +104,11 @@ describe 'places requests' do
 
       it "orders places based on location" do
         get "/api/v1/places/nearby.json", api_params
-        expect(JSON.parse(response.body).map {|r| r["name"] }).to eq(["Civic Center",
-                                                                      "NOMA",
-                                                                      "Tenderloin",
+        expect(JSON.parse(response.body).map {|r| r["name"] }).to eq([
                                                                       "Union Square",
+                                                                      "NOMA",
+                                                                      "Civic Center",
+                                                                      "Tenderloin",
                                                                       "San Francisco",
                                                                       "United States",
                                                                       "North America"])
