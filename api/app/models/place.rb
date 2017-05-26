@@ -37,6 +37,7 @@ class Place < ActiveRecord::Base
       ST_Length(ST_LongestLine(#{simplified_boundary_sql}, #{simplified_boundary_sql})::geography) as max_width
 
       FROM "places"
+      -- find all the places within 0.1 degree of the point that intersect bboxes on boundary
       WHERE ST_Buffer(ST_GeomFromText('POINT(#{lon} #{lat})', 4326), 0.1) && boundary
     ) q1
     order by relevance desc
