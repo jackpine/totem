@@ -38,7 +38,7 @@ class Place < ActiveRecord::Base
 
       FROM "places"
       -- find all the places within 0.1 degree of the point that intersect bboxes on boundary
-      WHERE ST_Buffer(ST_GeomFromText('POINT(#{lon} #{lat})', 4326), 0.1) && boundary
+      WHERE ST_Dwithin(ST_GeomFromText('POINT(#{lon} #{lat})', 4326), boundary, 0.1)
     ) q1
     order by relevance desc
     ;
