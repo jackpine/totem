@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest } from 'redux-saga'
+import { takeEvery } from 'redux-saga/effects'
 
 import TotemApi from '../util/TotemApi';
 import _ from 'underscore';
@@ -7,22 +7,15 @@ import * as placeSagas from './PlaceSagas';
 import * as messageSagas from './MessageSagas';
 import { ActionTypes } from '../constants/TotemConstants';
 
-export function* placeVisitSaga() {
-    yield* takeEvery(ActionTypes.PLACE_VISIT_REQUESTED, placeSagas.visitPlace );
-}
+export default function* rootSaga(){
 
-export function* placesNearbySaga() {
-    yield* takeEvery(ActionTypes.PLACES_NEARBY_REQUESTED, placeSagas.fetchPlacesNearBy);
-}
+    yield takeEvery(ActionTypes.REDUX_STORAGE_LOADED, placeSagas.leavePlace);
 
-export function* fetchPlaceVisitMessagesSaga(){
-    yield* takeEvery(ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED, placeSagas.fetchPlaceVisitMessages);
-}
+    yield takeEvery(ActionTypes.PLACE_VISIT_REQUESTED, placeSagas.visitPlace );
+    yield takeEvery(ActionTypes.PLACES_NEARBY_REQUESTED, placeSagas.fetchPlacesNearBy);
+    yield takeEvery(ActionTypes.PLACE_VISIT_MESSAGES_REQUESTED, placeSagas.fetchPlaceVisitMessages);
+    yield takeEvery(ActionTypes.PLACE_CREATE_REQUESTED, placeSagas.createPlace);
 
-export function* placeCreateSaga() {
-    yield* takeEvery(ActionTypes.PLACE_CREATE_REQUESTED, placeSagas.createPlace);
-}
+    yield takeEvery(ActionTypes.MESSAGE_COMPOSE_COMPLETED, messageSagas.createMessage);
 
-export function* messageCreateSaga(){
-    yield* takeEvery(ActionTypes.MESSAGE_COMPOSE_COMPLETED, messageSagas.createMessage);
 }

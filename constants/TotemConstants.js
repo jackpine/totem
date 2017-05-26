@@ -35,6 +35,7 @@ module.exports = {
         PLACE_VISIT_MESSAGES_REQUESTED_FAILED: null,
 
         REDUX_STORAGE_LOAD: null, // from redux-storage
+        REDUX_STORAGE_LOADED: null, // from store/loadStore
     }),
     Paths: keyMirror({
         MESSAGE_COMPOSE: null,
