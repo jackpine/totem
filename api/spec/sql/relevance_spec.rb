@@ -16,26 +16,35 @@ describe "totem relevance models" do
     end
 
     context "relevance varies as diameter/distance" do
-      context "a large diamter place" do
-        let(:diameter){ 100000 }
-        let(:distance){ diameter / 100.0 }
-        it{ expect(subject).to be_within(0.001).of(0.755) }
+      context "a large diameter place" do
+        let(:diameter){ 10_000_000 } # like an ocean
+        let(:distance){ 20_000 }
+        it{ expect(subject).to be_within(0.01).of(0.75) }
       end
-      context "a small diameter place" do
+      context "a medium diamter place" do
+        let(:diameter){ 1_000_000 } # like an ocean
+        let(:distance){ 10000 }
+        it{ expect(subject).to be_within(0.01).of(0.75) }
+      end
+      context "a medium diamter place" do
+        let(:diameter){ 10_000 }
+        let(:distance){ 1000 }
+        it{ expect(subject).to be_within(0.01).of(0.75) }
+      end
+      context "a small diamter place" do
+        let(:diameter){ 1_000 }
+        let(:distance){ 100 }
+        it{ expect(subject).to be_within(0.01).of(0.75) }
+      end
+      context "a extra small diameter place" do
+        let(:diameter){ 100 }
+        let(:distance){ 200 }
+        it{ expect(subject).to be_within(0.01).of(0.75) }
+      end
+      context "a extra small diameter place" do
         let(:diameter){ 50 }
-        let(:distance){ diameter / 100.0 }
-        it{ expect(subject).to be_within(0.001).of(0.755) }
-      end
-    end
-
-    context "relevance drops off very sharply with distance" do
-      context "it's basically zero" do
-        let(:distance) {diameter / 4.0}
-        it{ expect(subject).to be_within(0.00001).of(0.0) }
-      end
-      context "relevance is somewhat significant" do
-        let(:distance) {diameter / 10.0}
-        it{ expect(subject).to be_within(0.01).of(0.01) }
+        let(:distance){ 150 }
+        it{ expect(subject).to be_within(0.01).of(0.75) }
       end
     end
   end
@@ -46,32 +55,32 @@ describe "totem relevance models" do
     subject { query_response[0]["category_relevance"].to_f }
     context "a continent" do
       let(:category){ 1 } 
-      it{ expect(subject).to be(0.35) }
+      it{ expect(subject).to be(0.25) }
     end
 
     context "country" do
       let(:category){ 2 } 
-      it{ expect(subject).to be(0.45) }
+      it{ expect(subject).to be(0.35) }
     end
 
     context "region" do
       let(:category){ 3 } 
-      it{ expect(subject).to be(0.45) }
+      it{ expect(subject).to be(0.35) }
     end
 
     context "county" do
       let(:category){ 4 } 
-      it{ expect(subject).to be(0.5) }
+      it{ expect(subject).to be(0.4) }
     end
 
     context "locality" do
       let(:category){ 5 } 
-      it{ expect(subject).to be(0.9) }
+      it{ expect(subject).to be(0.8) }
     end
 
     context "neighborhood" do
       let(:category){ 6 } 
-      it{ expect(subject).to be(0.9) }
+      it{ expect(subject).to be(0.8) }
     end
 
     context "user defined" do
