@@ -37,7 +37,7 @@ class Place < ActiveRecord::Base
       ST_Length(ST_LongestLine(#{simplified_boundary_sql}, #{simplified_boundary_sql})::geography) as max_width
 
       FROM "places"
-      WHERE ST_Buffer(ST_GeomFromText('POINT(#{lon} #{lat})', 4326), 0.1) && #{simplified_boundary_sql}
+      WHERE ST_Buffer(ST_GeomFromText('POINT(#{lon} #{lat})', 4326), 0.1) && boundary
     ) q1
     order by relevance desc
     ;
