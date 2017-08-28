@@ -1,4 +1,5 @@
-class Visit < ActiveRecord::Base
+class Visit < ApplicationRecord
+
   validates :place_id, presence: true
   validates :location, presence: true
 

@@ -25,7 +25,7 @@ class Api::V1::VisitsController < Api::V1::BaseController
   def visit_params
     tmp_params = params.require(:visit).permit([{:location => [:type,{:coordinates => []}]},
                                                 :place_id])
-    tmp_params.merge!({location: RGeo::GeoJSON.decode(tmp_params['location']).as_text}) unless tmp_params[:location].blank?
+    tmp_params.merge!({location: RGeo::GeoJSON.decode(tmp_params['location'].as_json).as_text}) unless tmp_params[:location].blank?
     tmp_params
   end
 

@@ -19,7 +19,7 @@ describe 'messages requests' do
 
       it 'creates a new message' do
 
-        post "/api/v1/places/#{place.id}/messages.json", valid_params
+        post "/api/v1/places/#{place.id}/messages.json", params: valid_params
 
         expect(response).to be_success
 
@@ -48,7 +48,7 @@ describe 'messages requests' do
 
       it 'returns a list of messages for that place' do
 
-        get "/api/v1/places/#{place.id}/messages.json", valid_params
+        get "/api/v1/places/#{place.id}/messages.json", params: valid_params
 
         expect(response).to be_success
 

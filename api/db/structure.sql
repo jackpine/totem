@@ -526,57 +526,33 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 
 SET search_path TO "$user", public;
 
-INSERT INTO schema_migrations (version) VALUES ('20151009173019');
+INSERT INTO "schema_migrations" (version) VALUES
+('20151009173019'),
+('20151013170030'),
+('20151013184933'),
+('20151022204943'),
+('20151105181300'),
+('20151105182655'),
+('20151106170659'),
+('20151106172430'),
+('20151106222532'),
+('20151111172646'),
+('20151111215203'),
+('20151113171813'),
+('20151113172347'),
+('20151203164752'),
+('20151203175150'),
+('20151203183249'),
+('20160614192525'),
+('20160805155451'),
+('20161028174301'),
+('20170411035121'),
+('20170423203349'),
+('20170423215902'),
+('20170505135258'),
+('20170510044448'),
+('20170518034531'),
+('20170523150916'),
+('20170525193503');
 
-INSERT INTO schema_migrations (version) VALUES ('20151013170030');
-
-INSERT INTO schema_migrations (version) VALUES ('20151013184933');
-
-INSERT INTO schema_migrations (version) VALUES ('20151022204943');
-
-INSERT INTO schema_migrations (version) VALUES ('20151105181300');
-
-INSERT INTO schema_migrations (version) VALUES ('20151105182655');
-
-INSERT INTO schema_migrations (version) VALUES ('20151106170659');
-
-INSERT INTO schema_migrations (version) VALUES ('20151106172430');
-
-INSERT INTO schema_migrations (version) VALUES ('20151106222532');
-
-INSERT INTO schema_migrations (version) VALUES ('20151111172646');
-
-INSERT INTO schema_migrations (version) VALUES ('20151111215203');
-
-INSERT INTO schema_migrations (version) VALUES ('20151113171813');
-
-INSERT INTO schema_migrations (version) VALUES ('20151113172347');
-
-INSERT INTO schema_migrations (version) VALUES ('20151203164752');
-
-INSERT INTO schema_migrations (version) VALUES ('20151203175150');
-
-INSERT INTO schema_migrations (version) VALUES ('20151203183249');
-
-INSERT INTO schema_migrations (version) VALUES ('20160614192525');
-
-INSERT INTO schema_migrations (version) VALUES ('20160805155451');
-
-INSERT INTO schema_migrations (version) VALUES ('20161028174301');
-
-INSERT INTO schema_migrations (version) VALUES ('20170411035121');
-
-INSERT INTO schema_migrations (version) VALUES ('20170423203349');
-
-INSERT INTO schema_migrations (version) VALUES ('20170423215902');
-
-INSERT INTO schema_migrations (version) VALUES ('20170505135258');
-
-INSERT INTO schema_migrations (version) VALUES ('20170510044448');
-
-INSERT INTO schema_migrations (version) VALUES ('20170518034531');
-
-INSERT INTO schema_migrations (version) VALUES ('20170523150916');
-
-INSERT INTO schema_migrations (version) VALUES ('20170525193503');
 

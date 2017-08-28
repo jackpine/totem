@@ -8,7 +8,7 @@ PLACE_CATEGORIES =   ActiveSupport::HashWithIndifferentAccess.new({
   spot: 7,
 })
 
-class Place < ActiveRecord::Base
+class Place < ApplicationRecord
   validates :name, presence: true
   validates :is_authoritative, inclusion: {in:[true, false]} , on: :create
   validates :category_id, inclusion: {in:PLACE_CATEGORIES.values()}

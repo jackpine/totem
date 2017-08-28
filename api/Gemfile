@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 gem 'pg'
-gem 'activerecord-postgis-adapter', '3.0.0.beta2'
+gem 'activerecord-postgis-adapter'
 gem 'rgeo-geojson'
 gem 'devise'
 gem 'cancan'
@@ -14,7 +14,8 @@ gem 'dotenv'
 gem 'haml-rails'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails', '>= 5.0.0.rc2', '< 5.1'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -44,7 +45,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry'
   gem 'rspec-rails'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'factory_girl'
 end
 
