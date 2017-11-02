@@ -14,6 +14,8 @@ services:
     image: totem-api
     links:
       - totem-db
+    depends_on:
+      - totem-db
     environment:
       - DB_URL=postgres://postgres@db/totem
       - RAILS_ENV=production
