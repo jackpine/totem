@@ -15,7 +15,7 @@ describe 'places requests' do
 
       it 'creates a new visit' do
 
-        post "/api/v1/places/#{place.id}/visits.json", valid_params
+        post "/api/v1/places/#{place.id}/visits.json", params: valid_params
 
         expect(response).to be_success
 
@@ -32,7 +32,7 @@ describe 'places requests' do
     context 'when missing required parameters' do
       let(:invalid_location_params){ { jwt: JWT.encode({visit: {place_id:place.id}, public_token: 'some-public-token'}, 'some-private-token') } }
       it 'does not create a new visit' do
-        post "/api/v1/places/#{place.id}/visits.json", invalid_location_params
+        post "/api/v1/places/#{place.id}/visits.json", params: invalid_location_params
         expect(JSON.parse(response.body)['error']['message']).to eq('Location can\'t be blank')
         expect(response).to have_http_status(422)
       end

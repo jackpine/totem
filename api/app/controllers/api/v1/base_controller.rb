@@ -1,7 +1,7 @@
 class Api::V1::BaseController < ApplicationController
 
-  skip_before_filter :authenticate_user!
-  before_filter :authenticate_token!
+  skip_before_action :authenticate_user!
+  before_action :authenticate_token!
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|

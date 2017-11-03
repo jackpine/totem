@@ -58,12 +58,6 @@ There are a set of tools for managing the running api. First you should
 $ cd ops/
 ```
 
-Then build the docker container:
-
-```
- ./ops/build_docker.sh
-```
-
 Then use docker machine to bring the containers up:
 
 ```
@@ -98,5 +92,14 @@ files to ensure that the services are brought up on boot
   systemctl enable docker-container@totem-db.service
   systemctl enable docker-container@totem-api.service
 
+```
+
+BUILDING
+--------
+Build the docker containers, for both api and admin, then push the
+result to the gitlab registry:
+
+```
+ ./ops/build_docker.sh
 ```
 

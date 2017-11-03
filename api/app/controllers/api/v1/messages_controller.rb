@@ -1,6 +1,6 @@
 class Api::V1::MessagesController < Api::V1::BaseController
 
-  before_filter :find_place
+  before_action :find_place
 
   include AcceptsLocationParams
 

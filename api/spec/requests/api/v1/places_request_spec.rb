@@ -17,7 +17,7 @@ describe 'places requests' do
     context 'when valid' do
       it 'creates a new place' do
         visit_count = Visit.count()
-        post '/api/v1/places.json', api_params
+        post '/api/v1/places.json', params: api_params
         expect(response).to be_success
 
         expected_response = JSON.parse({
@@ -47,7 +47,7 @@ describe 'places requests' do
     context "when valid" do
       describe 'GET /api/v1/places/nearby' do
         it 'returns a list of places' do
-          get "/api/v1/places/nearby.json", api_params
+          get "/api/v1/places/nearby.json", params: api_params
           expect(response).to be_success
         end
       end
@@ -57,21 +57,21 @@ describe 'places requests' do
       describe 'GET /api/v1/places/nearby' do
         it 'requires a jwt token' do
           error_message  = {"errors":[{"jwt":["parameter is required"]}]}.to_json
-          get "/api/v1/places/nearby.json", {}
+          get "/api/v1/places/nearby.json", params: {}
           expect(response).to have_http_status(400)
           expect(response.body).to eq(error_message)
         end
         it 'requires a location param' do
           error_message = {"errors":[{"lon":["parameter is required"]}]}.to_json
           jwt = JWT.encode({public_token: 'some-public-token'}, "some-private-token")
-          get "/api/v1/places/nearby.json", {jwt: jwt}
+          get "/api/v1/places/nearby.json", params: {jwt: jwt}
           expect(response).to have_http_status(400)
           expect(response.body).to eq(error_message)
         end
         it 'requires a valid public-token param' do
           error_message = {"errors":["access denied"]}.to_json
           jwt = JWT.encode({'lat': '37.787359', 'lon':'-122.408227', public_token: 'invalid-token'}, "some-private-token")
-          get "/api/v1/places/nearby.json", {jwt: jwt}
+          get "/api/v1/places/nearby.json", params: {jwt: jwt}
           expect(response).to have_http_status(403)
           expect(response.body).to eq(error_message)
         end
@@ -103,7 +103,7 @@ describe 'places requests' do
       let!(:north_america) { FactoryGirl.create(:place, name: "North America", category: :continent, is_authoritative: true, boundary:north_america_bounds) }
 
       it "orders places based on location" do
-        get "/api/v1/places/nearby.json", api_params
+        get "/api/v1/places/nearby.json", params: api_params
         expect(JSON.parse(response.body).map {|r| r["name"] }).to eq([
                                                                       "Union Square",
                                                                       "NOMA",

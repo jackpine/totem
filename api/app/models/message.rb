@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
 
   validates :subject, :body, :user, :place, :visit, :location, presence: true
 

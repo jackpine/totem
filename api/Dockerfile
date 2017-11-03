@@ -29,3 +29,4 @@ RUN chown -R app:app /home/app
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 WORKDIR /home/app/totem-api
+RUN ./bin/rails assets:precompile
