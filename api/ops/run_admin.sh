@@ -23,7 +23,8 @@ function launch_admin {
     -e RAILS_ENV=production \
     --network="ops_default" \
     -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
-    -v /totem-work-data:/root/work_dir \
+    -v /totem_work:/root/work_dir \
+    -v ~/.bash_history:/root/.bash_history \
     totem-admin bash -c "$COMMAND"
 }
 
