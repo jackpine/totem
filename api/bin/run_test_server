@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+export RAILS_ENV=test
+BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "reseting the test db"
+$BIN_DIR/rake db:drop
+$BIN_DIR/rake db:setup
+echo "done"
+
+$BIN_DIR/rails s
