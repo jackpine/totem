@@ -66,10 +66,11 @@ Then use docker machine to bring the containers up:
 $ eval $(docker-machine env totem-api)
 
 # ensure that the containers are present and proper aliases are created
- ./ops/pull
+$ ./ops/pull_images.sh
 
 
- docker-compose up
+# bring the services up
+$ cd ops && docker-compose up
 ```
 
 Once the machine is up you can access the admin shell as follow:
