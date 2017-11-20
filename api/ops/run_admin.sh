@@ -25,6 +25,7 @@ function launch_admin {
     -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent -e SSH_AUTH_SOCK=/ssh-agent \
     -v /totem_work:/root/work_dir \
     -v ~/.bash_history:/root/.bash_history \
+    -v ~/.psql_history:/root/.psql_history \
     totem-admin bash -c "$COMMAND"
 }
 
