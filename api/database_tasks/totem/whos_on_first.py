@@ -1,6 +1,7 @@
 import sys
 import os
 import datetime
+import time
 import json
 import codecs
 
@@ -44,6 +45,7 @@ def walk_dir(path_to_search, callback):
                     geojson = json.loads(fd.read())
                     callback(geojson, joined_path)
 
+import_timestamp = int(time.time())
 
 def totem_data_from_wof(geojson):
 
@@ -64,8 +66,6 @@ def totem_data_from_wof(geojson):
     bbox = MultiPoint([geojson['bbox'][0:2], geojson['bbox'][2:4]]).envelope
     name = geojson['properties']['wof:name']
 
-    now = datetime.datetime.now()
-
     data = {"name": name,
             "category_id": category_id,
             "is_authoritative": True,
@@ -73,11 +73,18 @@ def totem_data_from_wof(geojson):
             "boundary": from_shape(boundary, srid=4326),
             "import_source": "whosonfirst",
             "import_metadata": metadata,
-            "created_at": now,
-            "updated_at": now
+            "imported_at_timestamp": import_timestamp,
     }
     for key in data.keys():
         if data[key] is None:
             raise RuntimeError("key is blank:{}".format(key ))
 
-    return data
+    now = datetime.datetime.now()
+
+    data_for_update = data.copy()
+    data_for_update['updated_at'] = now
+
+    data["created_at"] = now,
+    data["updated_at"] = now,
+
+    return data, data_for_update

@@ -1,10 +1,3 @@
---
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.6.2
--- Dumped by pg_dump version 9.6.2
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -220,6 +213,18 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: messages; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -270,7 +275,8 @@ CREATE TABLE places (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     category_id integer NOT NULL,
-    boundary geometry(MultiPolygon,4326) NOT NULL
+    boundary geometry(MultiPolygon,4326) NOT NULL,
+    imported_at_timestamp integer
 );
 
 
@@ -405,6 +411,14 @@ ALTER TABLE ONLY visits ALTER COLUMN id SET DEFAULT nextval('visits_id_seq'::reg
 
 
 --
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
 -- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -448,6 +462,13 @@ CREATE INDEX index_places_on_boundary ON places USING gist (boundary);
 --
 
 CREATE INDEX index_places_on_boundary_width ON places USING btree (st_length(st_longestline(boundary, boundary)));
+
+
+--
+-- Name: index_places_on_imported_at_timestamp; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_places_on_imported_at_timestamp ON places USING btree (imported_at_timestamp);
 
 
 --
@@ -553,6 +574,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170510044448'),
 ('20170518034531'),
 ('20170523150916'),
-('20170525193503');
+('20170525193503'),
+('20171210171858');
 
 

@@ -70,7 +70,8 @@ $ ./ops/pull_images.sh
 
 
 # bring the services up
-$ cd ops && docker-compose up
+$ cd ops && docker-compose start
+
 ```
 
 Once the machine is up you can access the admin shell as follow:

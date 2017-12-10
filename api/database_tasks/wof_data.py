@@ -13,7 +13,6 @@ from totem.whos_on_first import totem_data_from_wof
 from totem.whos_on_first import should_skip
 from totem.whos_on_first import walk_dir
 
-# get places table
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy import create_engine, Table, MetaData, Column
@@ -50,10 +49,11 @@ session = sessionmaker(bind=engine)()
 def upsert_record(wof_json, path):
     assert wof_json["properties"]["wof:id"] >= 0
     try:
-        data = totem_data_from_wof(wof_json)
+        data, data_for_update = totem_data_from_wof(wof_json)
         if len(data['import_metadata']['wof:superseded_by']) > 0:
             raise RuntimeError('Superceded')
-        stmt = insert(places).values(data).on_conflict_do_update(index_elements=[cast(places.c.import_metadata["wof:id"].astext, Integer)], set_=data)
+
+        stmt = insert(places).values(data).on_conflict_do_update(index_elements=[cast(places.c.import_metadata["wof:id"].astext, Integer)], set_=data_for_update)
         stmt.execute()
     except Exception, e:
         if "wof:name" in wof_json["properties"] and wof_json["properties"]["wof:name"]:
