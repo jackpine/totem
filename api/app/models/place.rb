@@ -9,6 +9,8 @@ PLACE_CATEGORIES =   ActiveSupport::HashWithIndifferentAccess.new({
 })
 
 class Place < ApplicationRecord
+  acts_as_paranoid
+
   validates :name, presence: true
   validates :is_authoritative, inclusion: {in:[true, false]} , on: :create
   validates :category_id, inclusion: {in:PLACE_CATEGORIES.values()}

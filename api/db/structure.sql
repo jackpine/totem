@@ -276,7 +276,8 @@ CREATE TABLE places (
     updated_at timestamp without time zone NOT NULL,
     category_id integer NOT NULL,
     boundary geometry(MultiPolygon,4326) NOT NULL,
-    imported_at_timestamp integer
+    imported_at_timestamp integer,
+    deleted_at timestamp without time zone
 );
 
 
@@ -465,6 +466,13 @@ CREATE INDEX index_places_on_boundary_width ON places USING btree (st_length(st_
 
 
 --
+-- Name: index_places_on_deleted_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_places_on_deleted_at ON places USING btree (deleted_at);
+
+
+--
 -- Name: index_places_on_imported_at_timestamp; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -575,6 +583,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170518034531'),
 ('20170523150916'),
 ('20170525193503'),
-('20171210171858');
+('20171210171858'),
+('20171219164747');
 
 

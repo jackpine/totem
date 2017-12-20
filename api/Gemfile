@@ -7,6 +7,7 @@ gem 'rgeo-geojson'
 gem 'devise'
 gem 'cancan'
 gem 'jwt'
+gem "paranoia", "~> 2.2"
 
 gem 'dotenv'
 
